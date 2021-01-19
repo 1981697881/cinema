@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
+import selectable from 'vue-selectable'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import locale from 'element-ui/lib/locale/lang/en' // lang i18n
@@ -35,14 +36,13 @@ import '@/utils/dialog'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 } */
-
+import vueDragSelectPro from 'vue-drag-select-pro'
+// 注意：一定要引入css样式
+import 'vue-drag-select-pro/lib/vueDragSelectPro.css'
+Vue.use(vueDragSelectPro)
 // set ElementUI lang to EN
 Vue.use(ElementUI, { zhLocale })
-
 Vue.config.productionTip = false
-
-
-
 new Vue({
   el: '#app',
   router,

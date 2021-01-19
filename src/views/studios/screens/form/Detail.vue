@@ -56,9 +56,32 @@
         </el-col>
       </el-row>
       <el-row :span="20">
-        <el-col :span="24">
-          <el-form-item :label="'座位配置'" prop="foodStartTime">
-
+        <el-col :span="8">
+          <el-form-item label="行">
+            <el-input-number v-model="form.line" :min="1"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="列">
+            <el-input-number v-model="form.column" :min="1"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item>
+            <el-button type="primary" @click="produce">生成</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col>
+          <el-form-item label="座位配置" class="seat">
+            <el-checkbox-group v-model="form.checkList">
+              <template v-for="(t,i) in seat" >
+                <div style="display: flex">
+                  <el-checkbox v-for="(item,index) in t" :key="item.id" :label="item.name"></el-checkbox>
+                </div>
+              </template>
+            </el-checkbox-group>
           </el-form-item>
         </el-col>
       </el-row>
@@ -83,17 +106,21 @@ export default {
     return {
       form: {
         loPrId: null,
+        line:1,
+        column:1,
         loPrName: null, // 名称
         loPrCode: null,
         contact: null,
         addr: null,
         tel: null,
+        checkList: [],
         description: null,
       },
       levelFormatTT: [['A', 'A'], ['B', 'B']],
       levelFormat: [['2D', '2D'], ['3D', '3D']],
       pidS:[],
       pArray:[],
+      seat: [],
       rules: {
         loPrName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
@@ -111,10 +138,25 @@ export default {
     }
   },
   methods: {
+    produce(){
+      let array = []
+      for(let i = 0;i <this.form.line;i++){
+       let arr = []
+        for(let j = 0;j <this.form.column;j++){
+          let obj = {}
+          obj.name = i+1+"-"+(j+1)
+          obj.id = i+1+"-"+(j+1)
+          arr.push(obj)
+        }
+        array.push(arr)
+        this.seat = array
+      }
+    },
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
+          console.log(this.form)
          /* if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
             alterSupplier(this.form).then(res => {
               this.$emit('hideDialog', false)
@@ -137,5 +179,9 @@ export default {
 };
 </script>
 
-<style>
+<style type="scss">
+  .seat .el-form-item__content{
+    height: 250px;
+    overflow-y: hidden;
+  }
 </style>

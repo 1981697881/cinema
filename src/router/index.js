@@ -115,7 +115,7 @@ export const StaticRouterMap = [{
         component: () => import('@/views/studios/schedule/index'),
         name: 'Schedule',
         meta: {
-          title: '影厅排片'
+          title: '影片排期'
         },
       },{
         path: 'booking',
@@ -153,7 +153,7 @@ export const StaticRouterMap = [{
         component: () => import('@/views/warehouse/movingframe/index'),
         name: 'Movingframe',
         meta: {
-          title: '商品维护'
+          title: '商品管理'
         },
       },{
         path: 'adjust',

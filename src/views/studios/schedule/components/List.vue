@@ -33,12 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "" },
-        { text: "影城地址", name: "" },
-        { text: "联系人", name: "" },
-        { text: "联系电话", name: "" },
-        { text: "固定电话", name: "" },
-        { text: "简介", name: "" },
+        { text: "影片名称", name: "" },
+        { text: "播放影厅", name: "" },
+        { text: "上映时间", name: "" },
+        { text: "结束时间", name: "" },
+        { text: "场次", name: "" },
+        { text: "正常票价", name: "" },
+        { text: "优惠票价", name: "" },
       ]
     };
   },

@@ -2,9 +2,18 @@
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'名称'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+        <el-col :span="12">
+          <el-form-item :label="'影片'" prop="orgAttr">
+            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'影厅'" prop="orgAttr">
+            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -58,6 +67,7 @@ export default {
   },
   data() {
     return {
+      levelFormat: [['2D', '2D'], ['3D', '3D']],
       form: {
         loPrId: null,
         loPrName: null, // 名称
