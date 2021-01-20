@@ -180,6 +180,13 @@ export const StaticRouterMap = [{
       meta: {
         title: '商品类型'
       },
+    },{
+      path: 'settings',
+      component: () => import('@/views/commodity/settings/index'),
+      name: 'Settings',
+      meta: {
+        title: '商品设定'
+      },
     },  {
       path: 'recycleBin',
       component: () => import('@/views/commodity/recycleBin/index'),

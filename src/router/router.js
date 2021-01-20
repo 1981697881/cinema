@@ -22,6 +22,7 @@ const map = {
   'mold': () => import('@/views/commodity/mold'),
   'recycleBin': () => import('@/views/commodity/recycleBin'),
   'specs': () => import('@/views/commodity/specs'),
+  'settings': () => import('@/views/commodity/settings'),
 
   'ticketing': () => import('@/views/ticketing/tickets'),
 
