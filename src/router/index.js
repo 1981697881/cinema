@@ -54,6 +54,39 @@ export const StaticRouterMap = [{
   }]
 },
   {
+    path: '/workbench',
+    component: Layout,
+    name: 'Workbench',
+    meta: {
+      title: '工作台',
+      icon: "component"
+    },
+    children: [
+      {
+        path: 'booking',
+        component: () => import('@/views/workbench/booking/index'),
+        name: 'Booking',
+        meta: {
+          title: '票劵售卖'
+        },
+      },{
+        path: 'saleOfGoods',
+        component: () => import('@/views/workbench/saleOfGoods/index'),
+        name: 'SaleOfGoods',
+        meta: {
+          title: '商品售卖'
+        },
+      },{
+        path: 'exchange',
+        component: () => import('@/views/workbench/exchange/index'),
+        name: 'Exchange',
+        meta: {
+          title: '票劵兑换'
+        },
+      }
+    ]
+  },
+  {
     path: '/basic',
     component: Layout,
     name: 'Basic',
@@ -62,20 +95,20 @@ export const StaticRouterMap = [{
       icon: 'component'
     },
     children: [{
-        path: 'studios',
-        component: () => import('@/views/basic/studios/index'),
-        name: 'Studios',
-        meta: {
-          title: '影城信息'
-        },
-      },{
-        path: 'shadow',
-        component: () => import('@/views/basic/shadow/index'),
-        name: 'Shadow',
-        meta: {
-          title: '影讯信息'
-        },
+      path: 'studios',
+      component: () => import('@/views/basic/studios/index'),
+      name: 'Studios',
+      meta: {
+        title: '影城信息'
       },
+    }, {
+      path: 'shadow',
+      component: () => import('@/views/basic/shadow/index'),
+      name: 'Shadow',
+      meta: {
+        title: '影讯信息'
+      },
+    },
       {
         path: 'clerk',
         component: () => import('@/views/basic/clerk/index'),
@@ -84,177 +117,179 @@ export const StaticRouterMap = [{
           title: '职员管理'
         },
       },
-      {
-        path: 'user',
-        component: () => import('@/views/basic/user/index'),
-        name: 'User',
-        meta: {
-          title: '用户管理'
-        },
-      }
-      ]
+    ]
+  },
+  {
+    path: '/studios',
+    component: Layout,
+    name: 'Studios',
+    meta: {
+      title: '影城配置',
+      icon: "component"
     },
-    {
-      path: '/studios',
-      component: Layout,
-      name: 'Studios',
-      meta: {
-        title: '影城配置',
-        icon: "component"
-      },
-      children: [
-        {
+    children: [
+      {
         path: 'screens',
         component: () => import('@/views/studios/screens/index'),
         name: 'Screens',
         meta: {
           title: '影厅管理'
         },
-      },{
+      }, {
         path: 'schedule',
         component: () => import('@/views/studios/schedule/index'),
         name: 'Schedule',
         meta: {
           title: '影片排期'
         },
-      },{
-        path: 'booking',
-        component: () => import('@/views/studios/booking/index'),
-        name: 'Booking',
+      }, {
+        path: 'sessions',
+        component: () => import('@/views/studios/sessions/index'),
+        name: 'Sessions',
         meta: {
-          title: '人工售票'
+          title: '场次管理'
         },
       }]
+  },
+  {
+    path: '/commodity',
+    component: Layout,
+    name: 'Commodity',
+    meta: {
+      title: '商城配置',
+      icon: 'component'
     },
-    {
-      path: '/warehouse',
-      component: Layout,
-      name: 'Warehouse',
+    children: [{
+      path: 'maintain',
+      component: () => import('@/views/commodity/maintain/index'),
+      name: 'Maintain',
       meta: {
-        title: '商城配置',
-        icon: 'component'
+        title: '商品管理'
       },
-      children: [{
-        path: 'procurement',
-        component: () => import('@/views/warehouse/procurement/index'),
-        name: 'Procurement',
-        meta: {
-          title: '商品规格'
-        },
-      },{
-        path: 'recipients',
-        component: () => import('@/views/warehouse/recipients/index'),
-        name: 'Recipients',
-        meta: {
-          title: '商品类型'
-        },
-      },{
-        path: 'movingframe',
-        component: () => import('@/views/warehouse/movingframe/index'),
-        name: 'Movingframe',
-        meta: {
-          title: '商品管理'
-        },
-      },{
-        path: 'adjust',
-        component: () => import('@/views/warehouse/adjust/index'),
-        name: 'Adjust',
-        meta: {
-          title: '商品回收站'
-        },
-      }
-      ]
+    }, {
+      path: 'specs',
+      component: () => import('@/views/commodity/specs/index'),
+      name: 'Specs',
+      meta: {
+        title: '商品规格'
+      },
+    }, {
+      path: 'mold',
+      component: () => import('@/views/commodity/mold/index'),
+      name: 'Mold',
+      meta: {
+        title: '商品类型'
+      },
+    },  {
+      path: 'recycleBin',
+      component: () => import('@/views/commodity/recycleBin/index'),
+      name: 'RecycleBin',
+      meta: {
+        title: '商品回收站'
+      },
+    }
+    ]
+  },
+ {
+    path: '/ticketing',
+    component: Layout,
+    name: 'Ticketing',
+    meta: {
+      title: '票务管理',
+      icon: "component"
     },
-    {
-      path: '/aftermarket',
-      component: Layout,
-      name: 'Aftermarket',
-      meta: {
-        title: '票务管理',
-        icon: "component"
-      },
-      children: [
-       {
-        path: 'sales',
-        component: () => import('@/views/aftermarket/sales/index'),
-        name: 'Sales',
+    children: [
+      {
+        path: 'tickets',
+        component: () => import('@/views/ticketing/tickets/index'),
+        name: 'Tickets',
         meta: {
           title: '票劵信息'
         },
       }
-      ]
+    ]
+  },
+  {
+    path: '/extension',
+    component: Layout,
+    name: 'Extension',
+    meta: {
+      title: '推广管理',
+      icon: "component"
     },
-    {
-      path: '/attendance',
-      component: Layout,
-      name: 'Attendance',
+    children: [{
+      path: 'advert',
+      component: () => import('@/views/extension/advert/index'),
+      name: 'Ddvert',
       meta: {
-        title: '推广管理',
-        icon: "component"
+        title: '广告管理'
       },
-      children: [{
-        path: 'shift',
-        component: () => import('@/views/attendance/shift/index'),
-        name: 'Shift',
+    }, {
+      path: 'coupon',
+      component: () => import('@/views/extension/coupon/index'),
+      name: 'Coupon',
+      meta: {
+        title: '优惠券管理'
+      },
+    }]
+  },
+  {
+    path: '/member',
+    component: Layout,
+    name: 'Member',
+    meta: {
+      title: '会员管理',
+      icon: "component"
+    },
+    children: [
+      {
+        path: 'memberInformation',
+        component: () => import('@/views/member/memberInformation/index'),
+        name: 'MemberInformation',
         meta: {
-          title: '广告管理'
+          title: '会员信息'
         },
-      },{
-        path: 'shift',
-        component: () => import('@/views/attendance/shift/index'),
-        name: 'Shift',
+      }, {
+        path: 'integralRule',
+        component: () => import('@/views/member/integralRule/index'),
+        name: 'IntegralRule',
         meta: {
-          title: '优惠券管理'
+          title: '积分规则'
+        },
+      }, {
+        path: 'pointsRecord',
+        component: () => import('@/views/member/pointsRecord/index'),
+        name: 'PointsRecord',
+        meta: {
+          title: '积分记录'
         },
       }]
-    },{
-    path: '/attendance',
+  }, {
+    path: '/statistical',
     component: Layout,
-    name: 'Attendance',
+    name: 'Statistical',
     meta: {
       title: '统计报表',
       icon: "component"
     },
+  },
+  {
+    path: '/system',
+    component: Layout,
+    name: 'System',
+    meta: {
+      title: '系统设置',
+      icon: "component"
+    },
     children: [{
-      path: 'shift',
-      component: () => import('@/views/attendance/shift/index'),
-      name: 'Shift',
+      path: 'users',
+      component: () => import('@/views/system/users/index'),
+      name: 'Users',
       meta: {
-        title: '影城日销情况表'
+        title: '用户管理'
       },
     }]
   },
-    {
-      path: '/system',
-      component: Layout,
-      name: 'System',
-      meta: {
-        title: '系统设置',
-        icon: "component"
-      },
-      children: [{
-        path: 'users',
-        component: () => import('@/views/system/users/index'),
-        name: 'Users',
-        meta: {
-          title: '用户管理'
-        },
-      },{
-        path: 'journal',
-        component: () => import('@/views/system/journal/index'),
-        name: 'Journal',
-        meta: {
-          title: '日志管理'
-        },
-      },{
-        path: 'notice',
-        component: () => import('@/views/system/notice/index'),
-        name: 'Notice',
-        meta: {
-          title: '通知管理'
-        },
-      }]
-    },
   /* {
     path: 'external-link',
     component: Layout,

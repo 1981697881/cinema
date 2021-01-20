@@ -33,14 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影片名称", name: "" },
-        { text: "播放影厅", name: "" },
-        { text: "上映时间", name: "" },
-        { text: "结束时间", name: "" },
-        { text: "场次", name: "" },
-        { text: "正常票价", name: "" },
-        { text: "优惠票价", name: "" },
-        { text: "团体票价", name: "" },
+        { text: "票劵号", name: "" },
+        { text: "会员", name: "" },
+        { text: "票劵类型", name: "" },
+        { text: "票劵状态", name: "" },
+        { text: "实际支付金额", name: "" },
+        { text: "票劵总价", name: "" },
+        { text: "购买时间", name: "" },
       ]
     };
   },

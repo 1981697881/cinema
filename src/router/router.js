@@ -6,26 +6,33 @@ const map = {
   Layout: () => import('@/layout'),
   error: () => import('@/views/404'),
   'basic': () => import('@/layout'),
-  'user': () => import('@/views/basic/user'),
   'studios': () => import('@/views/basic/studios'),
   'shadow': () => import('@/views/basic/shadow'),
   'clerk': () => import('@/views/basic/clerk'),
 
-  'booking': () => import('@/views/studios/booking'),
+  'sessions': () => import('@/views/studios/sessions'),
   'schedule': () => import('@/views/studios/schedule'),
   'screens': () => import('@/views/studios/screens'),
 
-  'procurement': () => import('@/views/warehouse/procurement'),
-  'recipients': () => import('@/views/warehouse/recipients'),
-  'logisticsStatistical': () => import('@/views/warehouse'),
-  'logisticsBoard': () => import('@/views/warehouse'),
-  'logisticsPlan': () => import('@/views/warehouse'),
-  'movingframe': () => import('@/views/warehouse/movingframe'),
-  'adjust': () => import('@/views/warehouse/adjust'),
+  'booking': () => import('@/views/workbench/booking'),
+  'exchange': () => import('@/views/workbench/exchange'),
+  'saleOfGoods': () => import('@/views/workbench/saleOfGoods'),
 
-  'sales': () => import('@/views/aftermarket/sales'),
+  'maintain': () => import('@/views/commodity/maintain'),
+  'mold': () => import('@/views/commodity/mold'),
+  'recycleBin': () => import('@/views/commodity/recycleBin'),
+  'specs': () => import('@/views/commodity/specs'),
 
-  'shift': () => import('@/views/attendance/shift'),
+  'ticketing': () => import('@/views/ticketing/tickets'),
+
+  'advert': () => import('@/views/extension/advert'),
+  'coupon': () => import('@/views/extension/coupon'),
+
+  'integralRule': () => import('@/views/member/integralRule'),
+  'memberInformation': () => import('@/views/member/memberInformation'),
+  'pointsRecord': () => import('@/views/member/pointsRecord'),
+
+
 
   'users': () => import('@/views/system/users'),
   'journal': () => import('@/views/system/journal'),

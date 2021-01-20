@@ -12,13 +12,12 @@
       @dblclick="dblclick"
        @row-click="rowClick"
     />
-
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getClerkList,delClerk} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -33,14 +32,11 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影片名称", name: "" },
-        { text: "播放影厅", name: "" },
-        { text: "上映时间", name: "" },
-        { text: "结束时间", name: "" },
-        { text: "场次", name: "" },
-        { text: "正常票价", name: "" },
-        { text: "优惠票价", name: "" },
-        { text: "团体票价", name: "" },
+        { text: "会员", name: "jobNum" },
+        { text: "积分说明", name: "name" },
+        { text: "积分发生", name: "" },
+        { text: "现在积分", name: "address" },
+        { text: "发生时间", name: "tel" },
       ]
     };
   },
@@ -48,34 +44,28 @@ export default {
       //监听每页显示几条
       handleSize(val) {
           this.list.size = val
-        this.$emit('uploadList')
+          this.$emit('uploadList')
       },
       //监听当前页
       handleCurrent(val) {
           this.list.current = val
-        this.$emit('uploadList')
+          this.$emit('uploadList')
       },
     dblclick(obj) {
-      this.$emit('showDialog', obj.row)
+        this.$emit('showDialog', obj.row)
     },
-    Delivery(val) {
-      delSupplier(val).then(res => {
-        if(res.flag){
-          this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
-        }
-      });
-    },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
-    //监听单击某一行
-    rowClick(obj) {
-      this.$store.dispatch("list/setClickData", obj.row);
-    },
+      Delivery(val) {
+          delClerk(val).then(res => {
+              if(res.flag){
+                this.$store.dispatch("list/setClickData", '');
+                this.fetchData()
+              }
+          });
+      },
+      //监听单击某一行
+      rowClick(obj) {
+          this.$store.dispatch("list/setClickData", obj.row);
+      },
     uploadPr(val) {
       this.fetchData(val,{
         pageNum: 1,
@@ -86,11 +76,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+        getClerkList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };
