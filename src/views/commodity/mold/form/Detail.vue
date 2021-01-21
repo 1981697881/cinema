@@ -2,39 +2,20 @@
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'名称'" prop="loPrName">
+        <el-col :span="12">
+          <el-form-item :label="'分类名称'" prop="loPrName">
             <el-input v-model="form.loPrName"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'联系人'" >
+          <el-form-item :label="'排序'" >
             <el-input v-model="form.contact"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'联系电话'" >
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'固定电话'" >
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'地址'" >
-            <el-input v-model="form.description"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'简介'" >
+          <el-form-item :label="'描述'" >
             <el-input v-model="form.tel"></el-input>
           </el-form-item>
         </el-col>
