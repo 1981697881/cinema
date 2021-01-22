@@ -23,7 +23,8 @@ import '@/permission' // permission control
 import Cookies from 'js-cookie'
 import {login,logout} from '@/api/user'
 import '@/utils/dialog'
-
+var VueTouch = require('vue-touch')
+Vue.use(VueTouch, { name: 'v-touch' })
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
