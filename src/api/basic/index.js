@@ -3,25 +3,13 @@ import {
   getToken
 } from '@/utils/auth'
 
-// 组织架构-获取组织树
-export function getFrameTree(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('apsrx')
-    },
-    method: 'get',
-    params
-  })
-}
-
-// 组织架构-获取列表
-export function getFrameList(params, data) {
-  const url = '/department/list/' + params.pageNum + '/' + params.pageSize
+// 影城-获取列表
+export function getLocationList(params, data) {
+  const url = '/location/locationList/' + params.pageNum + '/' + params.pageSize
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -35,7 +23,7 @@ export function FrameAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -48,7 +36,7 @@ export function FrameAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'put',
@@ -60,7 +48,7 @@ export function getFrameInfo(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -72,7 +60,7 @@ export function getSuperior(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -84,7 +72,7 @@ export function getCompany(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -96,7 +84,7 @@ export function delFrame(params) {
   return request({
     url: '/department/del/' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -108,7 +96,7 @@ export function getMaterialList(data, query) {
   return request({
       url: url,
       headers: {
-        'authorization': getToken('apsrx'),
+        'authorization': getToken('cinerx'),
         'Content-Type': 'application/json'
       },
       method: 'POST',
@@ -122,7 +110,7 @@ export function materialAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -137,7 +125,7 @@ export function materialAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -150,7 +138,7 @@ export function syncMaterialInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -163,7 +151,7 @@ export function getMaterialInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
   })
@@ -174,7 +162,7 @@ export function getMType(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -186,7 +174,7 @@ export function getUnit(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -199,7 +187,7 @@ export function delMaterial(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -211,7 +199,7 @@ export function getClerkList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -224,7 +212,7 @@ export function addClerk(params) {
   return request({
     url: '/employee/add',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -236,7 +224,7 @@ export function alterClerk(params) {
   return request({
     url: '/employee/update',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'PUT',
@@ -249,7 +237,7 @@ export function clerkInfo(params) {
   return request({
     url: '/table/list' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get'
   })
@@ -260,7 +248,7 @@ export function clerkDepartment(params) {
   return request({
     url: '/table/list' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -272,7 +260,7 @@ export function delClerk(params) {
   return request({
     url: '/employee/del/' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete',
   })
@@ -283,7 +271,7 @@ export function supplierList(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -296,7 +284,7 @@ export function addSupplier(params) {
   return request({
     url: '/logistics-providers/add',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -308,7 +296,7 @@ export function alterSupplier(params) {
   return request({
     url: '/logistics-providers/update',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'PUT',
@@ -322,7 +310,7 @@ export function delSupplier(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -334,7 +322,7 @@ export function getInventory(params, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -347,7 +335,7 @@ export function syncInventory(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -359,7 +347,7 @@ export function alterInventory(params) {
   return request({
     url: '/inv-detail/update',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'PUT',
@@ -374,7 +362,7 @@ export function getResourcesList(data, val = {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -387,7 +375,7 @@ export function getFinalGoodsType() {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -398,7 +386,7 @@ export function getFinalGoodsTypeT() {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -409,7 +397,7 @@ export function getSemiFinishedProductsType() {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -420,7 +408,7 @@ export function getMcjSchedulingType() {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -431,7 +419,7 @@ export function getMcjSemiSchedulingType() {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -442,7 +430,7 @@ export function getFinalGoods(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -453,7 +441,7 @@ export function getFinalGoodsT(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -464,7 +452,7 @@ export function getSemiFinishedProducts(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -475,7 +463,7 @@ export function getMcjFinalGoods(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -486,7 +474,7 @@ export function getMcjSemiFinishedProducts(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -497,7 +485,7 @@ export function resourcesAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -510,7 +498,7 @@ export function resourcesAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -523,7 +511,7 @@ export function resourcesInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -536,7 +524,7 @@ export function delResources(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'post'
   })
@@ -547,7 +535,7 @@ export function productionLineList(data, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -561,7 +549,7 @@ export function productionLineAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -574,7 +562,7 @@ export function productionLineAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -587,7 +575,7 @@ export function productionLineInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -600,7 +588,7 @@ export function delProductionLine(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -611,7 +599,7 @@ export function regulationList(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -624,7 +612,7 @@ export function regulationAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -637,7 +625,7 @@ export function regulationAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'put',
@@ -650,7 +638,7 @@ export function delRegulation(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -661,7 +649,7 @@ export function getGoodPrints(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -674,7 +662,7 @@ export function getStorageList(data, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -688,7 +676,7 @@ export function getWarehouseList(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get'
   })
@@ -699,7 +687,7 @@ export function warehouseAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -712,7 +700,7 @@ export function warehouseAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'put',
@@ -724,7 +712,7 @@ export function getAreaTree(params) {
   return request({
     url: '/position/formatByPrId/' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
   })
@@ -745,7 +733,7 @@ export function delPosition(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -756,7 +744,7 @@ export function productionRules(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'post'
   })
@@ -767,7 +755,7 @@ export function getListMatters(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'post'
   })
@@ -778,7 +766,7 @@ export function getMattersPrint(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get'
   })
@@ -789,7 +777,7 @@ export function barcodeGoods(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -802,7 +790,7 @@ export function getStorageU9List(data, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -815,7 +803,7 @@ export function getWarehouseU9List(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -827,7 +815,7 @@ export function getReportRulesList(data, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -840,7 +828,7 @@ export function addReportRules(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -853,7 +841,7 @@ export function updateReportRules(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'put',
@@ -866,7 +854,7 @@ export function delReportRules(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'delete'
   })
@@ -877,7 +865,7 @@ export function wareBind(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -890,7 +878,7 @@ export function wareBindUpdate(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'put',
@@ -903,7 +891,7 @@ export function wareBindDelete(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'delete'
   })
@@ -914,7 +902,7 @@ export function updateType(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'post'
   })

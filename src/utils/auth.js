@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'apsrx'
+const TokenKey = 'cinerx'
 
 export function getToken(TokenKey) {
   return Cookies.get(TokenKey)
@@ -24,8 +24,8 @@ export function removeToken(TokenKey) {
 }
 
 export function setUserName(username){
-  return Cookies.set('apsun',username)
+  return Cookies.set('cineun',username)
 }
 export function setPassword(password){
-  return Cookies.set('apsps',password)
+  return Cookies.set('cineps',password)
 }

@@ -1,10 +1,10 @@
 <template>
-  <div class="wapper">
+  <div>
     <!--头部 开始-->
-   <!-- <header-view :titleText="movieName" @backHandleClick="back"></header-view>-->
+    <!-- <header-view :titleText="movieName" @backHandleClick="back"></header-view>-->
     <!--头部 结束-->
     <!--排期详情和座位上方示例图 开始-->
-    <plan-detail :propHallName="hallName" :propShowDate="showDate" :propShowTime="showTime">
+    <plan-detail :propHallName="hallName" :titleText="movieName" :propShowDate="showDate" :propShowTime="showTime">
       <template v-for="seatTypeItem in seatTypeList">
         <div class="seat-detail-item" :key="'seatType'+seatTypeItem.type"
              v-if="seatTypeItem.isShow==='1' && seatTypeItem.position==='up'">
@@ -13,52 +13,56 @@
         </div>
       </template>
     </plan-detail>
-    <!--排期详情和座位上方示例图 结束-->
-    <seat-area :propThumbnailAreaWidth="thumbnailBoxWidth" :propThumbnailAreaHeight="thumbnailBoxHeight"
-               :propYMax="yMax" :propSeatScale="seatScale" :propSeatHeight="positionDistin"
-               :propSeatToolArr="seatToolArr"
-               :propSeatAreaWidthRem="seatAreaWidthRem" :propSeatAreaHeightRem="seatAreaHeightRem+10"
-               :propSeatBoxHeight="seatBoxHeight" :propMiddleLine="middleLine" :propHorizontalLine="horizontalLine"
-               ref="seatArea">
-      <!--以下为缩略座位图具名插槽 开始-->
-      <template slot="thumbnail-seat-solt">
-        <template v-for="seatItem in seatList">
-          <div class="thumbnailSeatClass" :key="'thumbnail'+seatItem.id" :style="{height:thumbnailHeight +'rem',
-            width:thumbnailWidth +'rem',background: thumbnailBackgroud(seatItem),
-            top:seatItem.gRow * thumbnailPositionDistin +'rem',left:seatItem.gCol * thumbnailPositionDistin +'rem'}">
-          </div>
-        </template>
-      </template>
-      <!--以上为缩略座位图具名插槽 结束-->
-      <!--以下为座位图具名插槽 开始-->
-      <template slot="seat-area-solt">
-        <div class="seatBox" :style="{transform: 'scale('+seatScale+')',height:seatBoxHeight +'rem',
-        width:seatBoxWidth +'rem',marginLeft:seatBoxCenterMargin+'rem'}">
-          <!--中轴线-->
-          <div v-show="seatList.length>0" class="middle-line"
-               :style="{height:seatBoxHeight +'rem',left: middleLine +'rem'}"></div>
-          <template v-for="(seatItem,index) in seatList">
-            <div class="seatClass" @click.prevent="clickSeat(index)" :key="seatItem.id" :style="{height:height +'rem',width:width +'rem',
-            top:seatItem.gRow * positionDistin +'rem',left:seatItem.gCol * positionDistin +'rem'}"
-            >
-              <img class="seatImgClass" :seatId="seatItem.id" :seatIndex="index" :src="seatItem.nowIcon"/>
+    <div class="wapper">
+      <!--排期详情和座位上方示例图 结束-->
+      <seat-area :propThumbnailAreaWidth="thumbnailBoxWidth" :propThumbnailAreaHeight="thumbnailBoxHeight"
+                 :propYMax="yMax" :propSeatScale="seatScale" :propSeatHeight="positionDistin"
+                 :propSeatToolArr="seatToolArr"
+                 :propSeatAreaWidthRem="seatAreaWidthRem" :propSeatAreaHeightRem="seatAreaHeightRem+10"
+                 :propSeatBoxHeight="seatBoxHeight" :propMiddleLine="middleLine" :propHorizontalLine="horizontalLine"
+                 ref="seatArea">
+        <!--以下为缩略座位图具名插槽 开始-->
+        <template slot="thumbnail-seat-solt">
+          <template v-for="seatItem in seatList">
+            <div class="thumbnailSeatClass" :key="'thumbnail'+seatItem.id" :style="{height:thumbnailHeight +'rem',
+              width:thumbnailWidth +'rem',background: thumbnailBackgroud(seatItem),
+              top:seatItem.gRow * thumbnailPositionDistin +'rem',left:seatItem.gCol * thumbnailPositionDistin +'rem'}">
             </div>
           </template>
-        </div>
-      </template>
-      <!--以上为座位图具名插槽 结束-->
-    </seat-area>
-    <!-- 失活的组件将会被缓存！-->
-    <keep-alive>
-      <component v-bind:is="selectedTabComponents"
-                 :propSeatList="seatList" :propSelectedSeat="selectedSeatList"
-                 @quickSelect="processUnSelected" @cancelSelect="processSelected"></component>
-    </keep-alive>
-    <confirm-lock
-      :propSelectedSeat="selectedSeatList"
-      :propSeatList="seatList"
-      @loading="loading"
-    ></confirm-lock>
+        </template>
+        <!--以上为缩略座位图具名插槽 结束-->
+        <!--以下为座位图具名插槽 开始-->
+        <template slot="seat-area-solt">
+          <div class="seatBox" :style="{transform: 'scale('+seatScale+')',height:seatBoxHeight +'rem',
+        width:seatBoxWidth +'rem',marginLeft:seatBoxCenterMargin+'rem'}">
+            <!--中轴线-->
+            <div v-show="seatList.length>0" class="middle-line"
+                 :style="{height:seatBoxHeight +'rem',left: middleLine +'rem'}"></div>
+            <template v-for="(seatItem,index) in seatList">
+              <div class="seatClass" @click.prevent="clickSeat(index)" :key="seatItem.id" :style="{height:height +'rem',width:width +'rem',
+            top:seatItem.gRow * positionDistin +'rem',left:seatItem.gCol * positionDistin +'rem'}"
+              >
+                <img class="seatImgClass" :seatId="seatItem.id" :seatIndex="index" :src="seatItem.nowIcon"/>
+              </div>
+            </template>
+          </div>
+        </template>
+        <!--以上为座位图具名插槽 结束-->
+      </seat-area>
+      <!-- 失活的组件将会被缓存！-->
+      <div class="select-module">
+        <keep-alive>
+          <component v-bind:is="selectedTabComponents"
+                     :propSeatList="seatList" :propSelectedSeat="selectedSeatList"
+                     @quickSelect="processUnSelected" @cancelSelect="processSelected"></component>
+        </keep-alive>
+        <confirm-lock
+          :propSelectedSeat="selectedSeatList"
+          :propSeatList="seatList"
+          @loading="loading"
+        ></confirm-lock>
+      </div>
+    </div>
     <loading :load="load"></loading>
   </div>
 </template>
@@ -88,9 +92,9 @@
         thumbnailWidth: 0.1, // 缩略图每个座位的宽
         thumbnailHeight: 0.1, // 缩略图每个座位的高
         thumbnailPositionDistin: 0.15, // 缩略图每个座位偏移距离
-        seatAreaWidthRem: 100, // 座位区域横向rem最大值 用于和 seatAreaHeightRem 共同计算区域缩放比例
+        seatAreaWidthRem: 80, // 座位区域横向rem最大值 用于和 seatAreaHeightRem 共同计算区域缩放比例
         selectedSeatList: [], // 已选择座位
-        maxSelect: 4, // 最大选择座位数量 改动可改变最大选择座位数
+        maxSelect: 10, // 最大选择座位数量 改动可改变最大选择座位数
         load: false // 加载dom的控制
       }
     },
@@ -380,27 +384,32 @@
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped="scoped">
+  .seat-detail-item
+    display flex
+    position relative
+    align-content center
+    .seatTypeClass
+      display block
+      height 35px
+      line-height 35px
+      white-space: nowrap
   .wapper
     height: 100%
     width 100%
+    display flex
+    position relative
     background #f3f4f6
-
-    .seat-detail-item
+    .select-module
       display flex
-      align-content center
-
-      .seatTypeClass
-        display block
-        height 35px
-        line-height 35px
-        white-space: nowrap
-
+      position relative
+      width 20rem
+      border-left 1px solid 	#CDBE70
     .thumbnailSeatClass
       position absolute
 
     .seatBox
       position absolute
-      left 35%
+      left 36%
       transform-origin 0rem 0rem 0rem
       .middle-line
         position absolute

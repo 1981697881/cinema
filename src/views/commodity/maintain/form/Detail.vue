@@ -176,7 +176,7 @@
         inputVisible: false,
         inputValue: '',
         headers: {
-          'authorization': getToken('apsrx'),
+          'authorization': getToken('cinerx'),
         },
         content: '',
         radio: '',

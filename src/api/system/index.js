@@ -9,7 +9,7 @@ export function getUsersTree(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get'
   })
@@ -20,7 +20,7 @@ export function groupAdd(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -33,7 +33,7 @@ export function groupAlter(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -48,7 +48,7 @@ export function delGroup(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'delete'
   })
@@ -59,7 +59,7 @@ export function getUsersList(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -71,7 +71,7 @@ export function addUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'post',
@@ -84,7 +84,7 @@ export function alterUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -97,7 +97,7 @@ export function delUsers(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -108,7 +108,7 @@ export function disableUsers(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -119,7 +119,7 @@ export function enableUsers(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -131,7 +131,7 @@ export function getUsersInfo(params) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -142,7 +142,7 @@ export function getClerk(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -153,7 +153,7 @@ export function getMenuList(params) {
   return request({
     url: '/sys-menu/getSysMenuTree',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
   })
@@ -165,7 +165,7 @@ export function journalList(data, query) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',
@@ -177,7 +177,7 @@ export function journalClean(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -189,7 +189,7 @@ export function getBoardList(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -200,7 +200,7 @@ export function getBoardInfo(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -211,7 +211,7 @@ export function boardAdd(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -222,7 +222,7 @@ export function delBoard(params) {
   return request({
     url: '/table/list',
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get',
     params
@@ -234,7 +234,7 @@ export function getDictList(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST'
@@ -246,7 +246,7 @@ export function addOperationLog(data) {
   return request({
     url: url,
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
     },
     method: 'get',
     params: data
@@ -258,7 +258,7 @@ export function dictGetById(params) {
   return request({
     url: '/dict/getById/' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get'
   })
@@ -267,7 +267,7 @@ export function getByUserAndPrId(params) {
   return request({
     url: '/sys-menu/getByUserAndPrId/' + params,
     headers: {
-      'authorization': getToken('apsrx')
+      'authorization': getToken('cinerx')
     },
     method: 'get'
   })
@@ -277,7 +277,7 @@ export function alterDict(params) {
   return request({
     url: '/dict/update',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'PUT',
@@ -289,7 +289,7 @@ export function mainReport(params) {
   return request({
     url: '/report-form/mainReport',
     headers: {
-      'authorization': getToken('apsrx'),
+      'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
     method: 'POST',

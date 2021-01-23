@@ -5,7 +5,6 @@
 */
 <template>
   <div class='selected'>
-    <div class="text">快速选座:</div>
     <div class="scroll" ref="scroll">
       <ul class="scroll-ul">
         <li class="scroll-item" @click="quickSeat(1)">1人座</li>
@@ -435,9 +434,8 @@ export default {
     this.$nextTick(() => {
       if (!this.scroll) {
         this.scroll = new Bscroll(this.$refs.scroll, {
-          scrollX: true,
-          // 忽略竖直方向的滚动
-          scrollY: false,
+          scrollX: false,
+          scrollY: true,
           eventPassthrough: 'vertical'
         })
       } else {
@@ -457,40 +455,39 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus' scoped='scoped'>
 //@import url(); 引入公共css类
 .selected
-  position fixed
-  z-index 10
-  bottom 90px
+  position relative
   background #ffffff
-  width 750px
-  padding 20px 0 20px 20px
-  height 100px
+  width 100%
   overflow hidden
-  .text
-    width 750px
-    height 26px
-    line-height 26px
-    font-size 28px
-    font-weight 400
   .scroll
     position absolute
     height 140px
-    width 750px
+    width 100%
     top 0
     left 0
     z-index 11
     .scroll-ul
-      width 1280px
+      width 100% !important
+      height 100%
       display flex
-      margin-top 60px
+      flex-wrap: wrap
+      flex-direction row
+      justify-content center
+      align-items center
+      list-style none
+      margin 0
+      padding 0
+      margin-top 20px
       .scroll-item
-        flex: none;
-        margin-left 20px
+        display inline-block
         height 65px
         line-height 65px
+        margin  10px
         text-align center
         font-size 23px
         width 160px
-        color #888888
-        border 2px solid #888888
+        box-shadow: 1px 1px 5px #888888;
+        color white
+        background #FF6A6A
         border-radius 10px
 </style>

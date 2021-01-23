@@ -1,4 +1,4 @@
-import { getRouter } from '@/api/wy/menu'
+import { getRouter } from '@/api/menu'
 import { StaticRouterMap } from '@/router'
 
 const state = {
@@ -14,7 +14,7 @@ const mutations = {
 const actions = {
     setRouterList({commit},routerList){
         // 进行路由拼接并存储
-        commit('SET_ROUTER', StaticRouterMap.concat(routerList)) 
+        commit('SET_ROUTER', StaticRouterMap.concat(routerList))
     },
     fetchMenuWY({ commit }, userId) {
         return new Promise((resolve, reject) => {

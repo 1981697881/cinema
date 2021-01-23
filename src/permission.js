@@ -10,7 +10,7 @@ import {
 } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import { addRouter } from './utils/addRouter'// 格式化菜单data
-import { getRouter } from '@/api/wy/menu'// 格式化菜单data
+import { getRouter } from '@/api/menu'// 格式化菜单data
 
 NProgress.configure({
   showSpinner: false
@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
   // determine whether the user has logged in
-  const hasToken = getToken('apsrx')
+  const hasToken = getToken('cinerx')
   if (typeof(hasToken)!='undefined') {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page

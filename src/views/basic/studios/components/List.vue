@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getLocationList, delSupplier} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -33,7 +33,7 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "" },
+        { text: "影城名称", name: "placeName" },
         { text: "影城地址", name: "" },
         { text: "联系人", name: "" },
         { text: "联系电话", name: "" },
@@ -84,11 +84,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getLocationList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

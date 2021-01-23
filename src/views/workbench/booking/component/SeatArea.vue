@@ -8,15 +8,15 @@
       <div class="screen">
         <div class="screen-text">屏幕方向</div>
       </div>
-      <div class="thumbnail" v-show="thumbnailShow" :style="{ transform: 'scale('+seatScale+')',width:thumbnailWidthRem + 'rem',height:thumbnailHeighthRem + 'rem'}">
-        <!--红色外框开始-->
+     <!-- <div class="thumbnail" v-show="thumbnailShow" :style="{ transform: 'scale('+seatScale+')',width:thumbnailWidthRem + 'rem',height:thumbnailHeighthRem + 'rem'}">
+        &lt;!&ndash;红色外框开始&ndash;&gt;
         <div class="thumbnail-border" :style="{transform: 'scale('+scalereciprocal+')',top:topthumbnail + 'rem',left:leftthumbnail + 'rem'}">
         </div>
-        <!--红色外框结束-->
+        &lt;!&ndash;红色外框结束&ndash;&gt;
         <slot name="thumbnail-seat-solt">
-          <!--这里是缩略图中的所有座位放入此插槽-->
+          &lt;!&ndash;这里是缩略图中的所有座位放入此插槽&ndash;&gt;
         </slot>
-      </div>
+      </div>-->
       <v-touch @pinchout="pinchout" @pinchin="pinchin" @panmove="panmove" @panstart="panstart" @panend="panend" class="box" ref="pinchAndPan"
       :pinch-options="{ threshold: 0.09 }" :pan-options="{ threshold: 0.01 }" :style="{transform: 'scale('+scale+')',transformOrigin: transformOrigin,top:top + 'rem',left:left + 'rem',
       width:seatAreaWidthRem + 'rem',height:seatAreaHeightRem + 'rem'}">
@@ -295,7 +295,7 @@ export default {
     position relative
     background #f3f4f6
     overflow hidden
-    padding-bottom 50pxactivity-area
+    padding-bottom 50px
     .thumbnail
       position absolute
       z-index 3
@@ -313,7 +313,7 @@ export default {
         padding 1px
         border-2px(red,0)
     .screen
-      width: 30%
+      width: 100%
       border-top 42px solid #DFDFDF
       border-right 60px solid transparent
       border-left 60px solid transparent
@@ -321,8 +321,6 @@ export default {
       position absolute
       top 0px
       z-index 2
-      left 35%
-      transform translateX(-50%);
       .screen-text
         text-align center
         white-space nowrap;

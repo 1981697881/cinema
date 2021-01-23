@@ -250,7 +250,7 @@
     data() {
       return {
         headers: {
-          'authorization': getToken('apsrx'),
+          'authorization': getToken('cinerx'),
         },
         dynamicTags: ['人性', '黑化', '叛逆'],
         inputVisible: false,

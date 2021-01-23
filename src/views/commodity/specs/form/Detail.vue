@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       headers: {
-        'authorization': getToken('apsrx'),
+        'authorization': getToken('cinerx'),
       },
       fileUrl: '',
       imgData: {},

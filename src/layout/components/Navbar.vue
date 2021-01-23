@@ -61,7 +61,7 @@ export default {
     return {
       visible: null,
       fid: null,
-      name: getToken('apsun')
+      name: getToken('cineun')
     };
   },
   methods: {

@@ -3,14 +3,14 @@ import { getToken, setToken, removeToken, setUserName, setPassword, setPer} from
 import { resetRouter } from '@/router'
 
 const state = {
-  token: getToken('apsrx'),
+  token: getToken('cinerx'),
   name: '',
+  url: 'http://test.gzfzdev.com:8080',
   avatar: '',
   plper: '',
   username: '',
   password: '',
 }
-
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -57,9 +57,9 @@ const actions = {
       changePassword(info).then(response => {
         commit('SET_TOKEN', '')
         //removeToken('plper')
-        removeToken('apsrx')
-        removeToken('apsps')
-        removeToken('apsun')
+        removeToken('cinerx')
+        removeToken('cineps')
+        removeToken('cineun')
         resetRouter()
         resolve(response)
       }).catch(error => {
@@ -125,9 +125,9 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_PER', '')
       //removeToken('plper')
-      removeToken('apsrx')
-      removeToken('apsps')
-      removeToken('apsun')
+      removeToken('cinerx')
+      removeToken('cineps')
+      removeToken('cineun')
       resetRouter()
       resolve()
       /*}).catch(error => {
@@ -146,9 +146,9 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      removeToken('apsrx')
-    /*  removeToken('apsps')
-      removeToken('apsun')*/
+      removeToken('cinerx')
+    /*  removeToken('cineps')
+      removeToken('cineun')*/
       removeToken()
       resolve()
     })
