@@ -1,6 +1,6 @@
 <template>
 <div class='confirm' @click="lockSeat()">
-  确认选座
+  ￥ {{countPrice}} 元
 </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
     propSelectedSeat: Array,
     propSeatList: Array,
     propIsCheap: Number,
+    countPrice: Number,
     propServiceFee: String,
     propPlanId: String
   },
@@ -192,10 +193,10 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus' scoped='scoped'>
 //@import url(); 引入公共css类
 .confirm
-  position fixed
+  position absolute
   bottom 0
   z-index 10
-  width 750px
+  width 100%
   background: linear-gradient(to right, #6F50F5,#C26DFE);
   line-height 90px
   text-align center

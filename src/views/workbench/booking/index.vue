@@ -1,10 +1,7 @@
 <template>
   <div>
-    <!--头部 开始-->
-    <!-- <header-view :titleText="movieName" @backHandleClick="back"></header-view>-->
-    <!--头部 结束-->
     <!--排期详情和座位上方示例图 开始-->
-    <plan-detail :propHallName="hallName" :titleText="movieName" :propShowDate="showDate" :propShowTime="showTime">
+    <plan-detail @showDialog="handlerDialog" :propHallName="hallName" :titleText="movieName" :propShowDate="showDate" :propShowTime="showTime">
       <template v-for="seatTypeItem in seatTypeList">
         <div class="seat-detail-item" :key="'seatType'+seatTypeItem.type"
              v-if="seatTypeItem.isShow==='1' && seatTypeItem.position==='up'">
@@ -15,7 +12,7 @@
     </plan-detail>
     <div class="wapper">
       <!--排期详情和座位上方示例图 结束-->
-      <seat-area :propThumbnailAreaWidth="thumbnailBoxWidth" :propThumbnailAreaHeight="thumbnailBoxHeight"
+      <seat-area :titleText="movieName" :propThumbnailAreaWidth="thumbnailBoxWidth" :propThumbnailAreaHeight="thumbnailBoxHeight"
                  :propYMax="yMax" :propSeatScale="seatScale" :propSeatHeight="positionDistin"
                  :propSeatToolArr="seatToolArr"
                  :propSeatAreaWidthRem="seatAreaWidthRem" :propSeatAreaHeightRem="seatAreaHeightRem+10"
@@ -33,8 +30,8 @@
         <!--以上为缩略座位图具名插槽 结束-->
         <!--以下为座位图具名插槽 开始-->
         <template slot="seat-area-solt">
-          <div class="seatBox" :style="{transform: 'scale('+seatScale+')',height:seatBoxHeight +'rem',
-        width:seatBoxWidth +'rem',marginLeft:seatBoxCenterMargin+'rem'}">
+          <div class="seatBox" :style="{transform: 'scale('+seatScale+')',
+        width:seatBoxWidth +'rem'}"><!--,marginLeft:seatBoxCenterMargin+'rem' height:seatBoxHeight +'rem',-->
             <!--中轴线-->
             <div v-show="seatList.length>0" class="middle-line"
                  :style="{height:seatBoxHeight +'rem',left: middleLine +'rem'}"></div>
@@ -59,20 +56,31 @@
         <confirm-lock
           :propSelectedSeat="selectedSeatList"
           :propSeatList="seatList"
+          :countPrice="countPrice"
           @loading="loading"
         ></confirm-lock>
       </div>
     </div>
     <loading :load="load"></loading>
+    <el-dialog
+      :visible.sync="visible"
+      title="选择"
+      v-if="visible"
+      v-dialogDrag
+      :width="'30%'"
+      destroy-on-close
+    >
+      <choice @hideDialog="hideWindow" @uploadList="getSeatList"></choice>
+    </el-dialog>
   </div>
 </template>
 <script>
   import SeatArea from './component/SeatArea'
+  import choice from './component/choice'
   import PlanDetail from './component/PlanDetail'
   import SelectedTab from './component/SelectedTab'
   import QuickSelectTab from './component/QuickSelectTab'
   import ConfirmLock from './component/ConfirmLock'
-  import HeaderView from '@/components/Header'
   import Loading from '@/components/loading'
   import seatLove from '@/seatLove';
 
@@ -80,6 +88,7 @@
     name: 'HallSeat',
     data() {
       return {
+        visible: null,
         seatList: [], // 座位对象list
         seatTypeList: [], // 座位类型list
         movieName: '', // 展示用 电影名称 接口获取
@@ -92,22 +101,23 @@
         thumbnailWidth: 0.1, // 缩略图每个座位的宽
         thumbnailHeight: 0.1, // 缩略图每个座位的高
         thumbnailPositionDistin: 0.15, // 缩略图每个座位偏移距离
-        seatAreaWidthRem: 80, // 座位区域横向rem最大值 用于和 seatAreaHeightRem 共同计算区域缩放比例
+        seatAreaWidthRem: 100, // 座位区域横向rem最大值 用于和 seatAreaHeightRem 共同计算区域缩放比例
         selectedSeatList: [], // 已选择座位
         maxSelect: 10, // 最大选择座位数量 改动可改变最大选择座位数
         load: false // 加载dom的控制
       }
     },
     components: {
+      choice,
       SeatArea,
       PlanDetail,
-      HeaderView,
       SelectedTab,
       QuickSelectTab,
       ConfirmLock,
       Loading
     },
     mounted() {
+      this.visible = true
       this.loading(true)
       this.getSeatList()
       this.loading(false)
@@ -122,6 +132,12 @@
     //   next()
     // },
     methods: {
+      handlerDialog(obj) {
+        this.visible = true
+      },
+      hideWindow(val) {
+        this.visible = val
+      },
       // 请求影院列表数据
       getSeatList: function () {
         let response = seatLove
@@ -235,14 +251,14 @@
       // 处理未选择的座位
       processUnSelected: function (index) {
         // 如果是选择第一个座位 放大区域并移动区域 突出座位 增加用户体验
-        if (this.selectedSeatList.length === 0) {
+       /* if (this.selectedSeatList.length === 0) {
           let top = ((this.seatList[index].gRow * this.positionDistin) - this.horizontalLine) * this.seatScale
           let left = ((this.seatList[index].gCol * this.positionDistin) - this.middleLine) * this.seatScale
           top = top > 0 ? -top - this.positionDistin : -top + this.positionDistin
           left = left > 0 ? -left - this.positionDistin : -left + this.positionDistin
           this.$refs.seatArea.changeScale()
           this.$refs.seatArea.changePosition(top, left)
-        }
+        }*/
         let _selectedSeatList = this.selectedSeatList
         let otherLoveSeatIndex = this.seatList[index].otherLoveSeatIndex
         if (otherLoveSeatIndex !== null) {
@@ -270,6 +286,7 @@
           this.$set(this.seatList[index], 'nowIcon', this.seatList[index].selectedIcon)
           // 记录 orgIndex属性 是原seatList数组中的下标值
           this.seatList[index].orgIndex = index
+          console.log(this.seatList[index])
           // 把选择的座位放入到已选座位数组中
           _selectedSeatList.push(this.seatList[index])
         }
@@ -293,6 +310,14 @@
       }
     },
     computed: {
+      countPrice: function() {
+        let select = this.selectedSeatList
+        let count = 0
+        for(let item of select){
+          count += Number(item.price)
+        }
+        return count
+      },
       // 座位区域高度rem
       seatAreaHeightRem: function () {
         let screenRem = (document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth) * 10
@@ -384,6 +409,7 @@
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped="scoped">
+  $left = 100
   .seat-detail-item
     display flex
     position relative
@@ -406,14 +432,12 @@
       border-left 1px solid 	#CDBE70
     .thumbnailSeatClass
       position absolute
-
     .seatBox
-      position absolute
-      left 36%
-      transform-origin 0rem 0rem 0rem
+      display inline-block
+      position relative
       .middle-line
         position absolute
-        border-right 0.05rem rgba(0, 0, 0, 0.2) dashed
+        border-right 0.05rem rgba(0, 0, 0, 0.3) dashed
       .seatClass
         position absolute
         .seatImgClass

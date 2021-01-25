@@ -20,19 +20,33 @@
       <el-table-column fixed v-if="type" :type="type?'selection':''"></el-table-column>
       <el-table-column v-if="index" prop="date" label="序号" type="index" align="center" sortable></el-table-column>
       <slot name="title"></slot>
-      <el-table-column
-        v-for="(t,i) in columns"
-        :key="i"
-        :prop="t.name"
-        :fixed="t.fixed"
-        :sortable="t.sort"
-        :formatter="t.formatt!=undefined? (t.formatt == 'checkWarning'? checkWarning : taskWarning) : null"
-        v-if="t.default!=undefined?t.default:true"
-        :label="t.text"
-        :width="t.width?t.width:(selfAdaption?'':'120px')"
-        show-overflow-tooltip
-        align="center"
-      ></el-table-column>
+      <template v-for="(t,i) in columns">
+        <el-table-column
+          :prop="t.name"
+          :key="i"
+          :fixed="t.fixed"
+          :sortable="t.sort"
+          :formatter="t.formatt!=undefined? (t.formatt == 'checkWarning'? checkWarning : taskWarning) : null"
+          v-if="t.default!=undefined && t.default !='img'?t.default:true"
+          :label="t.text"
+          :width="t.width?t.width:(selfAdaption?'':'120px')"
+          show-overflow-tooltip
+          align="center"
+        ></el-table-column>
+        <el-table-column
+          :prop="t.name"
+          :key="i"
+          v-else-if="t.default == 'img'?true:false"
+          :label="t.text"
+          :width="t.width?t.width:(selfAdaption?'':'120px')"
+          show-overflow-tooltip
+          align="center"
+        >
+          <template width="90" slot-scope="scope">
+            <img style="width:80px;height:80px;border:none;" :src="t.img">
+          </template>
+        </el-table-column>
+      </template>
       <!--<el-table-column
         fixed="right"
         label="操作"
@@ -43,7 +57,6 @@
       </el-table-column>-->
       <slot name="after"></slot>
     </el-table>
-
     <div class="text-center pages" v-if="list.total && list.total!=0" style="padding-top: 15px;">
       <el-pagination
         @size-change="handleSize"

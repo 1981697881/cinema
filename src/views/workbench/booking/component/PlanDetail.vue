@@ -4,10 +4,12 @@
       <div class="seat-detail">
         <slot></slot>
       </div>
-      <div class="plan-detail-item">{{titleText}}</div>
       <div class="plan-detail-item">{{propShowDate}}</div>
       <div class="plan-detail-item">{{propShowTime}}</div>
       <div class="plan-detail-item">{{propHallName}}</div>
+      <div class="plan-detail-item">
+        <el-button type="danger" round size="small" plain @click="choice">切换</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +19,6 @@ export default {
   props: {
     propHallName: String,
     propShowDate: String,
-    titleText: String,
     propShowTime: String
   },
   // import引入的组件需要注入到对象中才能使用
@@ -30,7 +31,9 @@ export default {
   },
   // 方法集合
   methods: {
-
+    choice(){
+      this.$emit('showDialog')
+    }
   },
 }
 </script>

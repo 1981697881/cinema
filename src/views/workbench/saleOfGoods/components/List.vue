@@ -33,12 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "" },
-        { text: "影城地址", name: "" },
-        { text: "联系人", name: "" },
-        { text: "联系电话", name: "" },
-        { text: "固定电话", name: "" },
-        { text: "简介", name: "" },
+        { text: "商品类型", name: "" },
+        { text: "商品名称", name: "" },
+        { text: "价格", name: "" },
+        { text: "商品库存", name: "" },
+        { text: "图片", name: "", default: 'img'},
+        { text: "状态", name: "" },
+        { text: "操作", name: "" },
       ]
     };
   },

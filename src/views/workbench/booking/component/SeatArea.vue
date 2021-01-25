@@ -1,12 +1,7 @@
-/*
-  @author zenghao0219
-  @description 用于动态生成座位图,缩略图,座位左边栏
-  @updateDate 最后更新时间为:2019-02-21
-*/
 <template>
-    <div class="activity-area" :style="{ width:seatAreaWidthRem + 'rem',height:seatAreaHeightRem + 'rem'}">
+    <div class="activity-area"  :style="{ width:seatAreaWidthRem + 'rem',height:seatAreaHeightRem + 'rem'}">
       <div class="screen">
-        <div class="screen-text">屏幕方向</div>
+        <div class="screen-text">{{titleText}}</div>
       </div>
      <!-- <div class="thumbnail" v-show="thumbnailShow" :style="{ transform: 'scale('+seatScale+')',width:thumbnailWidthRem + 'rem',height:thumbnailHeighthRem + 'rem'}">
         &lt;!&ndash;红色外框开始&ndash;&gt;
@@ -19,14 +14,14 @@
       </div>-->
       <v-touch @pinchout="pinchout" @pinchin="pinchin" @panmove="panmove" @panstart="panstart" @panend="panend" class="box" ref="pinchAndPan"
       :pinch-options="{ threshold: 0.09 }" :pan-options="{ threshold: 0.01 }" :style="{transform: 'scale('+scale+')',transformOrigin: transformOrigin,top:top + 'rem',left:left + 'rem',
-      width:seatAreaWidthRem + 'rem',height:seatAreaHeightRem + 'rem'}">
-        <slot name="seat-area-solt">
-          <!--所有可以点击座位的数据会放入此插槽,此插槽可以缩放,拖动-->
-        </slot>
+      width: '100%',height:seatAreaHeightRem + 'rem'}">
+          <slot name="seat-area-solt" >
+            <!--所有可以点击座位的数据会放入此插槽,此插槽可以缩放,拖动-->
+          </slot>
       </v-touch>
         <!--座位左边栏-->
       <div class="seat-tool-parent" :style="{height:seatAreaHeightRem + 'rem'}">
-        <div class="seat-tool" :style="{transform: 'scale('+seatScale+')',transformOrigin: transformOriginTool,marginTop:seatToolMargin+'rem',
+        <div class="seat-tool" :style="{transform: 'scale('+(seatScale*0.7)+')',transformOrigin: transformOriginTool,marginTop:seatToolMargin+'rem',
         fontSize:seatToolFontSize/2 +'rem'}">
           <template  v-for="(item, index) in seatToolArr">
             <div class="seat-tool-item" :key="'seat-tool' + index"
@@ -50,6 +45,7 @@ export default {
     propSeatAreaWidthRem: Number,
     propSeatAreaHeightRem: Number,
     propMiddleLine: Number,
+    titleText: String,
     propHorizontalLine: Number,
     propSeatBoxHeight: Number,
     propSeatToolArr: Array
@@ -314,7 +310,7 @@ export default {
         border-2px(red,0)
     .screen
       width: 100%
-      border-top 42px solid #DFDFDF
+      border-top 50px solid #DFDFDF
       border-right 60px solid transparent
       border-left 60px solid transparent
       color white
@@ -330,6 +326,7 @@ export default {
     .box
       margin-top 50px
       position absolute
+      text-align center
       z-index 0
     .seat-tool-parent
       overflow hidden
@@ -343,9 +340,8 @@ export default {
         left 0.1rem
         border-radius 50px;
         background rgba(0,0,0,0.3)
-        text-align center
         color white
         font-weight bold
         .seat-tool-item
-          padding 0 0.05rem
+          margin  0.1rem
 </style>
