@@ -295,6 +295,13 @@ export const StaticRouterMap = [{
       meta: {
         title: '用户管理'
       },
+    },{
+      path: 'about',
+      component: () => import('@/views/system/about/index'),
+      name: 'About',
+      meta: {
+        title: '关于我们'
+      },
     }]
   },
   /* {

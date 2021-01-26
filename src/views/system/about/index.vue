@@ -3,9 +3,9 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @uploadList="upload" @queryBtn="query"/>
       </div>
-      <list ref="list"  @uploadList="uploadPage"  @showDialog="handlerDialog"/>
+      <list ref="list" @uploadList="uploadPage"  @showDialog="handlerDialog"/>
     </div>
 
     <el-dialog
@@ -42,14 +42,10 @@ export default {
     };
   },
   mounted() {
-    this.$refs.list.fetchData(this.$refs.tabs.qFilter())
+    this.$refs.list.fetchData()
   },
   methods: {
-    delivery(obj) {
-      if(obj) {
-        this.$refs.list.Delivery(obj)
-      }
-    },
+
     hideWindow(val) {
       this.visible = val
     },
@@ -63,14 +59,14 @@ export default {
     },
     // 更新列表
     upload() {
-      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+      this.$refs.list.uploadPr()
     },
     uploadPage(val) {
-      this.$refs.list.fetchData(this.$refs.tabs.qFilter())
+      this.$refs.list.fetchData()
     },
     // 查询
     query() {
-      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+      this.$refs.list.uploadPr()
     },
   }
 };

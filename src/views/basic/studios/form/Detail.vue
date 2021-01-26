@@ -3,39 +3,39 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'名称'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+          <el-form-item :label="'名称'" prop="cinemaName">
+            <el-input v-model="form.cinemaName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'联系人'" >
-            <el-input v-model="form.contact"></el-input>
+            <el-input v-model="form.cinemaContact"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'联系电话'" >
-            <el-input v-model="form.tel"></el-input>
+            <el-input v-model="form.cinemaPhone"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'固定电话'" >
-            <el-input v-model="form.tel"></el-input>
+            <el-input v-model="form.cinemaTel"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'地址'" >
-            <el-input v-model="form.description"></el-input>
+            <el-input v-model="form.cinemaAddress"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'简介'" >
-            <el-input v-model="form.tel"></el-input>
+            <el-input v-model="form.cinemaMessage"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -44,7 +44,7 @@
           <el-form-item :label="'标签'" prop="orgAttr">
             <el-tag
               :key="tag"
-              v-for="tag in dynamicTags"
+              v-for="tag in form.dynamicTags"
               closable
               :disable-transitions="false"
               @close="handleClose(tag)">
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { alterSupplier, addSupplier } from "@/api/basic/index";
+import { addLocation } from "@/api/basic/index";
 
 export default {
   props: {
@@ -83,25 +83,21 @@ export default {
   },
   data() {
     return {
-      dynamicTags: ['可停车', '可改签', '可退票', '3D大屏'],
       inputVisible: false,
       inputValue: '',
       form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        description: null,
+        cinemaName: null, // 名称
+        cinemaAddress: null,
+        cinemaContact: null,
+        cinemaPhone: null,
+        cinemaTel: null,
+        cinemaMessage: null,
+        dynamicTags: [],
       },
       pidS:[],
       pArray:[],
       rules: {
-        loPrName: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
-        ],
-        loPrCode: [
+        cinemaName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
       },
@@ -135,17 +131,10 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-         /* if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-            alterSupplier(this.form).then(res => {
+          addLocation(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
-          }else{
-            addSupplier(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          }*/
         }else {
           return false;
         }

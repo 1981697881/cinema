@@ -76,14 +76,4 @@ export function resetPWD(data) {
     data: data
   })
 }
-// 下拉平台
-export function getPlas(data) {
-  const url = '/Admin/pla/list'
-  return request({
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    url: url,
-    method: 'get'
-  })
-}
+

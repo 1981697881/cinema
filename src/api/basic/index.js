@@ -17,9 +17,9 @@ export function getLocationList(params, data) {
   })
 }
 
-// 组织架构-新增
-export function FrameAdd(params) {
-  const url = '/department/add'
+// 影城-新增
+export function addLocation(params) {
+  const url = '/location/addLocation'
   return request({
     url: url,
     headers: {
@@ -30,17 +30,16 @@ export function FrameAdd(params) {
     data: params
   })
 }
-// 组织架构-新增
-export function FrameAlter(params) {
-  const url = '/department/update'
+// 影城-删除
+export function deleteLocation(params) {
   return request({
-    url: url,
+    url: '/location/deleteLocation',
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
-    method: 'put',
-    data: params
+    data: params,
+    method: 'post'
   })
 }
 // 组织架构-获取详情
@@ -79,16 +78,7 @@ export function getCompany(params) {
   })
 }
 
-// 组织架构-删除
-export function delFrame(params) {
-  return request({
-    url: '/department/del/' + params,
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'delete'
-  })
-}
+
 
 // 物料管理-获取列表
 export function getMaterialList(data, query) {

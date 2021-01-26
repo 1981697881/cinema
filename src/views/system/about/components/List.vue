@@ -6,9 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
-      @handle-size="handleSize"
-      @handle-current="handleCurrent"
       @dblclick="dblclick"
        @row-click="rowClick"
     />
@@ -16,7 +13,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { getPosterList, deletePoster} from "@/api/extension/index";
+import { getFindAbout } from "@/api/system/index";
 import List from "@/components/List";
 
 export default {
@@ -31,14 +28,8 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "广告位置", name: "posterLocation" },
-        { text: "广告名称", name: "posterName" },
-        { text: "广告链接", name: "posterUrl" },
-        { text: "广告内容", name: "posterContent" },
-        { text: "图片", name: "img", default: 'img'},
-        { text: "开始时间", name: "posterStartdatetime" },
-        { text: "结束时间", name: "posterEnddatetime" },
-        { text: "状态", name: "status" },
+        { text: "标题", name: "aboutName" },
+        { text: "内容", name: "aboutMessage" },
       ]
     };
   },
@@ -56,14 +47,6 @@ export default {
     dblclick(obj) {
       this.$emit('showDialog', obj.row)
     },
-    Delivery(val) {
-      delSupplier(val).then(res => {
-        if(res.flag){
-          this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
-        }
-      });
-    },
     uploadPr(val) {
       this.fetchData(val, {
         pageNum: 1,
@@ -74,14 +57,14 @@ export default {
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
     },
-    fetchData(val, data = {
+    fetchData(val={}, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-        getPosterList(data, val).then(res => {
+      getFindAbout(data, val).then(res => {
         this.loading = false;
-        this.list = res.data;
+        this.list = {records: res.data};
       });
     }
   }

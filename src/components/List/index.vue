@@ -17,7 +17,7 @@
       :summary-method="getSummaries"
       v-loading="loading"
     >
-      <el-table-column fixed v-if="type" :type="type?'selection':''"></el-table-column>
+      <el-table-column align="center" fixed v-if="type" :type="type?'selection':''"></el-table-column>
       <el-table-column v-if="index" prop="date" label="序号" type="index" align="center" sortable></el-table-column>
       <slot name="title"></slot>
       <template v-for="(t,i) in columns">
@@ -27,14 +27,13 @@
           :fixed="t.fixed"
           :sortable="t.sort"
           :formatter="t.formatt!=undefined? (t.formatt == 'checkWarning'? checkWarning : taskWarning) : null"
-          v-if="t.default!=undefined && t.default !='img'?t.default:true"
+          v-if="t.default!=undefined ?(t.default =='img'?false:t.default):true"
           :label="t.text"
           :width="t.width?t.width:(selfAdaption?'':'120px')"
           show-overflow-tooltip
           align="center"
         ></el-table-column>
         <el-table-column
-          :prop="t.name"
           :key="i"
           v-else-if="t.default == 'img'?true:false"
           :label="t.text"
@@ -43,18 +42,10 @@
           align="center"
         >
           <template width="90" slot-scope="scope">
-            <img style="width:80px;height:80px;border:none;" :src="t.img">
+            <img style="width:80px;height:80px;border:none;" :src="scope.row.img">
           </template>
         </el-table-column>
       </template>
-      <!--<el-table-column
-        fixed="right"
-        label="操作"
-        width="100">
-        <template slot-scope="scope">
-          <el-button  type="text" size="small"  @click.native="">添加</el-button>
-        </template>
-      </el-table-column>-->
       <slot name="after"></slot>
     </el-table>
     <div class="text-center pages" v-if="list.total && list.total!=0" style="padding-top: 15px;">
@@ -89,11 +80,18 @@ export default {
       // 是否需要序号列
       type: Boolean,
       default: false
-    }, formatRow: {
+    },
+    operation: {
       // 是否需要序号列
       type: Boolean,
       default: false
-    },highlight: {
+    },
+    formatRow: {
+      // 是否需要序号列
+      type: Boolean,
+      default: false
+    },
+    highlight: {
       // 是否需要序号列
       type: Boolean,
       default: true
@@ -130,6 +128,11 @@ export default {
     height:{
       type: String,
       default: "100%"
+    },
+    // 自定义按钮
+    operationName:{
+      type: String,
+      default: "+"
     }
   },
   methods: {

@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -18,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getLocationList, delSupplier} from "@/api/basic/index";
+import { getLocationList, deleteLocation} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -33,12 +32,12 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "placeName" },
-        { text: "影城地址", name: "" },
-        { text: "联系人", name: "" },
-        { text: "联系电话", name: "" },
-        { text: "固定电话", name: "" },
-        { text: "简介", name: "" },
+        { text: "影城名称", name: "cinemaName" },
+        { text: "影城地址", name: "cinemaAddress" },
+        { text: "联系人", name: "cinemaContact" },
+        { text: "联系电话", name: "cinemaPhone" },
+        { text: "固定电话", name: "cinemaTel" },
+        { text: "简介", name: "cinemaMessage" },
       ]
     };
   },
@@ -57,10 +56,10 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      deleteLocation(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
+          this.$emit('uploadList')
         }
       });
     },
@@ -73,12 +72,6 @@ export default {
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
-    },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
     },
     fetchData(val, data = {
       pageNum: this.list.current || 1,

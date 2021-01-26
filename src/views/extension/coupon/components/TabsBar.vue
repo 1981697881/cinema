@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.loPrName" placeholder="名称"/>
+            <el-input v-model="search.couponTitle" placeholder="名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -36,7 +36,7 @@ export default {
     return {
       btnList: [],
       search: {
-        loPrName: null
+        couponTitle: null
       }
     };
   },
@@ -54,7 +54,7 @@ export default {
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      this.search.couponTitle != null && this.search.couponTitle != '' ? obj.couponTitle = this.search.couponTitle : null
       return obj
     },
     // 关键字查询
@@ -63,13 +63,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.couponId) {
+        this.$confirm('是否删除(' + this.clickData.couponTitle + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          this.$emit('delList', this.clickData.couponId)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -90,7 +90,7 @@ export default {
       this.$emit('uploadList')
     },
     handlerAlter() {
-      if (this.clickData.loPrId) {
+      if (this.clickData.couponId) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({

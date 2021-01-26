@@ -158,10 +158,9 @@ export function getMenuList(params) {
     method: 'get',
   })
 }
-
-// 日志管理-获取列表
-export function journalList(data, query) {
-  const url = '/operation-log/list/' + data.pageNum + '/' + data.pageSize
+// 关于我们-获取列表
+export function getFindAbout(params, data) {
+  const url = '/about/findAbout'
   return request({
     url: url,
     headers: {
@@ -169,130 +168,20 @@ export function journalList(data, query) {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    data: query
-  })
-}
-// 日志管理-清除
-export function journalClean(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get',
-    params
+    data: data
   })
 }
 
-// 看板管理-获取列表
-export function getBoardList(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get',
-    params
-  })
-}
-// 看板管理-获取详情
-export function getBoardInfo(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get',
-    params
-  })
-}
-// 看板管理-新增
-export function boardAdd(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get',
-    params
-  })
-}
-// 看板管理-删除
-export function delBoard(params) {
-  return request({
-    url: '/table/list',
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get',
-    params
-  })
-}
-// 数据字典-获取列表
-export function getDictList(data) {
-  const url = '/dict/list/' + data.pageNum + '/' + data.pageSize
+// 关于我们-新增
+export function addAbout(params) {
+  const url = '/about/addAbout'
   return request({
     url: url,
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
-    method: 'POST'
-  })
-}
-// 日志管理-添加日志
-export function addOperationLog(data) {
-  const url = '/operation-log/add'
-  return request({
-    url: url,
-    headers: {
-      'authorization': getToken('cinerx'),
-    },
-    method: 'get',
-    params: data
-  })
-}
-
-// 数据字典-查找
-export function dictGetById(params) {
-  return request({
-    url: '/dict/getById/' + params,
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get'
-  })
-}// 权限按钮-查找
-export function getByUserAndPrId(params) {
-  return request({
-    url: '/sys-menu/getByUserAndPrId/' + params,
-    headers: {
-      'authorization': getToken('cinerx')
-    },
-    method: 'get'
-  })
-}
-// 数据字典-修改
-export function alterDict(params) {
-  return request({
-    url: '/dict/update',
-    headers: {
-      'authorization': getToken('cinerx'),
-      'Content-Type': 'application/json'
-    },
-    method: 'PUT',
-    data: params
-  })
-}
-// 主界面
-export function mainReport(params) {
-  return request({
-    url: '/report-form/mainReport',
-    headers: {
-      'authorization': getToken('cinerx'),
-      'Content-Type': 'application/json'
-    },
-    method: 'POST',
+    method: 'post',
     data: params
   })
 }

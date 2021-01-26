@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getCouponList, deleteCoupon} from "@/api/extension/index";
 import List from "@/components/List";
 
 export default {
@@ -64,10 +64,10 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      deleteCoupon(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
+          this.$emit('uploadList')
         }
       });
     },
@@ -91,11 +91,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getCouponList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

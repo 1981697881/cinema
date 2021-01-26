@@ -3,46 +3,45 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @settlement="settlement" @showDialog="handlerDialog" @uploadList="upload" @queryBtn="query"/>
       </div>
-      <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+      <list ref="list"  @uploadList="upload" />
     </div>
-
-    <el-dialog
-      :visible.sync="visible"
-      title="基本信息"
-      v-if="visible"
-      v-dialogDrag
-      :width="'50%'"
-      destroy-on-close
-    >
-      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
-
-    </el-dialog>
     <el-drawer
-      title="我嵌套了 Form !"
-      :before-close="handleClose"
+      title="购物车"
       :visible.sync="dialog"
-      direction="ltr"
+      direction="rtl"
       custom-class="demo-drawer"
       ref="drawer"
     >
       <div class="demo-drawer__content">
-        <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div class="demo-drawer__footer">
-          <el-button @click="cancelForm">取 消</el-button>
-          <el-button type="primary" @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '确 定' }}</el-button>
-        </div>
+        <el-table height="calc(100vh - 250px)" :data=productList>
+          <el-table-column label="图片">
+            <template slot-scope="scope">
+              <img v-bind:src="scope.row.img" height="80px;"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="信息">
+            <template slot-scope="scope">
+              <h3>{{scope.row.name}}</h3>
+              <h4>{{scope.row.price}}</h4>
+              <el-input-number style="width: 100%" v-model="scope.row.num"  :min="1" :max="scope.row.stock" label="描述文字"></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+            align="center"
+            width="100">
+            <template slot-scope="scope">
+              <el-button type="danger" size="mini" icon="el-icon-delete" circle @click.native="deleteList(scope.row)"></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="foot demo-drawer__footer text-center">
+        <el-button type="danger" round @click="cancelForm">清空</el-button>
+        <el-button type="primary" round @click="$refs.drawer.closeDrawer()" :loading="loading">{{ loading ? '提交中 ...' : '结算 ￥'+countPrice+' 元' }}</el-button>
       </div>
     </el-drawer>
   </div>
@@ -60,70 +59,92 @@ export default {
   },
   data() {
     return {
+      total:0,
+      productList:[],
       visible: null,
-      oid: null,
       listInfo: null,
-      treeId: null, // null
-      floorId: null,
-      table: false,
       dialog: false,
       loading: false,
-      gridData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
-      formLabelWidth: '80px',
       timer: null,
     };
+  },
+  computed: {
+    countPrice: function () {
+      let total = 0;
+      this.productList.forEach(p=>{
+        total += p.price * p.num
+      })
+      return total
+    },
+  },
+  created(){
   },
   mounted() {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
+    deleteList(row){
+      this.$confirm('是否删除（' + row.name + '）?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.productList.splice(row,1)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    settlement(){
+        this.dialog = true
+    },
+    handleChange(){
+      console.log(this.productList)
+      this.totalPrice()
+    },
+    totalPrice(){
+      let total = 0;
+      this.productList.forEach(p=>{
+        total += p.price * p.num
+      })
+      this.total = total
+    },
+    //关闭表单事件
     handleClose(done) {
       if (this.loading) {
-        return;
+        return
       }
       this.$confirm('确定要提交表单吗？')
         .then(_ => {
-          this.loading = true;
+          this.loading = true
           this.timer = setTimeout(() => {
-            done();
+            done()
             // 动画关闭需要一定的时间
             setTimeout(() => {
-              this.loading = false;
-            }, 400);
-          }, 2000);
+              this.loading = false
+            }, 400)
+          }, 2000)
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
     cancelForm() {
-      this.loading = false;
-      this.dialog = false;
-      clearTimeout(this.timer);
+      this.$confirm('是否清空购物车?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.productList = []
+        this.loading = false
+        this.dialog = false
+        clearTimeout(this.timer)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消清空'
+        });
+      });
     },
     delivery(obj) {
       if(obj) {
@@ -134,13 +155,38 @@ export default {
       this.visible = val
     },
     handlerDialog(obj) {
-      this.dialog = true
-      this.listInfo = null
       if(obj) {
         const info = JSON.parse(JSON.stringify(obj))
-        this.listInfo = info
+        /*this.$confirm('已添加，是否打开购物车结算？')
+          .then(_ => {
+            this.dialog = true
+          })
+          .catch(_ => {})*/
+        let productList = this.productList
+        for(let item of info){
+          let number = 0
+          productList.some((product,index) =>{
+            if(item.id==product.id){
+              if(product.num >= item.stock){
+                this.$message({
+                  message: product.name+'库存不足',
+                  type: "warning"
+                })
+                number++
+                return true
+              }else{
+                product.num = product.num + 1
+                number++
+                return true
+              }
+            }
+          })
+           if(number ==0){
+             item.num = 1
+             productList.push(item)
+           }
+        }
       }
-      this.visible = true
     },
     // 查询
     query(val) {
@@ -155,4 +201,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .foot{
+    padding: 20px;
+    position: relative;
+    width: 100%;
+  }
 </style>

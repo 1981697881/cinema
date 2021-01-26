@@ -36,6 +36,7 @@ const map = {
 
 
   'users': () => import('@/views/system/users'),
+  'about': () => import('@/views/system/about'),
   'journal': () => import('@/views/system/journal'),
   'notice': () => import('@/views/system/notice'),
 }
