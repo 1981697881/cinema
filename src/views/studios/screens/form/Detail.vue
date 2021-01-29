@@ -3,55 +3,29 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'所属影城'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
-              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTT" :key="i"></el-option>
+          <el-form-item :label="'所属影城'" prop="cinemaId">
+            <el-select v-model="form.cinemaId" class="width-full" placeholder="请选择">
+              <el-option :label="t.cinemaName" :value="t.cinemaId" v-for="(t,i) in studiosList" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'名称'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+          <el-form-item :label="'影厅名称'" prop="hallName">
+            <el-input v-model="form.hallName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'影厅负责人'" >
-            <el-input v-model="form.contact"></el-input>
+            <el-input v-model="form.hallPerson"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'影厅类别'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+          <el-form-item :label="'影厅类别'" >
+            <el-select v-model="form.hallType" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :span="20">
-        <el-col :span="12">
-          <el-form-item :label="'开场时间'" prop="foodStartTime">
-            <el-time-picker
-              v-model="form.foodStartTime"
-              :picker-options="{
-                selectableRange: '10:00:00 - 14:00:00'
-               }"
-              value-format="HH:mm:ss"
-              placeholder="任意时间点">
-            </el-time-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'结束时间'" prop="foodEndTime">
-            <el-time-picker
-              v-model="form.foodEndTime"
-              :picker-options="{
-                selectableRange: '14:00:00 - 23:59:59'
-               }"
-              value-format="HH:mm:ss"
-              placeholder="任意时间点">
-            </el-time-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,11 +48,11 @@
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item label="座位配置" class="seat">
-            <el-checkbox-group v-model="form.checkList">
+          <el-form-item label="座位配置" class="seat" prop="seats">
+            <el-checkbox-group v-model="form.seats">
               <template v-for="(t,i) in seat" >
                 <div style="display: flex">
-                  <el-checkbox v-for="(item,index) in t" :key="item.id" :label="item.name"></el-checkbox>
+                  <el-checkbox v-for="(item,index) in t" :key="index" :label="item.name"></el-checkbox>
                 </div>
               </template>
             </el-checkbox-group>
@@ -93,8 +67,8 @@
 </template>
 
 <script>
-import { alterSupplier, addSupplier } from "@/api/basic/index";
-
+import { addHall } from "@/api/studios/index";
+import { getLocationList } from "@/api/basic/index";
 export default {
   props: {
     listInfo: {
@@ -105,28 +79,27 @@ export default {
   data() {
     return {
       form: {
-        loPrId: null,
         line:1,
         column:1,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        checkList: [],
-        description: null,
+        hallName: null, // 名称
+        seats: [],
+        hallPerson: null,
+        hallType: null,
       },
-      levelFormatTT: [['A', 'A'], ['B', 'B']],
+      studiosList: [],
       levelFormat: [['2D', '2D'], ['3D', '3D']],
       pidS:[],
       pArray:[],
       seat: [],
       rules: {
-        loPrName: [
+        hallName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
-        loPrCode: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
+        cinemaId: [
+          {required: true, message: '请选择', trigger: 'change'},
+        ],
+        seats: [
+          { required: true, message: '请设置座位', trigger: 'change' }
         ],
       },
     };
@@ -149,31 +122,30 @@ export default {
           arr.push(obj)
         }
         array.push(arr)
-        this.seat = array
       }
+      this.seat = array
     },
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
           console.log(this.form)
-         /* if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-            alterSupplier(this.form).then(res => {
+          addHall(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
-          }else{
-            addSupplier(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          }*/
         }else {
           return false;
         }
       })
     },
     fetchFormat() {
+      getLocationList({
+        pageNum: 1,
+        pageSize: 1000
+      }, {}).then(res => {
+        this.studiosList = res.data.records;
+      });
     },
   }
 };
@@ -183,5 +155,8 @@ export default {
   .seat .el-form-item__content{
     height: 250px;
     overflow-y: hidden;
+  }
+  .el-form-item__error{
+    display: contents;
   }
 </style>

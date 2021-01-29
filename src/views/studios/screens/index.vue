@@ -5,9 +5,8 @@
       <div>
         <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </div>
-      <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+      <list ref="list"  @uploadList="uploadPage"  @showDialog="handlerDialog"/>
     </div>
-
     <el-dialog
       :visible.sync="visible"
       title="基本信息"
@@ -17,7 +16,6 @@
       destroy-on-close
     >
       <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
-
     </el-dialog>
   </div>
 </template>
@@ -61,14 +59,17 @@ export default {
       }
       this.visible = true
     },
-    // 查询
-    query(val) {
-      this.$refs.list.fetchData(this.$refs.tabs.qFilter())
-    },
     // 更新列表
     upload() {
+      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+    },
+    uploadPage(val) {
       this.$refs.list.fetchData(this.$refs.tabs.qFilter())
-    }
+    },
+    // 查询
+    query() {
+      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+    },
   }
 };
 </script>

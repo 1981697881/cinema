@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getHallList, deleteHall} from "@/api/studios/index";
 import List from "@/components/List";
 
 export default {
@@ -33,13 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "所属影城", name: "" },
-        { text: "影厅名称", name: "" },
-        { text: "影厅负责人", name: "" },
-        { text: "开场时间", name: "" },
-        { text: "结束时间", name: "" },
-        { text: "影厅类别", name: "" },
-        { text: "状态", name: "" },
+        { text: "所属影城", name: "cinemaName" },
+        { text: "影厅名称", name: "hallName" },
+        { text: "影厅负责人", name: "hallPerson" },
+      /*  { text: "开场时间", name: "" },
+        { text: "结束时间", name: "" },*/
+        { text: "影厅类别", name: "hallType" },
+        { text: "状态", name: "status" },
       ]
     };
   },
@@ -58,18 +58,12 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      deleteHall(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
+          this.$emit('uploadList')
         }
       });
-    },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
     },
     //监听单击某一行
     rowClick(obj) {
@@ -85,11 +79,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+        getHallList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

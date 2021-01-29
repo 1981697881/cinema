@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getMarshallinList, delSupplier} from "@/api/studios/index";
 import List from "@/components/List";
 
 export default {
@@ -62,15 +62,9 @@ export default {
       delSupplier(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
+          this.$emit('uploadList')
         }
       });
-    },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
     },
     //监听单击某一行
     rowClick(obj) {
@@ -86,11 +80,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getMarshallinList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };
