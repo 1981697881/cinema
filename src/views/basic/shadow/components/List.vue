@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {getFrameList} from "@/api/basic/index";
+import { getMovieList, deleteMovie} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -54,7 +54,6 @@ export default {
   },
 
   methods: {
-    handlerForm() {},
     // 监听每页显示几条
     handleSize(val) {
       this.list.size = val
@@ -64,6 +63,14 @@ export default {
     handleCurrent(val) {
       this.list.current = val
       this.fetchData()
+    },
+    Delivery(val) {
+      deleteMovie(val).then(res => {
+        if(res.flag){
+          this.$store.dispatch("list/setClickData", '');
+          this.$emit('uploadList')
+        }
+      });
     },
     dblclick(obj) {
      /* this.$emit('showDialog', obj.row)*/
@@ -80,7 +87,7 @@ export default {
         pageNum: this.list.current || 1,
         pageSize: this.list.size || 50
       }
-      getFrameList(data).then(res => {
+      getMovieList(data).then(res => {
         this.loading = false
         this.list = res.data
       })

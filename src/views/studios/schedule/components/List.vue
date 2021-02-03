@@ -40,7 +40,6 @@ export default {
         { text: "场次", name: "" },
         { text: "正常票价", name: "" },
         { text: "优惠票价", name: "" },
-        { text: "团体票价", name: "" },
       ]
     };
   },

@@ -6,8 +6,8 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >上映</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >下架</el-button>
+       <!-- <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >上映</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >下架</el-button>-->
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>

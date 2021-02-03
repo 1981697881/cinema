@@ -46,7 +46,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item  :label="'电影简介'" prop="productionDate">
+          <el-form-item :label="'电影简介'" prop="productionDate">
             <el-input type="textarea" v-model="form.deptCode"></el-input>
           </el-form-item>
         </el-col>
@@ -182,12 +182,12 @@
         <el-row :span="20">
           <el-col :span="8">
             <el-form-item :label="'名称'" prop="takeBreaks">
-              <el-input v-model="userform.takeBreaks" ></el-input>
+              <el-input v-model="userform.takeBreaks"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item :label="'角色名称'" prop="orgAttr">
-              <el-input v-model="userform.takeBreaks" ></el-input>
+              <el-input v-model="userform.takeBreaks"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -235,7 +235,7 @@
 </template>
 
 <script>
-  import {FrameAdd, FrameAlter} from "@/api/basic/index";
+  import {addMovie} from "@/api/basic/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -422,18 +422,10 @@
           //判断必填项
           if (valid) {
             //修改
-            /* if (typeof (this.form.deptId) != undefined && this.form.deptId != null) {
-               FrameAlter(this.form).then(res => {
-                     this.$emit('hideDialog', false)
-                     this.$emit('uploadList')
-                 });
-                 //保存
-             }else{
-                 FrameAdd(this.form).then(res => {
-                     this.$emit('hideDialog', false)
-                     this.$emit('uploadList')
-                 });
-             }*/
+            addMovie(this.form).then(res => {
+              this.$emit('hideDialog', false)
+              this.$emit('uploadList')
+            });
           } else {
             return false;
           }
@@ -448,6 +440,7 @@
   .el-tag + .el-tag {
     margin-left: 10px;
   }
+
   .button-new-tag {
     margin-left: 10px;
     height: 32px;
@@ -455,6 +448,7 @@
     padding-top: 0;
     padding-bottom: 0;
   }
+
   .input-new-tag {
     width: 90px;
     margin-left: 10px;
