@@ -40,6 +40,12 @@ export default {
     });*/
   },
   methods:{
+    // 查询条件过滤
+    qFilter() {
+      let obj = {}
+      this.search.cinemaName != null && this.search.cinemaName != '' ? obj.cinemaName = this.search.cinemaName : null
+      return obj
+    },
     onFun(method){
       this[method]()
     },
@@ -57,7 +63,7 @@ export default {
       }
     },
     handlerAdd() {
-      this.$emit('showDialog', {rid: null})
+      this.$emit('showDialog')
     },
     upload() {
       this.$emit('uploadList')

@@ -33,11 +33,11 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影片名称", name: "" },
-        { text: "播放影厅", name: "" },
-        { text: "上映时间", name: "" },
-        { text: "结束时间", name: "" },
-        { text: "场次", name: "" },
+        { text: "影片名称", name: "filmName" },
+        { text: "播放影厅", name: "hallName" },
+        { text: "上映时间", name: "startDate" },
+        { text: "结束时间", name: "endDate" },
+        { text: "场次", name: "sessionsNumber" },
         { text: "正常票价", name: "" },
         { text: "优惠票价", name: "" },
       ]

@@ -3,29 +3,29 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'电影名'" prop="deptCode">
-            <el-input v-model="form.deptCode"></el-input>
+          <el-form-item :label="'电影名'" prop="filmName">
+            <el-input v-model="form.filmName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'电影时长'" prop="deptName">
-            <el-input-number v-model="form.deptName"></el-input-number>
+          <el-form-item :label="'电影时长'" prop="filmLong">
+            <el-input-number v-model="form.filmLong" :min="1"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'上映地区'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+          <el-form-item :label="'上映地区'" prop="showArea">
+            <el-select v-model="form.showArea" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatT" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'上映时间'" prop="productionDate">
+          <el-form-item :label="'上映时间'" prop="filmDate">
             <div class="block">
               <el-date-picker
-                v-model="form.productionDate"
+                v-model="form.filmDate"
                 type="datetime"
                 style="width: auto"
                 value-format="yyyy-MM-dd HH:mm:ss"
@@ -37,8 +37,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'电影分类'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+          <el-form-item :label="'电影分类'" prop="filmSortid">
+            <el-select v-model="form.filmSortid" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
           </el-form-item>
@@ -46,8 +46,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'电影简介'" prop="productionDate">
-            <el-input type="textarea" v-model="form.deptCode"></el-input>
+          <el-form-item :label="'电影简介'" prop="filmIntro">
+            <el-input type="textarea" v-model="form.filmIntro"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -132,7 +132,7 @@
             <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true"
                       @row-dblclick="dblclick">
               <el-table-column
-                v-for="(t,i) in columns"
+                v-for="(t,i) in columns1"
                 :key="i"
                 align="center"
                 :prop="t.name"
@@ -146,7 +146,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'关键字'" prop="orgAttr">
+          <el-form-item :label="'关键字'" prop="filmKeyWords">
             <el-tag
               :key="tag"
               v-for="tag in dynamicTags"
@@ -178,19 +178,40 @@
       destroy-on-close
       append-to-body
     >
-      <el-form :model="userform" :rules="rules2" ref="userform" label-width="80px" :size="'mini'">
-        <el-row :span="20">
-          <el-col :span="8">
-            <el-form-item :label="'名称'" prop="takeBreaks">
-              <el-input v-model="userform.takeBreaks"></el-input>
+      <el-form :model="postform" :rules="rules2" ref="postform" label-width="80px" :size="'mini'">
+        <el-row :gutter="20">
+          <el-col :span="10">
+            <el-form-item label-width="0">
+              <el-input v-model="search" placeholder="名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="2">
+            <el-button  :size="'mini'" type="success" @click="query" icon="el-icon-search">查询</el-button>
+          </el-col>
+        </el-row>
+        <el-row :span="20">
+          <el-col :span="24">
+            <el-table class="list-main" height="200px" :data="list2" border size="mini" :highlight-current-row="true"
+                      @row-dblclick="dblclick">
+              <el-table-column
+                v-for="(t,i) in columns2"
+                :key="i"
+                align="center"
+                :prop="t.name"
+                :label="t.text"
+                v-if="t.default!=undefined?t.default:true"
+                :width="t.width?t.width:''"
+              ></el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
+        <el-row :span="20" style="padding-top: 15px">
+          <el-col :span="12">
             <el-form-item :label="'角色名称'" prop="orgAttr">
               <el-input v-model="userform.takeBreaks"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item :label="'职务'" prop="orgAttr">
               <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
                 <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTT" :key="i"></el-option>
@@ -198,34 +219,71 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-col :span="24" style="text-align: center">
-          <el-form-item :label="'个人照片'">
-            <el-upload
-              :action="fileUrl"
-              list-type="picture-card"
-              accept="image/jpeg,image/jpg,image/png,image/gif"
-              :headers="headers"
-              :data="imgData"
-              :limit="1"
-              name="imgS"
-              :on-success="uploadSuccess"
-              :on-error="uploadError"
-              :class="{hide:hideUpload}"
-              :on-preview="handlePictureCardPreview"
-              :on-change="handleChange"
-              :file-list="fileList"
-              ref="upload"
-              :on-remove="handleRemove">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
-              <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
-          </el-form-item>
-        </el-col>
       </el-form>
+      <el-dialog
+        :visible.sync="visible2"
+        title="个人信息"
+        v-if="visible2"
+        :width="'50%'"
+        destroy-on-close
+        append-to-body
+      >
+        <el-form :model="userform" :rules="rules3" ref="userform" label-width="80px" :size="'mini'">
+          <el-row :span="24">
+            <el-col :span="12">
+              <el-form-item :label="'名称'" prop="takeBreaks">
+                <el-input v-model="userform.takeBreaks"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="'性别'" prop="orgAttr">
+                <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+                  <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTTT" :key="i"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :span="24">
+            <el-col :span="24">
+              <el-form-item :label="'个人简介'" prop="takeBreaks">
+                <el-input type="textarea" v-model="form.filmIntro"></el-input>
+              </el-form-item>
+            </el-col>
+
+          </el-row>
+          <el-col :span="24" style="text-align: center">
+            <el-form-item :label="'个人照片'">
+              <el-upload
+                :action="fileUrl"
+                list-type="picture-card"
+                accept="image/jpeg,image/jpg,image/png,image/gif"
+                :headers="headers"
+                :data="imgData"
+                :limit="1"
+                name="imgS"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :class="{hide:hideUpload}"
+                :on-preview="handlePictureCardPreview"
+                :on-change="handleChange"
+                :file-list="fileList"
+                ref="upload"
+                :on-remove="handleRemove">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+            </el-form-item>
+          </el-col>
+        </el-form>
+        <div slot="footer" style="text-align:center;padding-top: 15px">
+          <el-button type="primary">保存</el-button>
+        </div>
+      </el-dialog>
       <div slot="footer" style="text-align:center;padding-top: 15px">
         <el-button type="primary" @click="confirm">确认</el-button>
+        <el-button type="primary" @click="create">新建</el-button>
       </div>
     </el-dialog>
     <div slot="footer" style="text-align:center">
@@ -252,15 +310,26 @@
         headers: {
           'authorization': getToken('cinerx'),
         },
-        dynamicTags: ['人性', '黑化', '叛逆'],
+        dynamicTags: [],
         inputVisible: false,
         inputValue: '',
         visible: null,
+        visible2: null,
         list: [],
-        columns: [
+        list2: [{
+          name: '王宝强',
+          sex: '男',
+          remark: '是个喜剧演员',
+        }],
+        columns1: [
           {text: "名称", name: "startTime"},
           {text: "职务", name: "startTime"},
           {text: "角色名称", name: "takeBreaks"},
+        ],
+        columns2: [
+          {text: "名称", name: "name"},
+          {text: "性别", name: "sex"},
+          {text: "个人简介", name: "remark"},
         ],
         fileUrl: '',
         imgData: {},
@@ -272,11 +341,19 @@
         limitCount: 3,
         nowImg: [],
         form: {
+          filmName: null,
+          filmIntro: null,
+          filmLong: 100,
+          filmPhoto: null,
+          filmSortid: null,
+          showArea: null,
+          filmKeyWords: null,
+        },
+        postform: {
           deptId: null,
           deptCode: null, // 名称
           deptName: null,
-        },
-        userform: {
+        }, userform: {
           deptId: null,
           deptCode: null, // 名称
           deptName: null,
@@ -285,11 +362,15 @@
         videoUploadPercent: 0,
         pArray: [],
         rules: {
-          deptCode: [
-            {required: true, message: '请输入编码', trigger: 'blur'}
+          filmName: [
+            {required: true, message: '请输入', trigger: 'blur'}
           ],
-          deptName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'}
+          filmIntro: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
+          filmLong: [
+            {required: true, message: '请输入', trigger: 'change'},
+            {type: 'number', message: '只能输入数字', trigger: 'blur'},
           ],
         },
         rules2: {
@@ -302,21 +383,33 @@
           startTime: [
             {required: true, message: '请选择日期', trigger: 'change'}
           ],
+        }, rules3: {
+          takeBreaks: [
+            {required: true, message: '请输入值', trigger: 'blur'},
+          ],
+          endTime: [
+            {required: true, message: '请选择日期', trigger: 'change'}
+          ],
+          startTime: [
+            {required: true, message: '请选择日期', trigger: 'change'}
+          ],
         },
         levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
         levelFormatTT: [['导演', '导演'], ['演员', '演员']],
+        levelFormatTTT: [['女', '女'], ['男', '男'], ['未知', '未知']],
         levelFormatT: [['中国大陆', '中国大陆'], ['中国香港', '中国香港'], ['中国台湾', '中国台湾'], ['其他', '其他']]
       };
     },
-    created() {
-
-    },
     mounted() {
+      console.log(this.listInfo)
       if (this.listInfo) {
         this.form = this.listInfo
       }
     },
     methods: {
+      create(){
+        this.visible2 = true
+      },
       handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
       },

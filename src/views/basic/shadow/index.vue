@@ -2,9 +2,9 @@
   <div class="app-list">
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @del="delList" @queryBtn="query" @uploadList="upload"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @del="delivery" @queryBtn="query" @uploadList="upload"/>
       </div>
-      <list ref="list" @showDialog="handlerDialog"  />
+      <list ref="list" @uploadList="uploadPage" @showDialog="handlerDialog"  />
     </div>
     <el-dialog
       :visible.sync="visible"
@@ -38,9 +38,14 @@ export default {
     }
   },
     mounted() {
-      this.$refs.list.fetchData()
+      this.$refs.list.fetchData(this.$refs.tabs.qFilter())
     },
   methods: {
+    delivery(obj) {
+      if(obj) {
+        this.$refs.list.Delivery(obj)
+      }
+    },
       hideWindow(val) {
           this.visible = val
       },
@@ -52,25 +57,16 @@ export default {
         }
           this.visible = true
       },
-      //更新列表
-      upload(){
-          this.$refs.list.fetchData()
-      },// 查询
-    query() {
+    // 更新列表
+    upload() {
+      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+    },
+    uploadPage(val) {
       this.$refs.list.fetchData(this.$refs.tabs.qFilter())
     },
-    delList(val) {
-      this.loading = true
-      console.log(val)
-      delFrame(val).then(res => {
-        this.loading = false
-        this.list = res.data
-        this.$refs.list.fetchData()
-      })
-    },
-    handlerNode(node) {
-      // 触发列表的获取数据函数（原为像list组件传入id并监听变动在list组件里触发函数，已销毁）
-      this.$refs.list.fetchData(node.data.fid,node.data.type)
+    // 查询
+    query() {
+      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
     },
   }
 };

@@ -98,7 +98,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'场次预览'">
-            <el-table el-table :height="'calc(100vh/2)'" :data="list" border size="mini" :highlight-current-row="true">
+            <el-table :key="Math.random()" :height="'calc(100vh/2)'" :data="list" border size="mini" :highlight-current-row="true">
               <el-table-column
                 v-for="(t,i) in columns"
                 :key="i"
@@ -131,14 +131,13 @@
                   <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
-              <el-table-column key="100" label="操作" width="100">
+              <el-table-column  label="操作" width="100">
                 <template slot-scope="scope">
                   <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;"
                         @click="pwdChange(scope.row,scope.$index,true)">
                     {{scope.row.isSet?'确定':"修改"}}
                   </span>
-                  <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini"
-                        @click="deleteRow(scope.row,scope.$index,list)" style="cursor: pointer;">
+                  <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" @click="deleteRow(scope.$index,list)" style="cursor: pointer;">
                     删除
                   </span>
                   <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;"
@@ -273,44 +272,48 @@
         this.form.startTime = val[0]
         this.form.endTime = val[1]
       },
+      //修改 sessinosId money memberMoney
       //修改
       pwdChange(row, index, cg) {
+        if(this.sel == null){
+          this.sel = row
+        }
         //点击修改 判断是否已经保存所有操作
         for (let i of this.list) {
-          if (i.isSet && i.sessinosId != row.sessinosId ) {
+          if (i.isSet && i.sessinosId != row.sessinosId) {
             this.$message.warning("请先保存当前编辑项");
             return false;
           }
         }
         //是否是取消操作
         if (!cg) {
+          if (!this.sel.sessinosId) this.list.splice(index, 1);
           return row.isSet = !row.isSet;
         }
         //提交数据
         if (row.isSet) {
           //项目是模拟请求操作  自己修改下
           const sel = this.sel
-          if ((sel.money == null || sel.money == '') || (sel.memberMoney == null || sel.memberMoney == '')) {
+          if((sel.money == null || sel.money == '') || (sel.memberMoney == null || sel.memberMoney == '')){
             return this.$message({
               type: 'error',
               message: "请输入必填项!"
             });
-          } else {
+          }else {
             let data = JSON.parse(JSON.stringify(this.sel));
             for (let k in data) row[k] = data[k]
             this.$message({
               type: 'success',
               message: "添加成功!"
             });
+            this.$set(row,'isSet',false)
             //然后这边重新读取表格数据
             this.readMasterUser();
-            row.isSet = false;
           }
         } else {
+          this.$set(row,'isSet',true)
           this.sel = JSON.parse(JSON.stringify(row));
-          row.isSet = true;
         }
-        console.log(row.isSet)
       },
       //删除带确认区 单行删除
       deleteRow(index, rows) {

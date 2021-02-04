@@ -36,19 +36,19 @@ export default {
       type: null,
       checkDate:null,
       columns: [
-        { text: "电影名", name: "deptCode" },
-        { text: "电影时长", name: "deptName" },
+        { text: "电影名", name: "filmName" },
+        { text: "电影时长", name: "filmLong" },
         { text: "电影分类", name: "deptParentName" },
         { text: "电影评分", name: "" },
-        { text: "导演", name: "" },
-        { text: "主演", name: "" },
-        { text: "简介", name: "" },
+        { text: "导演", name: "filmDirector" },
+        { text: "主演", name: "filmPlay" },
+        { text: "简介", name: "filmIntro" },
         { text: "预告", name: "" },
-        { text: "海报", name: "" },
+        { text: "海报", name: "filmPhoto" },
         { text: "剧照", name: "" },
-        { text: "上映时间", name: "" },
-        { text: "关键字", name: "" },
-        { text: "状态", name: "disableDesc" },
+        { text: "上映时间", name: "filmDate" },
+        { text: "关键字", name: "filmKeyWords" },
+        { text: "状态", name: "status" },
       ]
     };
   },
@@ -57,12 +57,12 @@ export default {
     // 监听每页显示几条
     handleSize(val) {
       this.list.size = val
-      this.fetchData()
+      this.$emit('uploadList')
     },
     // 监听当前页
     handleCurrent(val) {
       this.list.current = val
-      this.fetchData()
+      this.$emit('uploadList')
     },
     Delivery(val) {
       deleteMovie(val).then(res => {
@@ -72,22 +72,25 @@ export default {
         }
       });
     },
+    uploadPr(val) {
+      this.fetchData(val, {
+        pageNum: 1,
+        pageSize: this.list.size || 50
+      })
+    },
     dblclick(obj) {
-     /* this.$emit('showDialog', obj.row)*/
+      this.$emit('showDialog', obj.row)
     },
     // 监听单击某一行
     rowClick(obj) {
-      this.checkDate = obj
-      this.$emit('showTree', obj)
       this.$store.dispatch("list/setClickData", obj.row)
     },
-    fetchData(fid, type) {
+    fetchData(val, data = {
+      pageNum: this.list.current || 1,
+      pageSize: this.list.size || 50
+    }) {
       this.loading = true;
-      const data = {
-        pageNum: this.list.current || 1,
-        pageSize: this.list.size || 50
-      }
-      getMovieList(data).then(res => {
+      getMovieList(data, val).then(res => {
         this.loading = false
         this.list = res.data
       })
