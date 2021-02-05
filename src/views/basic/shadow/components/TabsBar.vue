@@ -49,19 +49,6 @@ export default {
     onFun(method){
       this[method]()
     },
-    handleTab(node){
-      if(node){
-        console.log(node.data.type)
-        if(node){
-
-        }
-      }else{
-        this.$message({
-          type:'warning',
-          message:'请先选择房产'
-        })
-      }
-    },
     handlerAdd() {
       this.$emit('showDialog')
     },
@@ -69,13 +56,13 @@ export default {
       this.$emit('uploadList')
     },
     del() {
-      if (this.clickData.deptId) {
-        this.$confirm('是否删除(' + this.clickData.deptName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.filmId) {
+        this.$confirm('是否删除(' + this.clickData.filmName + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('del', this.clickData.deptId)
+          this.$emit('del', {filmId :this.clickData.filmId})
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -90,7 +77,7 @@ export default {
       }
     },
     handlerAlter() {
-      if (this.clickData.deptId) {
+      if (this.clickData.filmId) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({
@@ -100,8 +87,8 @@ export default {
       }
     },
     disable() {
-      if (this.clickData.deptId) {
-        FrameAlter({deptId: this.clickData.deptId, disable: true}).then(res => {
+      if (this.clickData.filmId) {
+        FrameAlter({filmId: this.clickData.filmId, disable: true}).then(res => {
           if(res.flag) {
             this.$emit('uploadList')
           }
@@ -114,8 +101,8 @@ export default {
       }
     },
     enable() {
-      if (this.clickData.deptId) {
-        FrameAlter({deptId: this.clickData.deptId, disable: false}).then(res => {
+      if (this.clickData.filmId) {
+        FrameAlter({filmId: this.clickData.filmId, disable: false}).then(res => {
           if(res.flag){
             this.$emit('uploadList')
           }

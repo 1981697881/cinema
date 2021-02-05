@@ -149,7 +149,7 @@
           <el-form-item :label="'关键字'" prop="filmKeyWords">
             <el-tag
               :key="tag"
-              v-for="tag in dynamicTags"
+              v-for="tag in form.filmKeyWords"
               closable
               :disable-transitions="false"
               @close="handleClose(tag)">
@@ -182,7 +182,7 @@
         <el-row :gutter="20">
           <el-col :span="10">
             <el-form-item label-width="0">
-              <el-input v-model="search" placeholder="名称"></el-input>
+              <el-input v-model="starName" placeholder="名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="2">
@@ -192,7 +192,7 @@
         <el-row :span="20">
           <el-col :span="24">
             <el-table class="list-main" height="200px" :data="list2" border size="mini" :highlight-current-row="true"
-                      @row-dblclick="dblclick">
+                      @row-dblclick="dblclick" @row-click="listClick" >
               <el-table-column
                 v-for="(t,i) in columns2"
                 :key="i"
@@ -231,13 +231,13 @@
         <el-form :model="userform" :rules="rules3" ref="userform" label-width="80px" :size="'mini'">
           <el-row :span="24">
             <el-col :span="12">
-              <el-form-item :label="'名称'" prop="takeBreaks">
-                <el-input v-model="userform.takeBreaks"></el-input>
+              <el-form-item :label="'名称'" prop="starName">
+                <el-input v-model="userform.starName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item :label="'性别'" prop="orgAttr">
-                <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+              <el-form-item :label="'性别'" prop="starSex">
+                <el-select v-model="userform.starSex" class="width-full" placeholder="请选择">
                   <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTTT" :key="i"></el-option>
                 </el-select>
               </el-form-item>
@@ -245,8 +245,8 @@
           </el-row>
           <el-row :span="24">
             <el-col :span="24">
-              <el-form-item :label="'个人简介'" prop="takeBreaks">
-                <el-input type="textarea" v-model="form.filmIntro"></el-input>
+              <el-form-item :label="'个人简介'" prop="starProfile">
+                <el-input type="textarea" v-model="userform.starProfile"></el-input>
               </el-form-item>
             </el-col>
 
@@ -261,7 +261,7 @@
                 :data="imgData"
                 :limit="1"
                 name="imgS"
-                :on-success="uploadSuccess"
+                :on-success="uploadUserSuccess"
                 :on-error="uploadError"
                 :class="{hide:hideUpload}"
                 :on-preview="handlePictureCardPreview"
@@ -278,12 +278,13 @@
           </el-col>
         </el-form>
         <div slot="footer" style="text-align:center;padding-top: 15px">
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary" @click="saveStart('userform')">保存</el-button>
         </div>
       </el-dialog>
       <div slot="footer" style="text-align:center;padding-top: 15px">
-        <el-button type="primary" @click="confirm">确认</el-button>
+        <el-button type="success" @click="confirm">确认</el-button>
         <el-button type="primary" @click="create">新建</el-button>
+        <el-button type="danger" @click="deleteList">删除</el-button>
       </div>
     </el-dialog>
     <div slot="footer" style="text-align:center">
@@ -293,7 +294,7 @@
 </template>
 
 <script>
-  import {addMovie} from "@/api/basic/index";
+  import {addMovie,addStar,deleteStar,getStarList} from "@/api/basic/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -310,26 +311,23 @@
         headers: {
           'authorization': getToken('cinerx'),
         },
+        starName: null,
         dynamicTags: [],
         inputVisible: false,
         inputValue: '',
         visible: null,
         visible2: null,
         list: [],
-        list2: [{
-          name: '王宝强',
-          sex: '男',
-          remark: '是个喜剧演员',
-        }],
+        list2: [],
         columns1: [
           {text: "名称", name: "startTime"},
           {text: "职务", name: "startTime"},
           {text: "角色名称", name: "takeBreaks"},
         ],
         columns2: [
-          {text: "名称", name: "name"},
-          {text: "性别", name: "sex"},
-          {text: "个人简介", name: "remark"},
+          {text: "名称", name: "starName"},
+          {text: "性别", name: "starSex"},
+          {text: "个人简介", name: "starProfile"},
         ],
         fileUrl: '',
         imgData: {},
@@ -343,20 +341,26 @@
         form: {
           filmName: null,
           filmIntro: null,
+          filmDate: null,
           filmLong: 100,
           filmPhoto: null,
+          still: null,
+          herald: null,
           filmSortid: null,
           showArea: null,
-          filmKeyWords: null,
+          filmKeyWords: [],
         },
+        checkData: {},
         postform: {
           deptId: null,
           deptCode: null, // 名称
           deptName: null,
-        }, userform: {
-          deptId: null,
-          deptCode: null, // 名称
-          deptName: null,
+        },
+        userform: {
+          starSex: null,
+          starName: null, // 名称
+          starProfile: null,
+          starPhotoUrl: null,
         },
         videoFlag: false,
         videoUploadPercent: 0,
@@ -384,29 +388,52 @@
             {required: true, message: '请选择日期', trigger: 'change'}
           ],
         }, rules3: {
-          takeBreaks: [
+          starName: [
+            {required: true, message: '请输入值', trigger: 'blur'},
+          ],starProfile: [
             {required: true, message: '请输入值', trigger: 'blur'},
           ],
-          endTime: [
-            {required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          startTime: [
-            {required: true, message: '请选择日期', trigger: 'change'}
+          starSex: [
+            {required: true, message: '请选择', trigger: 'change'}
           ],
         },
-        levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
+        levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作'], ['爱情', '爱情']],
         levelFormatTT: [['导演', '导演'], ['演员', '演员']],
         levelFormatTTT: [['女', '女'], ['男', '男'], ['未知', '未知']],
         levelFormatT: [['中国大陆', '中国大陆'], ['中国香港', '中国香港'], ['中国台湾', '中国台湾'], ['其他', '其他']]
       };
     },
     mounted() {
-      console.log(this.listInfo)
+      this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
         this.form = this.listInfo
       }
     },
     methods: {
+      listClick(obj){
+        console.log(this.obj)
+        this.checkData = obj
+      },
+      deleteList(){
+        deleteStar({starId: [this.checkData.starId]}).then(res => {
+          if (res.flag) {
+            this.query()
+          }
+        })
+      },
+      // 查询条件过滤
+      qFilter() {
+        let obj = {}
+        this.starName != null && this.starName != '' ? obj.starName = this.starName : null
+        return obj
+      },
+      query(){
+        getStarList(this.qFilter()).then(res => {
+          if (res.flag) {
+            this.list2 = res.data
+          }
+        })
+      },
       create(){
         this.visible2 = true
       },
@@ -443,8 +470,7 @@
       },
       dblclick(obj) {
         this.visible = true
-        this.form2 = obj
-        this.$emit('showDialog', obj)
+        this.postform = obj
       },
       beforeUploadVideo(file) {
         const isLt10M = file.size / 1024 / 1024 < 10;
@@ -492,6 +518,15 @@
         });
         console.log(this.images)
         this.$emit('uploadList')
+      }, //上传成功事件
+      uploadUserSuccess(res, file, fileList) {
+        file.name = res.data;
+        this.images.push(res.data)
+        this.$message({
+          message: res.msg,
+          type: "success"
+        });
+        this.userform.starPhotoUrl = res.data
       },
       //删除图片
       handleRemove(file, fileList) {
@@ -500,7 +535,6 @@
           if (file.name == array[i]) {
             array.splice(i, 1);
           }
-
         }
       },
       handlePictureCardPreview(file) {
@@ -518,6 +552,23 @@
             addMovie(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
+            });
+          } else {
+            return false;
+          }
+        })
+
+      },
+      saveStart(form) {
+        this.$refs[form].validate((valid) => {
+          //判断必填项
+          if (valid) {
+            //修改
+            addStar(this.userform).then(res => {
+              if(res.flag){
+                this.visible2 = false
+                this.query()
+              }
             });
           } else {
             return false;

@@ -16,8 +16,8 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'所属影城'" prop="deptIds">
-            <el-select v-model="form.deptIds" multiple class="width-full"  placeholder="请选择影城">
-              <el-option :label="t.deptName" :value="t.deptId" v-for="(t,i) in pArray" :key="i"></el-option>
+            <el-select v-model="form.cinemaId" class="width-full"  placeholder="请选择影城">
+              <el-option :label="t.cinemaName" :value="t.cinemaId" v-for="(t,i) in pArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { addClerk, alterClerk, clerkInfo,getFrameList } from "@/api/basic/index";
+import { addClerk, alterClerk, locationFormat, clerkInfo,getFrameList } from "@/api/basic/index";
 export default {
   props: {
       listInfo: {
@@ -62,7 +62,7 @@ export default {
         jobNum: null,
         address: null,
         tel: null,
-        deptIds: [],
+        cinemaId: null,
         remark: null,
         name: null,// 名称
       },
@@ -119,12 +119,8 @@ export default {
       this.fetchLine(val)
     },
     fetchFormat() {
-      const data = {
-        pageNum: 1,
-        pageSize: 50,
-      };
-      getFrameList(data,{ disable: false }).then(res => {
-        this.pArray = res.data.records
+      locationFormat().then(res => {
+        this.pArray = res.data
       });
       },
     fetchData(val) {

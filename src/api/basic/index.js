@@ -16,6 +16,7 @@ export function getLocationList(params, data) {
     data: data
   })
 }
+
 // 影城-下拉
 export function locationFormat() {
   const url = '/location/locationFormat'
@@ -41,6 +42,7 @@ export function addLocation(params) {
     data: params
   })
 }
+
 // 影城-删除
 export function deleteLocation(params) {
   return request({
@@ -80,6 +82,7 @@ export function addClerk(params) {
     data: params
   })
 }
+
 // 职员管理-修改
 export function alterClerk(params) {
   return request({
@@ -126,6 +129,7 @@ export function delClerk(params) {
     method: 'delete',
   })
 }
+
 // 影片-获取列表
 export function getMovieList(params, data) {
   const url = '/movie/movieList/' + params.pageNum + '/' + params.pageSize
@@ -139,6 +143,7 @@ export function getMovieList(params, data) {
     data: data
   })
 }
+
 // 影片-下拉
 export function movieFormat() {
   const url = '/location/movieFormat'
@@ -164,10 +169,45 @@ export function addMovie(params) {
     data: params
   })
 }
+
 // 影片-删除
 export function deleteMovie(params) {
   return request({
     url: '/location/deleteMovie',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+// 演职人员-添加
+export function addStar(params) {
+  return request({
+    url: '/star/addStar',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 演职人员-删除
+export function deleteStar(params) {
+  return request({
+    url: '/star/deleteStar',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 演职人员-查询
+export function getStarList(params) {
+  return request({
+    url: '/star/starList',
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'

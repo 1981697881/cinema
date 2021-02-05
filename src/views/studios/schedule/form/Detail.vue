@@ -131,7 +131,7 @@
                   <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
-              <el-table-column  label="操作" width="100">
+              <el-table-column align="center" label="操作" width="150">
                 <template slot-scope="scope">
                   <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;"
                         @click="pwdChange(scope.row,scope.$index,true)">
@@ -272,7 +272,7 @@
         this.form.startTime = val[0]
         this.form.endTime = val[1]
       },
-      //修改 sessinosId money memberMoney
+      //修改 sessionsId money memberMoney
       //修改
       pwdChange(row, index, cg) {
         if(this.sel == null){
@@ -280,14 +280,14 @@
         }
         //点击修改 判断是否已经保存所有操作
         for (let i of this.list) {
-          if (i.isSet && i.sessinosId != row.sessinosId) {
+          if (i.isSet && i.sessionsId != row.sessionsId) {
             this.$message.warning("请先保存当前编辑项");
             return false;
           }
         }
         //是否是取消操作
         if (!cg) {
-          if (!this.sel.sessinosId) this.list.splice(index, 1);
+          if (!this.sel.sessionsId) this.list.splice(index, 1);
           return row.isSet = !row.isSet;
         }
         //提交数据
