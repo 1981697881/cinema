@@ -62,13 +62,14 @@
               :data="imgData"
               :limit="3"
               name="imgS"
-              :on-success="uploadSuccess"
+              :on-success="uploadPosterSuccess"
               :on-error="uploadError"
               :class="{hide:hideUpload}"
               :on-preview="handlePictureCardPreview"
               :on-change="handleChange"
               :file-list="fileList"
               ref="upload"
+              :before-upload="beforeUploadImage"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -89,13 +90,14 @@
               :data="imgData"
               :limit="10"
               name="imgS"
-              :on-success="uploadSuccess"
+              :on-success="uploadStillSuccess"
               :on-error="uploadError"
               :class="{hide:hideUpload}"
               :on-preview="handlePictureCardPreview"
               :on-change="handleChange"
               :file-list="fileList"
               ref="upload"
+              :before-upload="beforeUploadImage"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -109,7 +111,7 @@
         <el-col :span="24" style="text-align: center">
           <el-form-item label="电影预告" prop="Video">
             <!-- action必选参数, 上传的地址 -->
-            <el-upload class="avatar-uploader el-upload--text" accept="video/*" :action="fileUrl"
+            <el-upload class="avatar-uploader el-upload--text" accept="video/*" :headers="headers" :action="fileUrl"
                        :show-file-list="false" :on-success="handleVideoSuccess" :before-upload="beforeUploadVideo"
                        :on-progress="uploadVideoProcess">
               <video v-if="form.Video !='' && videoFlag == false" :src="form.Video" class="avatar" controls="controls">
@@ -146,10 +148,10 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'关键字'" prop="filmKeyWords">
+          <el-form-item :label="'关键字'">
             <el-tag
               :key="tag"
-              v-for="tag in form.filmKeyWords"
+              v-for="tag in form.keyWords"
               closable
               :disable-transitions="false"
               @close="handleClose(tag)">
@@ -207,13 +209,13 @@
         </el-row>
         <el-row :span="20" style="padding-top: 15px">
           <el-col :span="12">
-            <el-form-item :label="'角色名称'" prop="orgAttr">
-              <el-input v-model="userform.takeBreaks"></el-input>
+            <el-form-item :label="'角色名称'" prop="roleName">
+              <el-input v-model="postform.roleName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="'职务'" prop="orgAttr">
-              <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+              <el-select v-model="postform.roleType" class="width-full" placeholder="请选择">
                 <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTT" :key="i"></el-option>
               </el-select>
             </el-form-item>
@@ -312,7 +314,7 @@
           'authorization': getToken('cinerx'),
         },
         starName: null,
-        dynamicTags: [],
+        keyWords: [],
         inputVisible: false,
         inputValue: '',
         visible: null,
@@ -320,9 +322,9 @@
         list: [],
         list2: [],
         columns1: [
-          {text: "名称", name: "startTime"},
-          {text: "职务", name: "startTime"},
-          {text: "角色名称", name: "takeBreaks"},
+          {text: "名称", name: "starName"},
+          {text: "职务", name: "roleType"},
+          {text: "角色名称", name: "roleName"},
         ],
         columns2: [
           {text: "名称", name: "starName"},
@@ -332,6 +334,7 @@
         fileUrl: '',
         imgData: {},
         images: [],
+        imagesPoster: [],
         hideUpload: false,
         dialogImageUrl: '',
         dialogVisible: false,
@@ -343,18 +346,17 @@
           filmIntro: null,
           filmDate: null,
           filmLong: 100,
-          filmPhoto: null,
-          still: null,
+          filmPhoto: [],
+          still: [],
           herald: null,
           filmSortid: null,
           showArea: null,
-          filmKeyWords: [],
+          keyWords: [],
         },
-        checkData: {},
+        checkData: null,
         postform: {
-          deptId: null,
-          deptCode: null, // 名称
-          deptName: null,
+          roleName: null, // 名称
+          roleType: null,
         },
         userform: {
           starSex: null,
@@ -411,7 +413,7 @@
     },
     methods: {
       listClick(obj){
-        console.log(this.obj)
+        console.log(obj)
         this.checkData = obj
       },
       deleteList(){
@@ -438,7 +440,7 @@
         this.visible2 = true
       },
       handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        this.form.keyWords.splice(this.form.keyWords.indexOf(tag), 1);
       },
       showInput() {
         this.inputVisible = true;
@@ -449,17 +451,39 @@
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
-          this.dynamicTags.push(inputValue);
+          this.form.keyWords.push(inputValue);
         }
         this.inputVisible = false;
         this.inputValue = '';
       },
       confirm() {
-        this.$refs['userform'].validate((valid) => {
+        let me = this
+        this.$refs['postform'].validate((valid) => {
           // 判断必填项
           if (valid) {
-            this.visible = false
-            this.setList(this.userform)
+            if(this.checkData != null){
+              let list = me.list
+              let number = 0
+              for(let val of list){
+                if(me.checkData.starId == val.starId && me.postform.roleType == val.roleType){
+                  number ++
+                }
+              }
+              if(number == 0){
+                me.visible = false
+                me.list.push({
+                  roleName: me.postform.roleName,
+                  starName: me.checkData.starName,
+                  roleType: me.postform.roleType,
+                  starId: me.checkData.starId,
+                })
+                me.checkData = null
+              }else{
+                this.$message.error('影讯内，不允许同职员同职务存在');
+              }
+            }else{
+              this.$message.error('无选中人员');
+            }
           } else {
             return false
           }
@@ -473,13 +497,20 @@
         this.postform = obj
       },
       beforeUploadVideo(file) {
-        const isLt10M = file.size / 1024 / 1024 < 10;
+        if(this.form.filmId == null || this.form.filmId == ''){
+          this.$message({
+            message: '请先保存影讯信息，再上传视频',
+            type: "warning"
+          });
+          return false
+        }
+        const isLt10M = file.size / 1024 / 1024 < 20;
         if (['video/mp4', 'video/ogg', 'video/flv', 'video/avi', 'video/wmv', 'video/rmvb'].indexOf(file.type) == -1) {
           this.$message.error('请上传正确的视频格式');
           return false;
         }
         if (!isLt10M) {
-          this.$message.error('上传视频大小不能超过10MB哦!');
+          this.$message.error('上传视频大小不能超过20MB哦!');
           return false;
         }
       },
@@ -490,6 +521,7 @@
         this.videoUploadPercent = Math.floor(event.percent)
       },
       handleVideoSuccess(res, file) {                               //获取上传图片地址
+        console.log(res.data)
         this.videoFlag = false;
         this.videoUploadPercent = 0;
         if (res.status == 200) {
@@ -508,20 +540,25 @@
         });
         this.$emit('uploadList')
       },
-      //上传成功事件
-      uploadSuccess(res, file, fileList) {
+      //海报上传成功
+      uploadPosterSuccess(res, file, fileList) {
         file.name = res.data;
-        this.images.push(res.data)
         this.$message({
           message: res.msg,
           type: "success"
         });
-        console.log(this.images)
-        this.$emit('uploadList')
-      }, //上传成功事件
+        this.form.filmPhoto.push(res.data)
+      }, //剧照上传成功
+      uploadStillSuccess(res, file, fileList) {
+        file.name = res.data;
+        this.$message({
+          message: res.msg,
+          type: "success"
+        });
+        this.form.still.push(res.data)
+      },
       uploadUserSuccess(res, file, fileList) {
         file.name = res.data;
-        this.images.push(res.data)
         this.$message({
           message: res.msg,
           type: "success"
@@ -541,8 +578,25 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
+      beforeUploadImage(){
+        if(this.form.filmId == null || this.form.filmId == ''){
+          this.$message({
+            message: '请先保存影讯信息，再上传图片',
+            type: "warning"
+          });
+          return false
+        }
+      },
       handleChange(file, fileList) {
-        this.hideUpload = fileList.length >= this.limitCount;
+        if(this.form.filmId != null && this.form.filmId != ''){
+          this.hideUpload = fileList.length >= this.limitCount;
+        }else{
+          this.$message({
+            message: '请先保存影讯信息，再上传图片',
+            type: "warning"
+          });
+          return false
+        }
       },
       saveData(form) {
         this.$refs[form].validate((valid) => {
@@ -550,7 +604,7 @@
           if (valid) {
             //修改
             addMovie(this.form).then(res => {
-              this.$emit('hideDialog', false)
+             /* this.$emit('hideDialog', false)*/
               this.$emit('uploadList')
             });
           } else {

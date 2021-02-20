@@ -69,7 +69,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
+    <div slot="footer" style="text-align:center;">
         <el-button type="primary" @click="saveData('form')">保存</el-button>
       </div>
   </div>
@@ -212,4 +212,5 @@ export default {
 </script>
 
 <style>
+
 </style>

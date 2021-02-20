@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="60px">
+    <el-form :model="form" :rules="rules" ref="form" label-width="90px">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'电影'" prop="orgAttr">
@@ -21,6 +21,13 @@
               placeholder="选择日期"
               :picker-options="pickerOptions">
             </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'会员手机号'">
+            <el-input v-model="form.phone"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
