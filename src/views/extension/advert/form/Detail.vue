@@ -3,15 +3,22 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'广告位置'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+          <el-form-item :label="'广告位置'" prop="posterLocation">
+            <el-select v-model="form.posterLocation" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'广告名称'" >
-            <el-input v-model="form.contact"></el-input>
+          <el-form-item :label="'广告名称'" prop="posterName">
+            <el-input v-model="form.posterName"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'广告内容'" >
+            <el-input type="textarea" v-model="form.posterContent"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -45,7 +52,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'广告链接'" >
-            <el-input v-model="form.contact"></el-input>
+            <el-input v-model="form.posterUrl"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -56,6 +63,7 @@
               v-model="value"
               type="datetimerange"
               align="right"
+              @change="dateChange"
               style="width: auto"
               class="input-class"
               unlink-panels
@@ -93,13 +101,14 @@ export default {
         'authorization': getToken('cinerx'),
       },
       form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        description: null,
+        posterStartdatetime: null,
+        posterEnddatetime: null,
+        posterLocation: null,
+        posterName: null,
+        posterType: null,
+        posterUrl: null,
+        posterPhoto: null,
+        posterContent: null,
       },
       fileUrl: '',
       imgData: {},
@@ -139,7 +148,7 @@ export default {
       },
       pidS:[],
       pArray:[],
-      levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
+      levelFormat: [['主页', '主页']],
       rules: {
         loPrName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
@@ -157,6 +166,10 @@ export default {
     }
   },
   methods: {
+    dateChange(val){
+      this.form.posterStartdatetime = val[0]
+      this.form.posterEnddatetime = val[0]
+    },
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项
@@ -182,12 +195,11 @@ export default {
     //上传成功事件
     uploadSuccess(res, file, fileList) {
       file.name = res.data;
-      this.images.push(res.data)
+      this.form.posterPhoto = res.data
       this.$message({
         message: res.msg,
         type: "success"
       });
-      console.log(this.images)
       this.$emit('uploadList')
     },
     //删除图片
@@ -211,6 +223,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+  .hide .el-upload--picture-card {
+    display: none;
+  }
 </style>

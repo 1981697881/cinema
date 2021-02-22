@@ -60,7 +60,7 @@
               accept="image/jpeg,image/jpg,image/png,image/gif"
               :headers="headers"
               :data="imgData"
-              :limit="3"
+              :limit="1"
               name="imgS"
               :on-success="uploadPosterSuccess"
               :on-error="uploadError"
@@ -88,7 +88,7 @@
               accept="image/jpeg,image/jpg,image/png,image/gif"
               :headers="headers"
               :data="imgData"
-              :limit="10"
+              :limit="1"
               name="imgS"
               :on-success="uploadStillSuccess"
               :on-error="uploadError"
@@ -497,13 +497,13 @@
         this.postform = obj
       },
       beforeUploadVideo(file) {
-        if(this.form.filmId == null || this.form.filmId == ''){
+       /* if(this.form.filmId == null || this.form.filmId == ''){
           this.$message({
             message: '请先保存影讯信息，再上传视频',
             type: "warning"
           });
           return false
-        }
+        }*/
         const isLt10M = file.size / 1024 / 1024 < 20;
         if (['video/mp4', 'video/ogg', 'video/flv', 'video/avi', 'video/wmv', 'video/rmvb'].indexOf(file.type) == -1) {
           this.$message.error('请上传正确的视频格式');
@@ -579,24 +579,16 @@
         this.dialogVisible = true;
       },
       beforeUploadImage(){
-        if(this.form.filmId == null || this.form.filmId == ''){
+       /* if(this.form.filmId == null || this.form.filmId == ''){
           this.$message({
             message: '请先保存影讯信息，再上传图片',
             type: "warning"
           });
           return false
-        }
+        }*/
       },
       handleChange(file, fileList) {
-        if(this.form.filmId != null && this.form.filmId != ''){
-          this.hideUpload = fileList.length >= this.limitCount;
-        }else{
-          this.$message({
-            message: '请先保存影讯信息，再上传图片',
-            type: "warning"
-          });
-          return false
-        }
+        this.hideUpload = fileList.length >= this.limitCount;
       },
       saveData(form) {
         this.$refs[form].validate((valid) => {
@@ -651,5 +643,10 @@
     width: 90px;
     margin-left: 10px;
     vertical-align: bottom;
+  }
+</style>
+<style lang="scss">
+  .hide .el-upload--picture-card {
+    display: none;
   }
 </style>

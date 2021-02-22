@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getClerkList,delClerk} from "@/api/basic/index";
+import { getMemberList,delClerk} from "@/api/member/index";
 import List from "@/components/List";
 
 export default {
@@ -33,14 +33,15 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "会员名称", name: "name" },
-        { text: "微信号", name: "" },
-        { text: "联系地址", name: "address" },
-        { text: "联系电话", name: "tel" },
-        { text: "注册时间", name: "tel" },
-        { text: "最后登录时间", name: "tel" },
-        { text: "生日", name: "tel" },
-        { text: "描述", name: "remark" },
+        { text: "会员名称", name: "username" },
+        { text: "微信号", name: "wechatId" },
+        { text: "联系地址", name: "adress" },
+        { text: "联系电话", name: "phoneNumber" },
+        { text: "注册时间", name: "createDatetime" },
+        { text: "最后登录时间", name: "editDatetime" },
+        { text: "生日", name: "birthday" },
+        { text: "性别", name: "sex" },
+        { text: "描述", name: "describes" },
       ]
     };
   },
@@ -80,11 +81,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        getClerkList(data, val).then(res => {
+      this.loading = true;
+        getMemberList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

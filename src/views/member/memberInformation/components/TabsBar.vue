@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.name" placeholder="名称"/>
+            <el-input v-model="search.phoneNumber" placeholder="名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -12,11 +12,11 @@
         </el-col>
         <el-button-group style="float:right">
         <!--  <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
+          <!--<el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handleAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="alter">修改</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>-->
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -36,7 +36,7 @@ export default {
     return {
       btnList: [],
       search: {
-        name: null
+        phoneNumber: null
       }
     };
   },
@@ -119,12 +119,12 @@ export default {
     },
     upload() {
       this.$emit('uploadList')
-      this.search.name = ''
+      this.search.phoneNumber = ''
     },
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.name != null && this.search.name != '' ? obj.name = this.search.name : null
+      this.search.phoneNumber != null && this.search.phoneNumber != '' ? obj.phoneNumber = this.search.phoneNumber : null
       return obj
     },
     handleAdd(){

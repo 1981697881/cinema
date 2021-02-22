@@ -21,7 +21,7 @@
         <el-col :span="12">
           <el-form-item :label="'影片'" prop="filmId">
             <el-select v-model="form.filmId" class="width-full" placeholder="请选择">
-              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
+              <el-option :label="t.filmName" :value="t.filmId" v-for="(t,i) in nArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -158,7 +158,7 @@
 </template>
 
 <script>
-  import {createMDetailCal, addMarshallin, hallFormat} from "@/api/studios/index";
+  import {createMDetailCal, addMarshallin, hallFormat,movieFormat} from "@/api/studios/index";
   import {locationFormat} from "@/api/basic/index";
 
   export default {
@@ -200,6 +200,7 @@
         pidS: [],
         pArray: [],
         rArray: [],
+        nArray: [],
         rules: {
           cinemaId: [
             {required: true, message: '请选择', trigger: 'change'}
@@ -347,6 +348,8 @@
               let obj = {}
               obj.marshallinDetails = this.list
               obj.hallId = this.form.hallId
+              obj.money = this.form.money
+              obj.memberMoney = this.form.memberMoney
               obj.cinemaId = this.form.cinemaId
               obj.startDate = this.form.startDate
               obj.endDate = this.form.endDate
@@ -370,6 +373,11 @@
         locationFormat().then(res => {
           if (res.flag) {
             this.pArray = res.data
+          }
+        })
+        movieFormat().then(res => {
+          if (res.flag) {
+            this.nArray = res.data
           }
         })
       },

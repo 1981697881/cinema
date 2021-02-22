@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getMDetailList, delSupplier} from "@/api/studios/index";
 import List from "@/components/List";
 
 export default {
@@ -33,16 +33,16 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "" },
-        { text: "影厅名称", name: "" },
-        { text: "影片名称", name: "" },
+        { text: "影城名称", name: "cinemaName" },
+        { text: "影厅名称", name: "hallName" },
+        { text: "影片名称", name: "filmName" },
         { text: "场次", name: "" },
         { text: "开场时间", name: "" },
         { text: "散场时间", name: "" },
-        { text: "座位数", name: "" },
-        { text: "正常票价", name: "" },
-        { text: "团体票价", name: "" },
-        { text: "状态", name: "" },
+        { text: "座位数", name: "hallNumber" },
+        { text: "正常票价", name: "hallType" },
+        { text: "团体票价", name: "memberMoney" },
+        { text: "状态", name: "status" },
       ]
     };
   },
@@ -78,21 +78,15 @@ export default {
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
     },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getMDetailList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

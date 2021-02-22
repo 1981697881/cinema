@@ -42,6 +42,18 @@ export function hallFormat(params) {
     method: 'post',
     data: params
   })
+}// 影片信息-下拉
+export function movieFormat(params) {
+  const url = '/movie/movieFormat'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
 }
 // 影厅管理-删除
 export function deleteHall(params) {
@@ -102,5 +114,18 @@ export function addMarshallin(params) {
     },
     data: params,
     method: 'post'
+  })
+}
+// 场次管理-获取列表
+export function getMDetailList(params, data) {
+  const url = '/marshallinDetail/mDetailList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
   })
 }
