@@ -162,6 +162,7 @@ export default {
   mounted() {
     this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
     if (this.listInfo) {
+
       this.form = this.listInfo
     }
   },
