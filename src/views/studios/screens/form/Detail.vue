@@ -113,6 +113,7 @@ export default {
   methods: {
     produce(){
       let array = []
+      this.seat = []
       for(let i = 0;i <this.form.line;i++){
        let arr = []
         for(let j = 0;j <this.form.column;j++){
@@ -154,7 +155,7 @@ export default {
 <style type="scss">
   .seat .el-form-item__content{
     height: 250px;
-    overflow-y: hidden;
+    overflow: auto;
   }
   .el-form-item__error{
     display: contents;

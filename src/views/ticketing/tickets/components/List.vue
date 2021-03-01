@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getTicketList} from "@/api/workbench/index";
 import List from "@/components/List";
 
 export default {
@@ -65,12 +65,6 @@ export default {
         }
       });
     },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
@@ -85,11 +79,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+        getTicketList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

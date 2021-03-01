@@ -54,6 +54,7 @@ export default {
     qFilter() {
       let obj = {}
       this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      obj.status = 1
       return obj
     },
     // 关键字查询
