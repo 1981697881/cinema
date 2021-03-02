@@ -3,9 +3,9 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="90px">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'电影'" prop="orgAttr">
-            <el-select v-model="form.orgAttr" clearable filterable class="width-full" placeholder="请选择">
-              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
+          <el-form-item :label="'电影'" prop="filmId">
+            <el-select v-model="form.filmId" clearable filterable class="width-full" placeholder="请选择">
+              <el-option :label="t.filmName" :value="t.filmId" v-for="(t,i) in pArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -62,7 +62,8 @@
 </template>
 
 <script>
-  import { alterSupplier, addSupplier } from "@/api/basic/index";
+  import { detailById } from "@/api/workbench/index";
+  import { movieFormat } from "@/api/basic/index";
   import List from "@/components/List";
   export default {
     props: {
@@ -116,7 +117,7 @@
         pArray:[],
         levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
         rules: {
-          orgAttr: [
+          filmId: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
           value2: [
@@ -132,17 +133,30 @@
       }
     },
     methods: {
+      dblclick(obj) {
+        console.log(obj)
+      },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
-            this.visible = true
+            detailById(this.form).then(res => {
+              if(res.flag){
+                this.list = res.data
+                this.visible = true
+              }
+            });
           }else {
             return false;
           }
         })
       },
       fetchFormat() {
+        movieFormat({}).then(res => {
+          if(res.flag){
+            this.pArray = res.data
+          }
+        });
       },
     }
   };

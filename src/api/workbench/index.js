@@ -16,3 +16,16 @@ export function getTicketList(params, data) {
     data: data
   })
 }
+//票劵售卖-获取场次座位信息
+export function detailById(params) {
+  return request({
+    url: '/marshallinDetail/detailById',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+

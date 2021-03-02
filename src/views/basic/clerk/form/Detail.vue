@@ -95,7 +95,7 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          /*if (typeof (this.form.eid) != undefined && this.form.eid != null) {
+          if (typeof (this.form.eid) != undefined && this.form.eid != null) {
             alterClerk(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
@@ -105,7 +105,7 @@ export default {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
-          }*/
+          }
         } else {
           return false;
         }
