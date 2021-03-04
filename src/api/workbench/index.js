@@ -27,5 +27,16 @@ export function detailById(params) {
     data: params,
     method: 'post'
   })
+}//票劵售卖-生成订单
+export function lockSeats(params) {
+  return request({
+    url: '/engross/lockSeats',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }
 
