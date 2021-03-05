@@ -1,7 +1,8 @@
 <template>
   <div>
     <!--排期详情和座位上方示例图 开始-->
-    <plan-detail @showDialog="handlerDialog" :propHallName="hallName" :titleText="movieName" :propShowDate="showDate" :propShowTime="showTime">
+    <plan-detail @showDialog="handlerDialog" :propHallName="hallName" :titleText="movieName" :propShowDate="showDate"
+                 :propShowTime="showTime">
       <template v-for="seatTypeItem in seatTypeList">
         <div class="seat-detail-item" :key="'seatType'+seatTypeItem.type"
              v-if="seatTypeItem.isShow==='1' && seatTypeItem.position==='up'">
@@ -12,7 +13,8 @@
     </plan-detail>
     <div class="wapper">
       <!--排期详情和座位上方示例图 结束-->
-      <seat-area :titleText="movieName" :propThumbnailAreaWidth="thumbnailBoxWidth" :propThumbnailAreaHeight="thumbnailBoxHeight"
+      <seat-area :titleText="movieName" :propThumbnailAreaWidth="thumbnailBoxWidth"
+                 :propThumbnailAreaHeight="thumbnailBoxHeight"
                  :propYMax="yMax" :propSeatScale="seatScale" :propSeatHeight="positionDistin"
                  :propSeatToolArr="seatToolArr"
                  :propSeatAreaWidthRem="seatAreaWidthRem" :propSeatAreaHeightRem="seatAreaHeightRem+10"
@@ -57,6 +59,7 @@
           :propSelectedSeat="selectedSeatList"
           :propSeatList="seatList"
           :countPrice="countPrice"
+          @uploadList="getSeatList"
           @loading="loading"
         ></confirm-lock>
       </div>
@@ -82,6 +85,7 @@
   import QuickSelectTab from './component/QuickSelectTab'
   import ConfirmLock from './component/ConfirmLock'
   import Loading from '@/components/loading'
+  import {detailSeats} from "@/api/workbench/index";
   import seatLove from '@/seatLove';
 
   export default {
@@ -89,6 +93,7 @@
     data() {
       return {
         visible: null,
+        row: {},
         seatList: [], // 座位对象list
         seatTypeList: [], // 座位类型list
         movieName: '', // 展示用 电影名称 接口获取
@@ -103,7 +108,7 @@
         thumbnailPositionDistin: 0.15, // 缩略图每个座位偏移距离
         seatAreaWidthRem: 100, // 座位区域横向rem最大值 用于和 seatAreaHeightRem 共同计算区域缩放比例
         selectedSeatList: [], // 已选择座位
-        maxSelect: 10, // 最大选择座位数量 改动可改变最大选择座位数
+        maxSelect: 10, // 最大选择座位数量 改动 可改变最大选择座位数
         load: false // 加载dom的控制
       }
     },
@@ -119,7 +124,7 @@
     mounted() {
       this.visible = true
       this.loading(true)
-      this.getSeatList()
+
       this.loading(false)
     },
     // // fixme 这里确认是否还需要
@@ -139,73 +144,96 @@
         this.visible = val
       },
       // 请求影院列表数据
-      getSeatList: function () {
-        let response = seatLove
-        var resSeatList = response.seatList
-        resSeatList.forEach(element => {
-          // 获取座位的类型的首字母
-          let firstNumber = element.type.substr(0, 1)
-          // 在原来的对象中加入两个属性  otherLoveSeatIndex 对应情侣座位的原数组下标 otherLoveSeatId  对应情侣座位的Id
-          element.otherLoveSeatIndex = null
-          element.otherLoveSeatId = null
-          // 座位的类型的首字母为 '1' 是情侣首座 处理情侣首座位
-          if (firstNumber === '1') {
-            for (const index in resSeatList) {
-              if (resSeatList[index].gRow === element.gRow &&
-                resSeatList[index].gCol === element.gCol + 1) {
-                element.otherLoveSeatIndex = index
-                element.otherLoveSeatId = resSeatList[index].id
-              }
-            }
-          }
-          // 座位的类型的首字母为 '2' 是情侣次座 处理情侣次座位
-          if (firstNumber === '2') {
-            for (const index in resSeatList) {
-              if (resSeatList[index].gRow === element.gRow &&
-                resSeatList[index].gCol === element.gCol - 1) {
-                element.otherLoveSeatIndex = index
-                element.otherLoveSeatId = resSeatList[index].id
-              }
-            }
-          }
-          // 加载座位的图标
-          for (const item of response.seatTypeList) {
-            // 加载每个座位的初始图标defautIcon 和 当前图标 nowIcon
-            if (element.type === item.type) {
-              element.nowIcon = item.icon
-              element.defautIcon = item.icon
-            }
-            // 根据首字母找到对应的被选中图标
-            if (firstNumber + '-1' === item.type) {
-              element.selectedIcon = item.icon
-            }
-            // 根据首字母找到对应的被选中图标
-            if (firstNumber + '-2' === item.type) {
-              element.soldedIcon = item.icon
-            }
-            // 根据首字母找到对应的被选中图标
-            if (firstNumber + '-3' === item.type) {
-              element.fixIcon = item.icon
-            }
-          }
-          // 如果座位是已经售出 和 维修座位 加入属性canClick 判断座位是否可以点击
-          if (element.defautIcon === element.soldedIcon || element.defautIcon === element.fixIcon) {
-            element.canClick = false
-          } else {
-            element.canClick = true
-          }
-        })
-        // 座位处理 -------结束
-        // 开始处理上方影片信息显示数据
-        var temp = response.showTime
-        if (temp.length === 19) {
-          this.showDate = temp.substring(0, 10) + '(' + temp.substring(11, 13) + ')'
-          this.showTime = temp.substring(14, 19)
+      getSeatList: function (row = this.row) {
+        if(this.row){
+          this.row = row
         }
-        this.seatList = resSeatList
-        this.seatTypeList = response.seatTypeList
-        this.movieName = response.movieName
-        this.hallName = response.name
+        this.selectedSeatList = []
+        detailSeats({sessionsId: row.sessionsId}).then(res => {
+          if (res.flag) {
+            let response = row
+            let seatType = seatLove
+            var resSeatList = this.colationData(res.data)
+            resSeatList.forEach(element => {
+              // 获取座位的类型的首字母
+              let firstNumber = element.type.substr(0, 1)
+              // 在原来的对象中加入两个属性  otherLoveSeatIndex 对应情侣座位的原数组下标 otherLoveSeatId  对应情侣座位的Id
+              element.otherLoveSeatIndex = null
+              element.otherLoveSeatId = null
+              // 座位的类型的首字母为 '1' 是情侣首座 处理情侣首座位
+              if (firstNumber === '1') {
+                for (const index in resSeatList) {
+                  if (resSeatList[index].gRow === element.gRow &&
+                    resSeatList[index].gCol === element.gCol + 1) {
+                    element.otherLoveSeatIndex = index
+                    element.otherLoveSeatId = resSeatList[index].id
+                  }
+                }
+              }
+              // 座位的类型的首字母为 '2' 是情侣次座 处理情侣次座位
+              if (firstNumber === '2') {
+                for (const index in resSeatList) {
+                  if (resSeatList[index].gRow === element.gRow &&
+                    resSeatList[index].gCol === element.gCol - 1) {
+                    element.otherLoveSeatIndex = index
+                    element.otherLoveSeatId = resSeatList[index].id
+                  }
+                }
+              }
+              // 加载座位的图标
+              for (const item of seatType.seatTypeList) {
+                // 加载每个座位的初始图标defautIcon 和 当前图标 nowIcon
+                if (element.type === item.type) {
+                  element.nowIcon = item.icon
+                  element.defautIcon = item.icon
+                }
+                // 根据首字母找到对应的被选中图标
+                if (firstNumber + '-1' === item.type) {
+                  element.selectedIcon = item.icon
+                }
+                // 根据首字母找到对应的被选中图标
+                if (firstNumber + '-2' === item.type) {
+                  element.soldedIcon = item.icon
+                }
+                // 根据首字母找到对应的被选中图标
+                if (firstNumber + '-3' === item.type) {
+                  element.fixIcon = item.icon
+                }
+              }
+              // 如果座位是已经售出 和 维修座位 加入属性canClick 判断座位是否可以点击
+              if (element.defautIcon === element.soldedIcon || element.defautIcon === element.fixIcon) {
+                element.canClick = false
+              } else {
+                element.canClick = true
+              }
+            })
+            // 座位处理 -------结束
+            // 开始处理上方影片信息显示数据
+            this.showDate = response.sessionsDate
+            this.showTime = response.sessionsStarttime
+            this.seatList = resSeatList
+            this.seatTypeList = seatType.seatTypeList
+            this.movieName = response.filmName
+            this.hallName = response.hallName
+          }
+        });
+      },
+      //过滤数据
+      colationData(data) {
+        let data2 = [];
+        data.map((value, index, arry) => {
+          data2.push({
+            'id': value.sid,
+            'row': value.rowNum,
+            'col': value.columnNum,
+            'gRow': value.ycoord,
+            'gCol': value.xcoord,
+            'type': value.status == '1' ? '0-2' : value.status,
+            'flag': '0',
+            'price': value.money,
+          })
+        })
+        return data2
       },
       // 点击每个座位触发的函数
       clickSeat: function (index) {
@@ -251,14 +279,14 @@
       // 处理未选择的座位
       processUnSelected: function (index) {
         // 如果是选择第一个座位 放大区域并移动区域 突出座位 增加用户体验
-       /* if (this.selectedSeatList.length === 0) {
-          let top = ((this.seatList[index].gRow * this.positionDistin) - this.horizontalLine) * this.seatScale
-          let left = ((this.seatList[index].gCol * this.positionDistin) - this.middleLine) * this.seatScale
-          top = top > 0 ? -top - this.positionDistin : -top + this.positionDistin
-          left = left > 0 ? -left - this.positionDistin : -left + this.positionDistin
-          this.$refs.seatArea.changeScale()
-          this.$refs.seatArea.changePosition(top, left)
-        }*/
+        /* if (this.selectedSeatList.length === 0) {
+           let top = ((this.seatList[index].gRow * this.positionDistin) - this.horizontalLine) * this.seatScale
+           let left = ((this.seatList[index].gCol * this.positionDistin) - this.middleLine) * this.seatScale
+           top = top > 0 ? -top - this.positionDistin : -top + this.positionDistin
+           left = left > 0 ? -left - this.positionDistin : -left + this.positionDistin
+           this.$refs.seatArea.changeScale()
+           this.$refs.seatArea.changePosition(top, left)
+         }*/
         let _selectedSeatList = this.selectedSeatList
         let otherLoveSeatIndex = this.seatList[index].otherLoveSeatIndex
         if (otherLoveSeatIndex !== null) {
@@ -310,10 +338,10 @@
       }
     },
     computed: {
-      countPrice: function() {
+      countPrice: function () {
         let select = this.selectedSeatList
         let count = 0
-        for(let item of select){
+        for (let item of select) {
           count += Number(item.price)
         }
         return count
@@ -414,32 +442,40 @@
     display flex
     position relative
     align-content center
+
     .seatTypeClass
       display block
       height 35px
       line-height 35px
       white-space: nowrap
+
   .wapper
     height: 100%
     width 100%
     display flex
     position relative
     background #f3f4f6
+
     .select-module
       display flex
       position relative
       width 20rem
-      border-left 1px solid 	#CDBE70
+      border-left 1px solid #CDBE70
+
     .thumbnailSeatClass
       position absolute
+
     .seatBox
       display inline-block
       position relative
+
       .middle-line
         position absolute
         border-right 0.05rem rgba(0, 0, 0, 0.3) dashed
+
       .seatClass
         position absolute
+
         .seatImgClass
           position absolute
           left 0

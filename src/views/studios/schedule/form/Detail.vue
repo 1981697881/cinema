@@ -20,14 +20,14 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'影片'" prop="filmId">
-            <el-select v-model="form.filmId" class="width-full" placeholder="请选择">
+            <el-select v-model="form.filmId" class="width-full" placeholder="请选择" @change="changeFilm">
               <el-option :label="t.filmName" :value="t.filmId" v-for="(t,i) in nArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'电影时长'" prop="filmLong">
-            <el-input-number v-model="form.filmLong" :min="1"></el-input-number>
+            <el-input-number v-model="form.filmLong" disabled :min="1"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -152,7 +152,7 @@
       </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
-      <el-button type="primary" @click="saveData('form')">保存</el-button>
+      <el-button type="primary" :disabled="isBtn" @click="saveData('form')">保存</el-button>
     </div>
   </div>
 </template>
@@ -170,6 +170,7 @@
     },
     data() {
       return {
+        isBtn: false,
         list: [],
         sel: null, // 选中行
         columns: [
@@ -249,6 +250,13 @@
       }
     },
     methods: {
+      changeFilm(val){
+        this.nArray.forEach((item,index)=>{
+          if(item.filmId === val){
+            this.form.filmLong = item.filmLong
+          }
+        })
+      },
       changeListDate(val, row) {
         this.$set(row, 'FPlanFinishDate', val)
       },
@@ -345,6 +353,7 @@
           // 判断必填项
           if (valid) {
             if (this.list.length > 0) {
+              this.isBtn = true
               let obj = {}
               obj.marshallinDetails = this.list
               obj.hallId = this.form.hallId

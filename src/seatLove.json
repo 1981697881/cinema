@@ -1286,7 +1286,7 @@
           "type": "0-3",
           "seats": 1,
           "icon": "https://i.postimg.cc/BZVRbCcY/image.png",
-          "isShow": "1",
+          "isShow": "0",
           "position": "up"
       },
       {
@@ -1358,7 +1358,7 @@
           "type": "5",
           "seats": 2,
           "icon": "https://i.postimg.cc/85kxJK03/image.png",
-          "isShow": "1",
+          "isShow": "0",
           "position": "up"
       }
   ],

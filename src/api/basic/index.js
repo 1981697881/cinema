@@ -144,18 +144,6 @@ export function getMovieList(params, data) {
   })
 }
 
-// 影片-下拉
-export function movieFormat() {
-  const url = '/location/movieFormat'
-  return request({
-    url: url,
-    headers: {
-      'authorization': getToken('cinerx'),
-    },
-    method: 'POST',
-  })
-}
-
 // 影片-新增
 export function addMovie(params) {
   const url = '/movie/addMovie'

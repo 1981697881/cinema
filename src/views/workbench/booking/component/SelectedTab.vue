@@ -83,7 +83,8 @@ export default {
   overflow hidden
   .scroll
     position absolute
-    height 140px
+    height 81%
+    overflow-y scroll
     width 100%
     top 0
     left 0

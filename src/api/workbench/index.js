@@ -19,7 +19,7 @@ export function getTicketList(params, data) {
 //票劵售卖-获取场次座位信息
 export function detailById(params) {
   return request({
-    url: '/marshallinDetail/detailById',
+    url: '/marshallinDetail/detailByFId',
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
@@ -31,6 +31,18 @@ export function detailById(params) {
 export function lockSeats(params) {
   return request({
     url: '/engross/lockSeats',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+//票劵售卖-查询座位
+export function detailSeats(params) {
+  return request({
+    url: '/engross/detailSeats',
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'

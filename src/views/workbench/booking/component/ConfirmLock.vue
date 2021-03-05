@@ -22,6 +22,7 @@ export default {
   data () {
     // 这里存放数据
     return {
+      isBtn: false,
       selectedSeat: this.propSelectedSeat,
       seatList: this.propSeatList
     }
@@ -94,7 +95,26 @@ export default {
       }
     },
     createOrder () {
-      alert('在这里开始走锁座逻辑')
+      let seats = []
+      this.propSelectedSeat.forEach((item)=>{
+        seats.push(item.id)
+      })
+      if(!this.isBtn){
+        this.isBtn = true
+        lockSeats({sIds: seats}).then(res => {
+          if(res.flag){
+            this.$emit('uploadList')
+            this.countPrice = 0
+          }else{
+            this.isBtn = false
+          }
+        });
+      }else{
+        this.$message({
+          message: "请不要多次点击",
+          type: "warning"
+        })
+      }
     },
     // 检查每个座位是否会留下空位
     checkSeat: function (element) {

@@ -12,12 +12,13 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'时间'" prop="value2">
+          <el-form-item :label="'时间'" prop="sessionsDate">
             <el-date-picker
-              v-model="form.value2"
+              v-model="form.sessionsDate"
               align="right"
               type="date"
               style="width: 100% "
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
               :picker-options="pickerOptions">
             </el-date-picker>
@@ -46,13 +47,10 @@
             :loading="loading"
             :list="list"
             index
-            type
+            height="300px"
             @dblclick="dblclick"
           />
         </el-form>
-        <div slot="footer" style="text-align:center;padding-top: 15px">
-          <el-button type="primary" @click="confirm">确认</el-button>
-        </div>
       </el-dialog>
     </el-form>
     <div slot="footer" style="text-align:center">
@@ -63,7 +61,7 @@
 
 <script>
   import { detailById } from "@/api/workbench/index";
-  import { movieFormat } from "@/api/basic/index";
+  import { movieFormat } from "@/api/studios/index";
   import List from "@/components/List";
   export default {
     props: {
@@ -78,15 +76,16 @@
     data() {
       return {
         form: {
-          value2: null,
-          orgAttr: null,
+          filmId: null,
+          sessionsDate: null,
         },
+        loading: false,
         visible: null,
-        list: {},
+        list: [],
         columns: [
-          {text: "影厅", name: "startTime"},
-          {text: "场次", name: "startTime"},
-          {text: "余位", name: "takeBreaks"},
+          {text: "影厅", name: "hallName"},
+          {text: "场次", name: "sessionsStarttime"},
+          {text: "余位", name: "residueCount"},
         ],
         pickerOptions: {
           disabledDate(time) {
@@ -120,7 +119,7 @@
           filmId: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
-          value2: [
+          sessionsDate: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
         },
@@ -134,15 +133,18 @@
     },
     methods: {
       dblclick(obj) {
-        console.log(obj)
+        this.$emit('uploadList',obj.row)
+        this.$emit('hideDialog',false)
       },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
+            this.loading = true;
             detailById(this.form).then(res => {
               if(res.flag){
-                this.list = res.data
+                this.loading = false;
+                this.list = {records:res.data}
                 this.visible = true
               }
             });
