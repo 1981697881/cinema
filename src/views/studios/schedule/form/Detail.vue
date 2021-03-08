@@ -46,12 +46,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'正常票价'" prop="money">
-            <el-input-number v-model="form.money" :min="1"></el-input-number>
+            <el-input-number v-model="form.money" :min="0.1"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'团体票价'" prop="memberMoney">
-            <el-input-number v-model="form.memberMoney" :min="1"></el-input-number>
+            <el-input-number v-model="form.memberMoney" :min="0.1"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>

@@ -60,13 +60,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.marshallinId) {
+        this.$confirm('是否删除(' + this.clickData.marshallinId + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          this.$emit('delList', this.clickData.marshallinId)
         }).catch(() => {
           this.$message({
             type: 'info',
