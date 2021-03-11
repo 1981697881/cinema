@@ -162,8 +162,10 @@ export default {
   mounted() {
     this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
     if (this.listInfo) {
-
       this.form = this.listInfo
+      this.fileList.push({
+        url: this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.img
+      })
     }
   },
   methods: {
