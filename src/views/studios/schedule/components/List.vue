@@ -38,8 +38,8 @@ export default {
         { text: "上映时间", name: "startDate" },
         { text: "结束时间", name: "endDate" },
         { text: "场次", name: "sessionsNumber" },
-        { text: "正常票价", name: "" },
-        { text: "优惠票价", name: "" },
+        { text: "正常票价", name: "money" },
+        { text: "优惠票价", name: "memberMoney" },
       ]
     };
   },

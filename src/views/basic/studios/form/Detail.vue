@@ -44,7 +44,7 @@
           <el-form-item :label="'标签'" prop="orgAttr">
             <el-tag
               :key="tag"
-              v-for="tag in form.dynamicTags"
+              v-for="tag in form.keysWord"
               closable
               :disable-transitions="false"
               @close="handleClose(tag)">
@@ -92,7 +92,7 @@ export default {
         cinemaPhone: null,
         cinemaTel: null,
         cinemaMessage: null,
-        dynamicTags: [],
+        keysWord: [],
       },
       pidS:[],
       pArray:[],

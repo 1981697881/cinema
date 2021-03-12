@@ -342,7 +342,7 @@
         let select = this.selectedSeatList
         let count = 0
         for (let item of select) {
-          count += Number(item.price)
+          count =((count*1000) + (Number(item.price)*1000))/1000
         }
         return count
       },

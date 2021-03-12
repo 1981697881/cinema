@@ -130,9 +130,9 @@
           <el-form-item :label="'演职人员'" prop="orgAttr">
             <div style="margin-top: 20px;margin-bottom: 10px">
               <el-button @click="setRow">添加</el-button>
+              <el-button @click="delRow">删除</el-button>
             </div>
-            <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true"
-                      @row-dblclick="dblclick">
+            <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true"  @row-click="yzClick">
               <el-table-column
                 v-for="(t,i) in columns1"
                 :key="i"
@@ -354,6 +354,7 @@
           keyWords: [],
         },
         checkData: null,
+        checkYzData: null,
         postform: {
           roleName: null, // 名称
           roleType: null,
@@ -409,12 +410,43 @@
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
         this.form = this.listInfo
+        this.list = this.listInfo.filmRoleVOS
       }
     },
     methods: {
       listClick(obj){
-        console.log(obj)
         this.checkData = obj
+      },
+      yzClick(obj){
+        console.log(obj)
+        this.checkYzData = obj
+      },
+      delRow(){
+        if (this.checkYzData.starId) {
+          this.$confirm('是否删除(' + this.checkYzData.starName + ')，删除后将无法恢复?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+              this.list.some((item,index)=>{
+                if(this.checkYzData.starId == item.starId && this.checkYzData.roleType === item.roleType){
+                  console.log(index)
+                  this.list.splice(index, 1)
+                  return true
+                }
+              })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        } else {
+          this.$message({
+            message: '无选中行',
+            type: 'warning'
+          })
+        }
       },
       deleteList(){
         deleteStar({starId: [this.checkData.starId]}).then(res => {
@@ -516,12 +548,10 @@
       },
 
       uploadVideoProcess(event, file, fileList) {
-        console.log(event.percent, file, fileList)
         this.videoFlag = true
         this.videoUploadPercent = Math.floor(event.percent)
       },
       handleVideoSuccess(res, file) {                               //获取上传图片地址
-        console.log(res.data)
         this.videoFlag = false;
         this.videoUploadPercent = 0;
         if (res.status == 200) {
@@ -533,7 +563,6 @@
       },
       //上传失败事件
       uploadError(res) {
-        console.log(res)
         this.$message({
           message: res.msg,
           type: "warning"

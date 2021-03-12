@@ -3,39 +3,30 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'开场时间'">
-            <el-date-picker
-              v-model="form.putTime"
-              align="right"
-              type="datetime"
-              style="width: auto"
-              placeholder="选择日期"
-              :picker-options="pickerOptions">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'散场时间'">
-            <el-date-picker
-              v-model="form.putTime"
-              align="right"
-              style="width: auto"
-              type="datetime"
-              placeholder="选择日期"
-              :picker-options="pickerOptions">
-            </el-date-picker>
+          <el-form-item :label="'场次时间'">
+            <el-time-picker
+              is-range
+              v-model="value1"
+              range-separator="至"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              @change="timeChange"
+              value-format="HH:mm:ss"
+              format="HH:mm:ss"
+              placeholder="选择时间范围">
+            </el-time-picker>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'正常票价'">
-            <el-input-number v-model="form.tel"></el-input-number>
+          <el-form-item :label="'正常票价'" prop="money">
+            <el-input-number v-model="form.money"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'团购票价'">
-            <el-input-number v-model="form.tel"></el-input-number>
+          <el-form-item :label="'团购票价'" prop="memberMoney">
+            <el-input-number v-model="form.memberMoney"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -81,23 +72,20 @@
             }
           }]
         },
+        value1: [new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)],
         form: {
-          loPrId: null,
-          loPrName: null, // 名称
-          loPrCode: null,
-          contact: null,
-          addr: null,
-          tel: null,
-          description: null,
+          sessionsStarttime: null,
+          sessionsEndtime: null, // 名称
+          money: null,
+          memberMoney: null,
         },
         pidS: [],
         pArray: [],
         rules: {
-          loPrName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
-          ],
-          loPrCode: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+           money: [
+            {required: true, message: '请输入',type:'number', trigger: 'blur'}
+          ], memberMoney: [
+            {required: true, message: '请输入',type:'number', trigger: 'blur'}
           ],
         },
       };
@@ -106,9 +94,17 @@
       this.fetchFormat();
       if (this.listInfo) {
         this.form = this.listInfo
+        let date = this.listInfo.sessionsDate.split('-')
+        let time1 = this.listInfo.sessionsStarttime.split(':')
+        let time2 = this.listInfo.sessionsEndtime.split(':')
+        this.value1 = [new Date(date[0],date[1],date[2],time1[0],time1[1]),new Date(date[0],date[1],date[2],time2[0],time2[1])]
       }
     },
     methods: {
+      timeChange(val){
+        this.form.sessionsStarttime = val[0]
+        this.form.sessionsEndtime = val[1]
+      },
       closeDown() {
         //if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
           this.$prompt('请输入停播原因', '提示', {
@@ -136,17 +132,25 @@
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
-            /* if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-               alterSupplier(this.form).then(res => {
-                 this.$emit('hideDialog', false)
-                 this.$emit('uploadList')
-               });
-             }else{
-               addSupplier(this.form).then(res => {
-                 this.$emit('hideDialog', false)
-                 this.$emit('uploadList')
-               });
-             }*/
+            if(this.form.sessionsStarttime != null){
+              console.log(this.form)
+              /* if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
+              alterSupplier(this.form).then(res => {
+                this.$emit('hideDialog', false)
+                this.$emit('uploadList')
+              });
+            }else{
+              addSupplier(this.form).then(res => {
+                this.$emit('hideDialog', false)
+                this.$emit('uploadList')
+              });
+            }*/
+            }else{
+              this.$message({
+                type: 'info',
+                message: '请选择时间'
+              });
+            }
           } else {
             return false;
           }
