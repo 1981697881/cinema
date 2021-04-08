@@ -9,7 +9,6 @@
       type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
-      @dblclick="dblclick"
        @row-click="rowClick"
     />
 
@@ -18,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getMDetailList, delSupplier} from "@/api/studios/index";
+import { getScheduleList, delSupplier} from "@/api/studios/index";
 import List from "@/components/List";
 
 export default {
@@ -33,17 +32,12 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "影城名称", name: "cinemaName" },
-        { text: "影厅名称", name: "hallName" },
         { text: "影片名称", name: "filmName" },
-        { text: "场次", name: "sessionsStarttime" },
-        { text: "放映日期", name: "sessionsDate" },
-        { text: "开场时间", name: "sessionsStarttime" },
-        { text: "散场时间", name: "sessionsEndtime" },
-        { text: "座位数", name: "hallNumber" },
-        { text: "正常票价", name: "hallType" },
-        { text: "团体票价", name: "memberMoney" },
-        { text: "状态", name: "status" },
+        { text: "放映日期", name: "showDatetime" },
+        { text: "正常票价", name: "standardprice" },
+        { text: "语言", name: "language" },
+        { text: "时长", name: "duration" },
+        { text: "状态(Y开售,N停售)", name: "salestatus" },
       ]
     };
   },
@@ -84,7 +78,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getMDetailList(data, val).then(res => {
+      getScheduleList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

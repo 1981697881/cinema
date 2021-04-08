@@ -9,7 +9,6 @@
       type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
-      @dblclick="dblclick"
        @row-click="rowClick"
     />
 
@@ -35,10 +34,9 @@ export default {
       columns: [
         { text: "所属影城", name: "cinemaName" },
         { text: "影厅名称", name: "hallName" },
-        { text: "影厅负责人", name: "hallPerson" },
       /*  { text: "开场时间", name: "" },
         { text: "结束时间", name: "" },*/
-        { text: "影厅类别", name: "hallType" },
+        { text: "座位数", name: "hallNumber" },
         { text: "状态", name: "status" },
       ]
     };

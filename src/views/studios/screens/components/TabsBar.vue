@@ -12,10 +12,11 @@
         </el-col>
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
+           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步</el-button>
+          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
+         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
+          <el-button :size="'mini'" type="primary" icon="el-icon-refresh"  @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
     </el-form>
@@ -23,7 +24,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { getByUserAndPrId } from '@/api/system/index'
+import { downloadLocation } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -79,6 +80,20 @@ export default {
           type: "warning"
         })
       }
+    },
+    syncInfo(){
+      const loading = this.$loading({
+        lock: true,
+        text: '加载中......',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      downloadLocation().then(res => {
+        if(res.flag){
+          this.$emit('uploadList')
+          loading.close();
+        }
+      });
     },
     handlerAdd() {
       this.$emit('showDialog')

@@ -5,8 +5,8 @@
         <slot></slot>
       </div>
       <div class="plan-detail-item">{{propShowDate}}</div>
-      <div class="plan-detail-item">{{propShowTime}}</div>
       <div class="plan-detail-item">{{propHallName}}</div>
+      <div class="plan-detail-item">{{language}}</div>
       <div class="plan-detail-item">
         <el-button type="danger" round size="small" plain @click="choice">切换</el-button>
       </div>
@@ -19,7 +19,7 @@ export default {
   props: {
     propHallName: String,
     propShowDate: String,
-    propShowTime: String
+    language: String
   },
   // import引入的组件需要注入到对象中才能使用
   components: {},

@@ -128,4 +128,42 @@ export function getMDetailList(params, data) {
     method: 'POST',
     data: data
   })
+}// 场次管理-获取列表
+export function getScheduleList(params, data) {
+  const url = '/schedule/scheduleList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
 }
+// 影厅同步
+export function downloadLocation(params, data) {
+  const url = '/FH/downloadLocation'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}// 场次同步
+export function downloadSchedules(params, data) {
+  const url = '/FH/downloadSchedules'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+

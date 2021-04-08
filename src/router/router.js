@@ -11,7 +11,7 @@ const map = {
   'clerk': () => import('@/views/basic/clerk'),
 
   'sessions': () => import('@/views/studios/sessions'),
-  'schedule': () => import('@/views/studios/schedule'),
+ /* 'schedule': () => import('@/views/studios/schedule'),*/
   'screens': () => import('@/views/studios/screens'),
 
   'booking': () => import('@/views/workbench/booking'),

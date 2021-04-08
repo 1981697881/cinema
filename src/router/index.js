@@ -135,14 +135,16 @@ export const StaticRouterMap = [{
         meta: {
           title: '影厅管理'
         },
-      }, {
+      },
+    /*  {
         path: 'schedule',
         component: () => import('@/views/studios/schedule/index'),
         name: 'Schedule',
         meta: {
           title: '影片排期'
         },
-      }, {
+      }, */
+      {
         path: 'sessions',
         component: () => import('@/views/studios/sessions/index'),
         name: 'Sessions',

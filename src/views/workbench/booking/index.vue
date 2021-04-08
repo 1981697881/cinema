@@ -2,7 +2,7 @@
   <div>
     <!--排期详情和座位上方示例图 开始-->
     <plan-detail @showDialog="handlerDialog" :propHallName="hallName" :titleText="movieName" :propShowDate="showDate"
-                 :propShowTime="showTime">
+                 :language="language">
       <template v-for="seatTypeItem in seatTypeList">
         <div class="seat-detail-item" :key="'seatType'+seatTypeItem.type"
              v-if="seatTypeItem.isShow==='1' && seatTypeItem.position==='up'">
@@ -59,6 +59,8 @@
           :propSelectedSeat="selectedSeatList"
           :propSeatList="seatList"
           :countPrice="countPrice"
+          :schedulekey="schedulekey"
+          :scheduleId="scheduleId"
           @uploadList="getSeatList"
           @loading="loading"
         ></confirm-lock>
@@ -85,7 +87,7 @@
   import QuickSelectTab from './component/QuickSelectTab'
   import ConfirmLock from './component/ConfirmLock'
   import Loading from '@/components/loading'
-  import {detailSeats} from "@/api/workbench/index";
+  import {scheduleSeats} from "@/api/workbench/index";
   import seatLove from '@/seatLove';
 
   export default {
@@ -93,13 +95,15 @@
     data() {
       return {
         visible: null,
+        schedulekey: null,
+        scheduleId: null,
         row: {},
         seatList: [], // 座位对象list
         seatTypeList: [], // 座位类型list
         movieName: '', // 展示用 电影名称 接口获取
         hallName: '', // 展示用 影厅名称 接口获取
         showDate: '', // 展示用 开始日期 接口获取
-        showTime: '', // 展示用 开始时间 接口获取
+        language: '', // 展示用 开始时间 接口获取
         positionDistin: 0.5, // 每个座位偏移距离
         width: 0.5, // 每个座位的宽
         height: 0.5, // 每个座位的高
@@ -149,7 +153,9 @@
           this.row = row
         }
         this.selectedSeatList = []
-        detailSeats({sessionsId: row.sessionsId}).then(res => {
+        this.schedulekey = row.schedulekey
+          this.scheduleId = row.scheduleId
+          scheduleSeats({scheduleId: row.scheduleId,schedulekey: row.schedulekey}).then(res => {
           if (res.flag) {
             let response = row
             let seatType = seatLove
@@ -209,8 +215,8 @@
             })
             // 座位处理 -------结束
             // 开始处理上方影片信息显示数据
-            this.showDate = response.sessionsDate
-            this.showTime = response.sessionsStarttime
+            this.showDate = response.showDatetime
+            this.language = response.language
             this.seatList = resSeatList
             this.seatTypeList = seatType.seatTypeList
             this.movieName = response.filmName
@@ -222,15 +228,29 @@
       colationData(data) {
         let data2 = [];
         data.map((value, index, arry) => {
+          let stauts = ''
+          switch (value.status) {
+            case value.status = 'locked':
+              stauts = '0-2';
+              break;
+            case value.status = 'selled':
+              stauts = '0-2';
+              break;
+            case value.status = 'damaged':
+              stauts = '0-3';
+              break;
+            default:
+              stauts = '0';
+          }
           data2.push({
-            'id': value.sid,
-            'row': value.rowNum,
-            'col': value.columnNum,
-            'gRow': value.ycoord,
-            'gCol': value.xcoord,
-            'type': value.status == '1' ? '0-2' : value.status,
+            'id': value.seatId,
+            'row': value.y,
+            'col': value.x,
+            'gRow': value.y,
+            'gCol': value.x,
+            'type': stauts,
             'flag': '0',
-            'price': value.money,
+            'price': value.standardprice,
           })
         })
         return data2

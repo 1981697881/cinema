@@ -38,7 +38,7 @@ export default {
       columns: [
         { text: "电影名", name: "filmName" },
         { text: "电影时长", name: "filmLong" },
-        { text: "电影分类", name: "deptParentName" },
+        { text: "电影分类", name: "filmSortid" },
         { text: "电影评分", name: "" },
         { text: "导演", name: "filmDirector" },
         { text: "主演", name: "filmPlay" },

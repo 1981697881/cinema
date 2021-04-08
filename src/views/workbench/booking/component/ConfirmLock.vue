@@ -7,7 +7,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { lockSeats } from "@/api/workbench/index";
+import { fhLockSeats } from "@/api/workbench/index";
 export default {
 // import引入的组件需要注入到对象中才能使用
   components: {},
@@ -17,6 +17,8 @@ export default {
     propIsCheap: Number,
     countPrice: Number,
     propServiceFee: String,
+    scheduleId: String,
+    scheduleKey: String,
     propPlanId: String
   },
   data () {
@@ -95,18 +97,31 @@ export default {
       }
     },
     createOrder () {
+      const loading = this.$loading({
+        lock: true,
+        text: '生成订单中......',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       let seats = []
+      console.log(this.propSelectedSeat)
       this.propSelectedSeat.forEach((item)=>{
         seats.push(item.id)
       })
       if(!this.isBtn){
         this.isBtn = true
-        lockSeats({sIds: seats}).then(res => {
+        fhLockSeats({scheduleId: this.scheduleId,scheduleKey: this.scheduleKey,seatIdList: seats}).then(res => {
           if(res.flag){
             this.$emit('uploadList')
+             loading.close()
             this.countPrice = 0
           }else{
+           loading.close()
             this.isBtn = false
+             this.$message({
+          message: res.msg,
+          type: "error"
+        })
           }
         });
       }else{

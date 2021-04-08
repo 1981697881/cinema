@@ -12,9 +12,9 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'时间'" prop="sessionsDate">
+          <el-form-item :label="'时间'" prop="showDatetime">
             <el-date-picker
-              v-model="form.sessionsDate"
+              v-model="form.showDatetime"
               align="right"
               type="date"
               style="width: 100% "
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import { detailById } from "@/api/workbench/index";
+  import { querySchedules } from "@/api/workbench/index";
   import { movieFormat } from "@/api/studios/index";
   import List from "@/components/List";
   export default {
@@ -77,15 +77,15 @@
       return {
         form: {
           filmId: null,
-          sessionsDate: null,
+          showDatetime: null,
         },
         loading: false,
         visible: null,
         list: [],
         columns: [
           {text: "影厅", name: "hallName"},
-          {text: "场次", name: "sessionsStarttime"},
-          {text: "余位", name: "residueCount"},
+          {text: "场次", name: "showDatetime"},
+          {text: "类型", name: "dimensional"},
         ],
         pickerOptions: {
           disabledDate(time) {
@@ -119,7 +119,7 @@
           filmId: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
-          sessionsDate: [
+          showDatetime: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
         },
@@ -141,7 +141,7 @@
           // 判断必填项
           if (valid) {
             this.loading = true;
-            detailById(this.form).then(res => {
+            querySchedules(this.form).then(res => {
               if(res.flag){
                 this.loading = false;
                 this.list = {records:res.data}

@@ -50,5 +50,39 @@ export function detailSeats(params) {
     data: params,
     method: 'post'
   })
+}//票劵售卖-查询座位
+export function scheduleSeats(params) {
+  return request({
+    url: '/scheduleSeat/scheduleSeats',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}//票劵售卖-查询场次
+export function querySchedules(params) {
+  return request({
+    url: '/schedule/schedules',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+//票劵售卖-锁位
+export function fhLockSeats(params) {
+  return request({
+    url: '/FH/lockSeats',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }
 
