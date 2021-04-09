@@ -7,7 +7,7 @@
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 // 例如：import 《组件名称》 from '《组件路径》';
-import { fhLockSeats } from "@/api/workbench/index";
+import { fhLockSeats, confirmOrder } from "@/api/workbench/index";
 export default {
 // import引入的组件需要注入到对象中才能使用
   components: {},
@@ -18,6 +18,7 @@ export default {
     countPrice: Number,
     propServiceFee: String,
     scheduleId: String,
+    mobile: String,
     scheduleKey: String,
     propPlanId: String
   },
@@ -97,6 +98,7 @@ export default {
       }
     },
     createOrder () {
+      let that = this
       const loading = this.$loading({
         lock: true,
         text: '生成订单中......',
@@ -110,18 +112,38 @@ export default {
       })
       if(!this.isBtn){
         this.isBtn = true
-        fhLockSeats({scheduleId: this.scheduleId,scheduleKey: this.scheduleKey,seatIdList: seats}).then(res => {
+        fhLockSeats({scheduleId: this.scheduleId,scheduleKey: this.scheduleKey,seatIdList: seats,openIdNotNull: 1}).then(res => {
           if(res.flag){
-            this.$emit('uploadList')
-             loading.close()
-            this.countPrice = 0
+            //确定订单
+            let ticketList = []
+            res.data.seats.forEach((item)=>{
+              let obj = {}
+              obj.seatId = item.seatId
+              obj.ticketFee = item.ticketFee
+              obj.ticketPrice = item.ticketPrice
+              ticketList.push(obj)
+            })
+            confirmOrder({scheduleId: res.scheduleId,scheduleKey: res.scheduleKey,mobile: that.mobile ,ticketList: ticketList}).then(reso => {
+              if(reso.flag){
+                that.$emit('uploadList')
+                loading.close()
+                that.countPrice = 0
+              }else{
+                loading.close()
+                that.isBtn = false
+                that.$message({
+                  message: reso.msg,
+                  type: "error"
+                })
+              }
+            });
           }else{
            loading.close()
             this.isBtn = false
              this.$message({
-          message: res.msg,
-          type: "error"
-        })
+              message: res.msg,
+              type: "error"
+             })
           }
         });
       }else{

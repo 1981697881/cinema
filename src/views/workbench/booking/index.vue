@@ -60,6 +60,7 @@
           :propSeatList="seatList"
           :countPrice="countPrice"
           :schedulekey="schedulekey"
+          :mobile="phone"
           :scheduleId="scheduleId"
           @uploadList="getSeatList"
           @loading="loading"
@@ -95,6 +96,7 @@
     data() {
       return {
         visible: null,
+        phone: null,
         schedulekey: null,
         scheduleId: null,
         row: {},
@@ -155,6 +157,7 @@
         this.selectedSeatList = []
         this.schedulekey = row.schedulekey
           this.scheduleId = row.scheduleId
+          this.phone = row.phone
           scheduleSeats({scheduleId: row.scheduleId,schedulekey: row.schedulekey}).then(res => {
           if (res.flag) {
             let response = row

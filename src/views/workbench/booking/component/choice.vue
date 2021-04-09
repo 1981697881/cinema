@@ -133,6 +133,7 @@
     },
     methods: {
       dblclick(obj) {
+        obj.row.phone = this.form.phone
         this.$emit('uploadList',obj.row)
         this.$emit('hideDialog',false)
       },

@@ -85,4 +85,16 @@ export function fhLockSeats(params) {
     method: 'post'
   })
 }
+//票劵售卖-确认订单
+export function confirmOrder(params) {
+  return request({
+    url: '/FH/confirmOrder',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
 
