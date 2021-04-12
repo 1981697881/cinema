@@ -3,9 +3,9 @@
     <el-form v-model="search" :size="'mini'" :label-width="'80px'">
       <el-button-group style="float:right;padding-bottom: 10px">
        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-        <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
+      <!--  <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>-->
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
+       <!-- <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>-->
        <!-- <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >上映</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >下架</el-button>-->
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>

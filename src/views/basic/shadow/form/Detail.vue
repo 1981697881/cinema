@@ -8,35 +8,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'电影时长'" prop="filmLong">
-            <el-input-number v-model="form.filmLong" :min="1"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'上映地区'" prop="showArea">
-            <el-select v-model="form.showArea" class="width-full" placeholder="请选择">
-              <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatT" :key="i"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'上映时间'" prop="filmDate">
-            <div class="block">
-              <el-date-picker
-                v-model="form.filmDate"
-                type="datetime"
-                style="width: auto"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                placeholder="选择日期">
-              </el-date-picker>
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
           <el-form-item :label="'电影分类'" prop="filmSortid">
             <el-select v-model="form.filmSortid" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
@@ -59,16 +30,14 @@
               list-type="picture-card"
               accept="image/jpeg,image/jpg,image/png,image/gif"
               :headers="headers"
-              :data="imgData"
               :limit="1"
               name="imgS"
               :on-success="uploadPosterSuccess"
               :on-error="uploadError"
-              :class="{hide:hideUpload}"
+              :class="{hide:hidePicture}"
               :on-preview="handlePictureCardPreview"
-              :on-change="handleChange"
-              :file-list="fileList"
-              ref="upload"
+              :on-change="handlePictureChange"
+              :file-list="pictureList"
               :before-upload="beforeUploadImage"
               :on-remove="handleRemove">
               <i class="el-icon-plus"></i>
@@ -87,18 +56,16 @@
               list-type="picture-card"
               accept="image/jpeg,image/jpg,image/png,image/gif"
               :headers="headers"
-              :data="imgData"
               :limit="1"
               name="imgS"
               :on-success="uploadStillSuccess"
               :on-error="uploadError"
-              :class="{hide:hideUpload}"
+              :class="{hide:hideStillUpload}"
               :on-preview="handlePictureCardPreview"
-              :on-change="handleChange"
-              :file-list="fileList"
-              ref="upload"
+              :on-change="handleStillChange"
+              :file-list="stillList"
               :before-upload="beforeUploadImage"
-              :on-remove="handleRemove">
+              :on-remove="handleRemovet">
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
@@ -107,11 +74,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
+      <!--<el-row :gutter="20">
         <el-col :span="24" style="text-align: center">
           <el-form-item label="电影预告" prop="Video">
-            <!-- action必选参数, 上传的地址 -->
-            <el-upload class="avatar-uploader el-upload--text" accept="video/*" :headers="headers" :action="fileUrl"
+            &lt;!&ndash; action必选参数, 上传的地址 &ndash;&gt;
+            <el-upload class="avatar-uploader el-upload&#45;&#45;text" accept="video/*" :headers="headers" :action="fileUrl"
                        :show-file-list="false" :on-success="handleVideoSuccess" :before-upload="beforeUploadVideo"
                        :on-progress="uploadVideoProcess">
               <video v-if="form.Video !='' && videoFlag == false" :src="form.Video" class="avatar" controls="controls">
@@ -124,7 +91,7 @@
             <P class="text">请保证视频格式正确，且不超过10M</P>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row>-->
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'演职人员'" prop="orgAttr">
@@ -260,17 +227,15 @@
                 list-type="picture-card"
                 accept="image/jpeg,image/jpg,image/png,image/gif"
                 :headers="headers"
-                :data="imgData"
                 :limit="1"
                 name="imgS"
                 :on-success="uploadUserSuccess"
                 :on-error="uploadError"
-                :class="{hide:hideUpload}"
+                :class="{hide:hideUserUpload}"
                 :on-preview="handlePictureCardPreview"
-                :on-change="handleChange"
-                :file-list="fileList"
-                ref="upload"
-                :on-remove="handleRemove">
+                :on-change="handleUserChange"
+                :file-list="userList"
+                :on-remove="handleRemoveth">
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
@@ -332,25 +297,27 @@
           {text: "个人简介", name: "starProfile"},
         ],
         fileUrl: '',
-        imgData: {},
         images: [],
         imagesPoster: [],
-        hideUpload: false,
+        hidePicture: false,
+        hideStillUpload: false,
+        hideUserUpload: false,
         dialogImageUrl: '',
         dialogVisible: false,
-        fileList: [],
-        limitCount: 3,
+        pictureList: [],
+        stillList: [],
+        userList: [],
+        limitPicture: 1,
+        limitStill: 3,
+        limitUser: 1,
         nowImg: [],
         form: {
           filmName: null,
           filmIntro: null,
-          filmDate: null,
-          filmLong: 100,
-          filmPhoto: [],
-          still: [],
+          filmPhoto: null,
+          photoArrays: [],
           herald: null,
           filmSortid: null,
-          showArea: null,
           keyWords: [],
         },
         checkData: null,
@@ -374,10 +341,6 @@
           ],
           filmIntro: [
             {required: true, message: '请输入', trigger: 'blur'}
-          ],
-          filmLong: [
-            {required: true, message: '请输入', trigger: 'change'},
-            {type: 'number', message: '只能输入数字', trigger: 'blur'},
           ],
         },
         rules2: {
@@ -410,17 +373,49 @@
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
         this.form = this.listInfo
-        this.list = this.listInfo.filmRoleVOS
+        if(this.listInfo.filmRoleVOS){
+          this.list = this.listInfo.filmRoleVOS
+        }else{
+          this.list = []
+        }
+        this.pictureList = []
+        this.stillList = []
+        if(this.form.filmPhoto != null){
+          this.pictureList.push({
+            url: this.$store.state.user.url+'/uploadFiles/image/' + this.form.filmPhoto
+          })
+          this.hidePicture = true
+        }else{
+          this.hidePicture = false
+        }
+        if (this.form.photoArrays.length > 0) {
+          //到图片数量大于3或等于3时添加按钮隐藏
+          if (this.form.photoArrays.length >= 3) {
+            this.hideStillUpload = true;
+          } else {
+            this.hideStillUpload = false;
+          }
+          this.stillList = []
+          for (let i in this.form.photoArrays) {
+            this.stillList.push({
+              url: this.$store.state.user.url+'/uploadFiles/image/' + this.form.photoArrays[i]
+            })
+          }
+        } else {
+          this.stillList = [];
+        }
       }
     },
     methods: {
+      //演员表选中
       listClick(obj){
         this.checkData = obj
       },
+      //演职人员选中
       yzClick(obj){
-        console.log(obj)
         this.checkYzData = obj
       },
+      //演职人员删除
       delRow(){
         if (this.checkYzData.starId) {
           this.$confirm('是否删除(' + this.checkYzData.starName + ')，删除后将无法恢复?', '提示', {
@@ -430,7 +425,6 @@
           }).then(() => {
               this.list.some((item,index)=>{
                 if(this.checkYzData.starId == item.starId && this.checkYzData.roleType === item.roleType){
-                  console.log(index)
                   this.list.splice(index, 1)
                   return true
                 }
@@ -448,6 +442,7 @@
           })
         }
       },
+      //演员表删除
       deleteList(){
         deleteStar({starId: [this.checkData.starId]}).then(res => {
           if (res.flag) {
@@ -461,6 +456,7 @@
         this.starName != null && this.starName != '' ? obj.starName = this.starName : null
         return obj
       },
+      //查询
       query(){
         getStarList(this.qFilter()).then(res => {
           if (res.flag) {
@@ -468,18 +464,22 @@
           }
         })
       },
+      //现在演职人员
       create(){
         this.visible2 = true
       },
+      //关键字删除
       handleClose(tag) {
         this.form.keyWords.splice(this.form.keyWords.indexOf(tag), 1);
       },
+      //演员添加
       showInput() {
         this.inputVisible = true;
         this.$nextTick(_ => {
           this.$refs.saveTagInput.$refs.input.focus();
         });
       },
+      //关键字确认
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
@@ -488,6 +488,7 @@
         this.inputVisible = false;
         this.inputValue = '';
       },
+      //演职人员确认
       confirm() {
         let me = this
         this.$refs['postform'].validate((valid) => {
@@ -521,13 +522,23 @@
           }
         })
       },
+      //演职人员选择
       setRow() {
         this.visible = true
       },
       dblclick(obj) {
-        this.visible = true
-        this.postform = obj
-      },
+        this.visible2 = true
+        this.userform = obj
+        this.userList = []
+        if(this.userform.starPhotoUrl != null){
+          this.userList.push({
+            url: this.$store.state.user.url+'/uploadFiles/image/' + this.userform.starPhotoUrl
+          })
+          this.hideUserUpload = true
+        }else{
+          this.hideUserUpload = false
+        }
+     },
       beforeUploadVideo(file) {
        /* if(this.form.filmId == null || this.form.filmId == ''){
           this.$message({
@@ -576,7 +587,7 @@
           message: res.msg,
           type: "success"
         });
-        this.form.filmPhoto.push(res.data)
+        this.form.filmPhoto=res.data
       }, //剧照上传成功
       uploadStillSuccess(res, file, fileList) {
         file.name = res.data;
@@ -584,7 +595,7 @@
           message: res.msg,
           type: "success"
         });
-        this.form.still.push(res.data)
+        this.form.photoArrays.push(res.data)
       },
       uploadUserSuccess(res, file, fileList) {
         file.name = res.data;
@@ -596,12 +607,37 @@
       },
       //删除图片
       handleRemove(file, fileList) {
-        let array = this.images;
-        for (let i in array) {
-          if (file.name == array[i]) {
-            array.splice(i, 1);
+        let array = this.pictureList;
+        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+            array.forEach((item,index)=>{
+              if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+                array.splice(index, 1);
+              }
+            })
+            this.$emit('uploadList')
+        this.hidePicture = false
+      },
+      handleRemovet(file, fileList) {
+        let array = this.stillList;
+        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        array.forEach((item,index)=>{
+          if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+            array.splice(index, 1);
           }
-        }
+        })
+        this.$emit('uploadList')
+        this.hideStillUpload = false
+      },
+      handleRemoveth(file, fileList) {
+        let array = this.userList;
+        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        array.forEach((item,index)=>{
+          if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+            array.splice(index, 1);
+          }
+        })
+        this.query()
+        this.hideUserUpload = false
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -616,16 +652,24 @@
           return false
         }*/
       },
-      handleChange(file, fileList) {
-        this.hideUpload = fileList.length >= this.limitCount;
+      handlePictureChange(file, fileList) {
+        this.hidePicture = fileList.length >= this.limitPicture;
+      },
+      handleStillChange(file, fileList) {
+        this.hideStillUpload = fileList.length >= this.limitStill;
+      },
+      handleUserChange(file, fileList) {
+        this.hideUserUpload = fileList.length >= this.limitUser;
       },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           //判断必填项
           if (valid) {
             //修改
-            addMovie(this.form).then(res => {
-             /* this.$emit('hideDialog', false)*/
+            let param = this.form
+            param.filmRoleVOS = this.list
+            addMovie(param).then(res => {
+              this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
           } else {

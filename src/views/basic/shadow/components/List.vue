@@ -37,18 +37,13 @@ export default {
       checkDate:null,
       columns: [
         { text: "电影名", name: "filmName" },
-        { text: "电影时长", name: "filmLong" },
+        { text: "电影时长(分钟)", name: "filmLong" },
         { text: "电影分类", name: "filmSortid" },
-        { text: "电影评分", name: "" },
         { text: "导演", name: "filmDirector" },
         { text: "主演", name: "filmPlay" },
         { text: "简介", name: "filmIntro" },
-        { text: "预告", name: "" },
-        { text: "海报", name: "filmPhoto" },
-        { text: "剧照", name: "" },
         { text: "上映时间", name: "filmDate" },
         { text: "关键字", name: "filmKeyWords" },
-        { text: "状态", name: "status" },
       ]
     };
   },

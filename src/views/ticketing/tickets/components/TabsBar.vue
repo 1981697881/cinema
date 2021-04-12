@@ -12,8 +12,7 @@
         </el-col>
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" >退票申请</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" >退票审核</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="returnTicket">退票</el-button>
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
@@ -25,7 +24,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { getByUserAndPrId } from '@/api/system/index'
+import { refundOrder } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -62,18 +61,25 @@ export default {
     query() {
       this.$emit('queryBtn', this.qFilter())
     },
-    Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+    returnTicket() {
+      if (this.clickData.orderId) {
+        this.$confirm('退票确认', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          refundOrder({
+            orderId: this.clickData.orderId
+          }).then(res => {
+            if(res.flag){
+              this.$store.dispatch("list/setClickData", '');
+              this.$emit('uploadList')
+            }
+          });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: '已取消'
           });
         });
       } else {

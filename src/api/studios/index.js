@@ -165,5 +165,17 @@ export function downloadSchedules(params, data) {
     method: 'POST',
     data: data
   })
+}// 票务管理-退票
+export function refundOrder(params, data) {
+  const url = '/FH/refundOrder'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
 }
 

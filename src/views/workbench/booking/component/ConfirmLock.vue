@@ -19,7 +19,7 @@ export default {
     propServiceFee: String,
     scheduleId: String,
     mobile: String,
-    scheduleKey: String,
+    schedulekey: String,
     propPlanId: String
   },
   data () {
@@ -112,18 +112,18 @@ export default {
       })
       if(!this.isBtn){
         this.isBtn = true
-        fhLockSeats({scheduleId: this.scheduleId,scheduleKey: this.scheduleKey,seatIdList: seats,openIdNotNull: 1}).then(res => {
+        fhLockSeats({scheduleId: this.scheduleId,scheduleKey: this.schedulekey,seatIdList: seats,openIdNotNull: 1}).then(res => {
           if(res.flag){
             //确定订单
             let ticketList = []
             res.data.seats.forEach((item)=>{
               let obj = {}
               obj.seatId = item.seatId
-              obj.ticketFee = item.ticketFee
-              obj.ticketPrice = item.ticketPrice
+              obj.ticketFee = item.ticketfee
+              obj.ticketPrice = item.standardprice
               ticketList.push(obj)
             })
-            confirmOrder({scheduleId: res.scheduleId,scheduleKey: res.scheduleKey,mobile: that.mobile ,ticketList: ticketList}).then(reso => {
+            confirmOrder({scheduleId: res.data.scheduleId,lockOrderId: res.data.lockOrderId,scheduleKey: res.data.scheduleKey,mobile: that.mobile ,ticketList: ticketList}).then(reso => {
               if(reso.flag){
                 that.$emit('uploadList')
                 loading.close()
