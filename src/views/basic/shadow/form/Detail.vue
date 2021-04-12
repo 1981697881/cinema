@@ -382,7 +382,7 @@
         this.stillList = []
         if(this.form.filmPhoto != null){
           this.pictureList.push({
-            url: this.$store.state.user.url+'/uploadFiles/image/' + this.form.filmPhoto
+            url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.filmPhoto
           })
           this.hidePicture = true
         }else{
@@ -398,7 +398,7 @@
           this.stillList = []
           for (let i in this.form.photoArrays) {
             this.stillList.push({
-              url: this.$store.state.user.url+'/uploadFiles/image/' + this.form.photoArrays[i]
+              url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.photoArrays[i]
             })
           }
         } else {
@@ -409,6 +409,10 @@
     methods: {
       //演员表选中
       listClick(obj){
+        this.postform ={
+          roleName: null, // 名称
+            roleType: null,
+        }
         this.checkData = obj
       },
       //演职人员选中
@@ -464,8 +468,14 @@
           }
         })
       },
-      //现在演职人员
+      //新增演职人员
       create(){
+        this.userform={
+          starSex: null,
+            starName: null, // 名称
+            starProfile: null,
+            starPhotoUrl: null,
+        }
         this.visible2 = true
       },
       //关键字删除
@@ -524,6 +534,10 @@
       },
       //演职人员选择
       setRow() {
+        this.postform ={
+          roleName: null, // 名称
+          roleType: null,
+        }
         this.visible = true
       },
       dblclick(obj) {
@@ -532,7 +546,7 @@
         this.userList = []
         if(this.userform.starPhotoUrl != null){
           this.userList.push({
-            url: this.$store.state.user.url+'/uploadFiles/image/' + this.userform.starPhotoUrl
+            url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.userform.starPhotoUrl
           })
           this.hideUserUpload = true
         }else{
@@ -608,9 +622,9 @@
       //删除图片
       handleRemove(file, fileList) {
         let array = this.pictureList;
-        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        let img =file.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1]
             array.forEach((item,index)=>{
-              if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+              if (item.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1] == img) {
                 array.splice(index, 1);
               }
             })
@@ -619,9 +633,9 @@
       },
       handleRemovet(file, fileList) {
         let array = this.stillList;
-        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        let img =file.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1]
         array.forEach((item,index)=>{
-          if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+          if (item.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1] == img) {
             array.splice(index, 1);
           }
         })
@@ -630,9 +644,9 @@
       },
       handleRemoveth(file, fileList) {
         let array = this.userList;
-        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        let img =file.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1]
         array.forEach((item,index)=>{
-          if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+          if (item.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1] == img) {
             array.splice(index, 1);
           }
         })

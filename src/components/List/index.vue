@@ -42,7 +42,7 @@
           align="center"
         >
           <template width="90" slot-scope="scope">
-            <img style="width:80px;height:80px;border:none;" :src="scope.row.img">
+            <img style="width:80px;height:80px;border:none;" :src=" fileUrl+scope.row.posterPhoto">
           </template>
         </el-table-column>
       </template>
@@ -134,6 +134,11 @@ export default {
       type: String,
       default: "+"
     }
+  },
+  data() {
+    return {
+      fileUrl: this.$store.state.user.url+'/movie/uploadFiles/image/',
+    };
   },
   methods: {
     sortChange(row) {

@@ -163,15 +163,20 @@ export default {
     this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
     if (this.listInfo) {
       this.form = this.listInfo
-      this.fileList.push({
-        url: this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.img
-      })
+      if(this.listInfo.posterPhoto != null){
+        this.fileList.push({
+          url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.listInfo.posterPhoto
+        })
+        this.hideUpload = true
+      }else{
+        this.hideUpload = false
+      }
     }
   },
   methods: {
     dateChange(val){
       this.form.posterStartdatetime = val[0]
-      this.form.posterEnddatetime = val[0]
+      this.form.posterEnddatetime = val[1]
     },
     saveData(form) {
       this.$refs[form].validate((valid) => {

@@ -35,7 +35,7 @@ export default {
         { text: "广告名称", name: "posterName" },
         { text: "广告链接", name: "posterUrl" },
         { text: "广告内容", name: "posterContent" },
-        { text: "图片", name: "img", default: 'img'},
+        { text: "图片", name: "posterPhoto", default: 'img'},
         { text: "开始时间", name: "posterStartdatetime" },
         { text: "结束时间", name: "posterEnddatetime" },
         { text: "状态", name: "status" },
