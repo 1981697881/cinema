@@ -155,7 +155,7 @@ export function downloadLocation(params, data) {
   })
 }// 场次同步
 export function downloadSchedules(params, data) {
-  const url = '/FH/downloadSchedules'
+  const url = '/FH/downloadSchedules/'+params
   return request({
     url: url,
     headers: {
@@ -163,7 +163,6 @@ export function downloadSchedules(params, data) {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    data: data
   })
 }// 票务管理-退票
 export function refundOrder(params, data) {

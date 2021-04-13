@@ -47,18 +47,31 @@ export default {
   },
   methods: {
     syncInfo(){
-      const loading = this.$loading({
-        lock: true,
-        text: '加载中......',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+      this.$prompt('请输入同步天数', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^\+?[1-9][0-9]*$/,
+        inputErrorMessage: '输入不正确'
+      }).then(({ value }) => {
+        const loading = this.$loading({
+          lock: true,
+          text: '加载中......',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        downloadSchedules(value).then(res => {
+          if(res.flag){
+            this.$emit('uploadList')
+            loading.close();
+          }
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消'
+        });
       });
-      downloadSchedules().then(res => {
-        if(res.flag){
-          this.$emit('uploadList')
-          loading.close();
-        }
-      });
+
     },
     onFun(method){
       this[method]()

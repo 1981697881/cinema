@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'电影名'" prop="filmName">
-            <el-input v-model="form.filmName"></el-input>
+            <el-input v-model="form.filmName" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -372,6 +372,9 @@
     mounted() {
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
+        this.listInfo.photoArrays = this.listInfo.photoArrays.filter(function(n) { return n; });
+        this.listInfo.keyWords = this.listInfo.keyWords.filter(function(n) { return n; });
+
         this.form = this.listInfo
         if(this.listInfo.filmRoleVOS){
           this.list = this.listInfo.filmRoleVOS
@@ -380,7 +383,7 @@
         }
         this.pictureList = []
         this.stillList = []
-        if(this.form.filmPhoto != null){
+        if(this.form.filmPhoto != null && this.form.filmPhoto.length>0){
           this.pictureList.push({
             url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.filmPhoto
           })
@@ -629,6 +632,7 @@
               }
             })
             this.$emit('uploadList')
+        this.form.filmPhoto= null
         this.hidePicture = false
       },
       handleRemovet(file, fileList) {
@@ -637,6 +641,11 @@
         array.forEach((item,index)=>{
           if (item.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1] == img) {
             array.splice(index, 1);
+          }
+        })
+        this.form.photoArrays.forEach((item,index)=>{
+          if(item == img){
+            this.form.photoArrays.splice(index, 1);
           }
         })
         this.$emit('uploadList')
@@ -650,6 +659,7 @@
             array.splice(index, 1);
           }
         })
+        this.userform.starPhotoUrl = null
         this.query()
         this.hideUserUpload = false
       },

@@ -167,6 +167,7 @@ export default {
         this.fileList.push({
           url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.listInfo.posterPhoto
         })
+        this.value =[this.listInfo.posterStartdatetime,this.listInfo.posterEnddatetime]
         this.hideUpload = true
       }else{
         this.hideUpload = false
@@ -212,13 +213,16 @@ export default {
     },
     //删除图片
     handleRemove(file, fileList) {
-      let array = this.images;
-      for (let i in array) {
-        if (file.name == array[i]) {
-          array.splice(i, 1);
+      let array = this.fileList;
+      let img =file.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1]
+      array.forEach((item,index)=>{
+        if (item.url.split(this.$store.state.user.url+'/movie/uploadFiles/image/')[1] == img) {
+          array.splice(index, 1);
         }
-
-      }
+      })
+      this.$emit('uploadList')
+      this.form.posterPhoto= null
+      this.hideUpload = false
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
