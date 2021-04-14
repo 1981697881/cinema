@@ -33,13 +33,11 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "票劵号", name: "" },
-        { text: "会员", name: "" },
-        { text: "票劵类型", name: "" },
-        { text: "票劵状态", name: "" },
-        { text: "实际支付金额", name: "" },
-        { text: "票劵总价", name: "" },
-        { text: "购买时间", name: "" },
+        { text: "票劵号", name: "orderId" },
+        { text: "手机号码", name: "mobile" },
+        { text: "实际支付金额", name: "ticketPaymoney" },
+        { text: "票劵总价", name: "ticketPaymoney" },
+        { text: "购买时间", name: "createDatetime" },
       ]
     };
   },
