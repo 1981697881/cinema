@@ -32,6 +32,9 @@ const map = {
   'integralRule': () => import('@/views/member/integralRule'),
   'memberInformation': () => import('@/views/member/memberInformation'),
   'pointsRecord': () => import('@/views/member/pointsRecord'),
+  'groupExchange': () => import('@/views/member/groupExchange'),
+  'groupTicket': () => import('@/views/member/groupTicket'),
+  'recharge': () => import('@/views/member/recharge'),
 
 
 

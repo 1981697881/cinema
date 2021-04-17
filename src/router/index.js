@@ -266,6 +266,27 @@ export const StaticRouterMap = [{
           title: '积分规则'
         },
       }, {
+        path: 'recharge',
+        component: () => import('@/views/member/recharge/index'),
+        name: 'Recharge',
+        meta: {
+          title: '充值记录'
+        },
+      },{
+        path: 'groupTicket',
+        component: () => import('@/views/member/groupTicket/index'),
+        name: 'GroupTicket',
+        meta: {
+          title: '团体票购买记录'
+        },
+      },  {
+        path: 'groupExchange',
+        component: () => import('@/views/member/groupExchange/index'),
+        name: 'GroupExchange',
+        meta: {
+          title: '团体票兑换记录'
+        },
+      }, {
         path: 'pointsRecord',
         component: () => import('@/views/member/pointsRecord/index'),
         name: 'PointsRecord',
