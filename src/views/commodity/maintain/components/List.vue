@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getGoodsList, deleteCommodity} from "@/api/commodity/index";
 import List from "@/components/List";
 
 export default {
@@ -34,12 +34,13 @@ export default {
       list: {},
       columns: [
         { text: "商品类型", name: "" },
-        { text: "名称", name: "" },
-        { text: "录入日期", name: "" },
-        { text: "价格", name: "" },
+        { text: "名称", name: "goodsName" },
+        { text: "录入日期", name: "createDatetime" },
+        { text: "价格", name: "goodsPrice" },
         { text: "商品库存", name: "" },
         { text: "销售量", name: "" },
         { text: "热销", name: "" },
+        { text: "描述", name: "goodsDescribe" },
         { text: "状态", name: "" },
       ]
     };
@@ -59,7 +60,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      deleteCommodity(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.fetchData();
@@ -76,21 +77,15 @@ export default {
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
     },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-     /* this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+        getGoodsList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };
