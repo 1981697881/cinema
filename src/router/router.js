@@ -28,12 +28,13 @@ const map = {
 
   'advert': () => import('@/views/extension/advert'),
   'coupon': () => import('@/views/extension/coupon'),
+  'groupTicket': () => import('@/views/extension/groupTicket'),
 
   'integralRule': () => import('@/views/member/integralRule'),
   'memberInformation': () => import('@/views/member/memberInformation'),
   'pointsRecord': () => import('@/views/member/pointsRecord'),
   'groupExchange': () => import('@/views/member/groupExchange'),
-  'groupTicket': () => import('@/views/member/groupTicket'),
+
   'recharge': () => import('@/views/member/recharge'),
 
 

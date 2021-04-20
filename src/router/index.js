@@ -240,6 +240,13 @@ export const StaticRouterMap = [{
       meta: {
         title: '优惠券管理'
       },
+    }, {
+      path: 'groupTicket',
+      component: () => import('@/views/extension/groupTicket/index'),
+      name: 'GroupTicket',
+      meta: {
+        title: '团体票管理'
+      },
     }]
   },
   {
@@ -272,14 +279,7 @@ export const StaticRouterMap = [{
         meta: {
           title: '充值记录'
         },
-      },{
-        path: 'groupTicket',
-        component: () => import('@/views/member/groupTicket/index'),
-        name: 'GroupTicket',
-        meta: {
-          title: '团体票购买记录'
-        },
-      },  {
+      }, {
         path: 'groupExchange',
         component: () => import('@/views/member/groupExchange/index'),
         name: 'GroupExchange',
