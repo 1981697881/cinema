@@ -12,7 +12,7 @@
         </el-col>
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步</el-button>
+           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步座位</el-button>
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { downloadLocation } from '@/api/studios/index'
+import { downloadHallSeats } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -88,9 +88,11 @@ export default {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-      downloadLocation().then(res => {
+      downloadHallSeats().then(res => {
         if(res.flag){
           this.$emit('uploadList')
+          loading.close();
+        }else{
           loading.close();
         }
       });

@@ -15,7 +15,8 @@
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步场次</el-button>
+          <!--<el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncSoldInfo">同步场次狀態</el-button>-->
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -24,7 +25,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { downloadSchedules } from '@/api/studios/index'
+import { downloadSchedules,downloadSchedulesSoldSeats } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -63,6 +64,8 @@ export default {
           if(res.flag){
             this.$emit('uploadList')
             loading.close();
+          }else{
+            loading.close();
           }
         });
       }).catch(() => {
@@ -72,6 +75,21 @@ export default {
         });
       });
 
+    },syncSoldInfo(){
+      const loading = this.$loading({
+        lock: true,
+        text: '加载中......',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      downloadSchedulesSoldSeats().then(res => {
+          if(res.flag){
+            this.$emit('uploadList')
+            loading.close();
+          }else{
+            loading.close();
+          }
+      });
     },
     onFun(method){
       this[method]()

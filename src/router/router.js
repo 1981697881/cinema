@@ -14,9 +14,9 @@ const map = {
  /* 'schedule': () => import('@/views/studios/schedule'),*/
   'screens': () => import('@/views/studios/screens'),
 
-  'booking': () => import('@/views/workbench/booking'),
+  /*'booking': () => import('@/views/workbench/booking'),
   'exchange': () => import('@/views/workbench/exchange'),
-  'saleOfGoods': () => import('@/views/workbench/saleOfGoods'),
+  'saleOfGoods': () => import('@/views/workbench/saleOfGoods'),*/
 
   'maintain': () => import('@/views/commodity/maintain'),
   'mold': () => import('@/views/commodity/mold'),

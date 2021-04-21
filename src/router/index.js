@@ -53,7 +53,7 @@ export const StaticRouterMap = [{
     }
   }]
 },
-  {
+  /*{
     path: '/workbench',
     component: Layout,
     name: 'Workbench',
@@ -85,7 +85,7 @@ export const StaticRouterMap = [{
         },
       }
     ]
-  },
+  },*/
   {
     path: '/basic',
     component: Layout,

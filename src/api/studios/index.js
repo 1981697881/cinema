@@ -148,7 +148,20 @@ export function downloadLocation(params, data) {
     url: url,
     headers: {
       'authorization': getToken('cinerx'),
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json;charset=UTF8'
+    },
+
+    method: 'POST',
+    data: data
+  })
+}// 座位同步
+export function downloadHallSeats(params, data) {
+  const url = '/FH/downloadHallSeats'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json;charset=UTF8'
     },
     method: 'POST',
     data: data
@@ -160,12 +173,26 @@ export function downloadSchedules(params, data) {
     url: url,
     headers: {
       'authorization': getToken('cinerx'),
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json;charset=UTF8'
     },
     method: 'POST',
   })
-}// 票务管理-退票
-export function refundOrder(params, data) {
+}
+// 座位狀態同步
+export function downloadSchedulesSoldSeats(params, data) {
+  const url = '/FH/downloadSchedulesSoldSeats'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json;charset=UTF8'
+    },
+    method: 'POST',
+  })
+}
+// 票务管理-退票
+export function refundOrder(params) {
+  console.log(params)
   const url = '/FH/refundOrder'
   return request({
     url: url,
@@ -174,7 +201,7 @@ export function refundOrder(params, data) {
       'Content-Type': 'application/json'
     },
     method: 'POST',
-    data: data
+    data: params
   })
 }
 
