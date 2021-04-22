@@ -294,7 +294,7 @@
         columns2: [
           {text: "名称", name: "starName"},
           {text: "性别", name: "starSex"},
-          {text: "个人简介", name: "starProfile"},
+         /* {text: "个人简介", name: "starProfile"},*/
         ],
         fileUrl: '',
         images: [],
