@@ -5,7 +5,7 @@ import { resetRouter } from '@/router'
 const state = {
   token: getToken('cinerx'),
   name: '',
-  url: 'http://www.gzfzdev.com:50080',
+  url: 'http://cfzx.gzfzdev.com:8081/web',
   avatar: '',
   plper: '',
   username: '',

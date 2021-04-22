@@ -203,5 +203,18 @@ export function refundOrder(params) {
     method: 'POST',
     data: params
   })
+}// 票务管理-退余额
+export function refundRecharge(params) {
+  console.log(params)
+  const url = 'V8/Recharge'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
 }
 

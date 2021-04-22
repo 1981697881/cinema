@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { refundOrder } from '@/api/studios/index'
+import { refundOrder,refundRecharge } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -72,8 +72,26 @@ export default {
             orderId: this.clickData.orderId
           }).then(res => {
             if(res.flag){
-              this.$store.dispatch("list/setClickData", '');
-              this.$emit('uploadList')
+              console.log(res.data['memberTicket'].payType=="余额支付")
+              if(res.data['memberTicket'].payType=="余额支付"){
+                refundRecharge({
+                  custId: res.data.custId,
+                  qty: res.data['memberTicket'].ticketPaymoney,
+                  phoneNumber: res.data['memberTicket'].mobile,
+                }).then(reso => {
+                  if(reso.flag){
+                    that.$store.dispatch("list/setClickData", '');
+                    that.$emit('uploadList')
+                  }
+                });
+              }else{
+                that.$alert('退票成功，请确认', '信息', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+
+                  }
+                });
+              }
             }
           });
         }).catch(() => {

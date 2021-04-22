@@ -153,7 +153,7 @@ export const StaticRouterMap = [{
         },
       }]
   },
-  {
+  /*{
     path: '/commodity',
     component: Layout,
     name: 'Commodity',
@@ -198,7 +198,7 @@ export const StaticRouterMap = [{
       },
     }
     ]
-  },
+  },*/
  {
     path: '/ticketing',
     component: Layout,
@@ -265,7 +265,7 @@ export const StaticRouterMap = [{
         meta: {
           title: '会员信息'
         },
-      }, {
+      }, /*{
         path: 'integralRule',
         component: () => import('@/views/member/integralRule/index'),
         name: 'IntegralRule',
@@ -284,7 +284,7 @@ export const StaticRouterMap = [{
         component: () => import('@/views/member/groupExchange/index'),
         name: 'GroupExchange',
         meta: {
-          title: '团体票兑换记录'
+          title: '兑换记录'
         },
       }, {
         path: 'pointsRecord',
@@ -293,15 +293,7 @@ export const StaticRouterMap = [{
         meta: {
           title: '积分记录'
         },
-      }]
-  }, {
-    path: '/statistical',
-    component: Layout,
-    name: 'Statistical',
-    meta: {
-      title: '统计报表',
-      icon: "component"
-    },
+      }*/]
   },
   {
     path: '/system',

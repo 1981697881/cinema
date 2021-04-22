@@ -40,7 +40,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { refundOrder } from '@/api/studios/index'
+import { refundOrder,refundRecharge } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -107,28 +107,27 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     returnTicket() {
-      if (this.clickData.orderId) {
-        this.$confirm('退票确认', '提示', {
+      let that = this
+      if (that.clickData.orderId) {
+        that.$confirm('退票确认', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           refundOrder({
-            orderId: this.clickData.orderId
+            orderId: that.clickData.orderId
           }).then(res => {
-            if(res.flag){
-              this.$store.dispatch("list/setClickData", '');
-              this.$emit('uploadList')
-            }
+            console.log(res)
+
           });
         }).catch(() => {
-          this.$message({
+          that.$message({
             type: 'info',
             message: '已取消'
           });
         });
       } else {
-        this.$message({
+        that.$message({
           message: "无选中行",
           type: "warning"
         })
