@@ -181,7 +181,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="'职务'" prop="orgAttr">
+            <el-form-item :label="'职务'" prop="roleType">
               <el-select v-model="postform.roleType" class="width-full" placeholder="请选择">
                 <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormatTT" :key="i"></el-option>
               </el-select>
@@ -344,15 +344,13 @@
           ],
         },
         rules2: {
-          takeBreaks: [
+          roleName: [
             {required: true, message: '请输入值', trigger: 'blur'},
           ],
-          endTime: [
-            {required: true, message: '请选择日期', trigger: 'change'}
+          roleType: [
+            {required: true, message: '请选择', trigger: 'change'}
           ],
-          startTime: [
-            {required: true, message: '请选择日期', trigger: 'change'}
-          ],
+
         }, rules3: {
           starName: [
             {required: true, message: '请输入值', trigger: 'blur'},
