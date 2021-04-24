@@ -34,9 +34,9 @@ export default {
       columns: [
         { text: "影片名称", name: "filmName" },
         { text: "放映日期", name: "showDatetime",sort: true },
-        { text: "最高票价", name: "standardprice" },
-        { text: "正常票价", name: "settleprice" },
-        { text: "会员票价", name: "lowestprice" },
+        { text: "正常票价", name: "standardprice" },
+        { text: "会员票价", name: "settleprice" },
+        { text: "优惠票价", name: "lowestprice" },
         { text: "语言", name: "language" },
         { text: "时长", name: "duration" },
         { text: "状态(Y开售,N停售)", name: "salestatus" },

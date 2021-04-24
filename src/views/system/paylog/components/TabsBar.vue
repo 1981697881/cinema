@@ -11,7 +11,7 @@
           <el-form-item :label="'日期'">
             <el-date-picker
               v-model="value"
-              type="daterange"
+              type="datetimerange"
               style="width: auto"
               align="right"
               class="input-class"

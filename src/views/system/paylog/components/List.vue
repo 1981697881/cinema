@@ -33,11 +33,12 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "票劵号", name: "orderId" },
-        { text: "手机号码", name: "mobile" },
-        { text: "实际支付金额", name: "ticketPaymoney" },
+        { text: "手机号码", name: "phoneNumber" },
+        { text: "操作", name: "transactionLog" },
         { text: "票劵总价", name: "ticketPaymoney" },
-        { text: "购买时间", name: "createDatetime" },
+        { text: "发生金额", name: "qty" },
+        { text: "发生时间", name: "createDatetime" },
+        { text: "类型（0:支出，1存入）", name: "transactionType" },
       ]
     };
   },

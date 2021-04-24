@@ -65,7 +65,7 @@ export function getUsersList(data) {
     method: 'POST'
   })
 }// 用户交易日志-获取列表
-export function transactionLogList(data) {
+export function transactionLogList(data,params) {
   const url = '/transactionLog/transactionLogList/' + data.pageNum + '/' + data.pageSize
   return request({
     url: url,
@@ -73,6 +73,7 @@ export function transactionLogList(data) {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
     },
+    data:params,
     method: 'POST'
   })
 }

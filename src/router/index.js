@@ -311,6 +311,13 @@ export const StaticRouterMap = [{
         title: '用户管理'
       },
     },{
+      path: 'paylog',
+      component: () => import('@/views/system/paylog/index'),
+      name: 'Paylog',
+      meta: {
+        title: '交易日志'
+      },
+    },{
       path: 'about',
       component: () => import('@/views/system/about/index'),
       name: 'About',

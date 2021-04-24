@@ -40,6 +40,7 @@ const map = {
 
 
   'users': () => import('@/views/system/users'),
+  'paylog': () => import('@/views/system/paylog'),
   'about': () => import('@/views/system/about'),
   'journal': () => import('@/views/system/journal'),
   'notice': () => import('@/views/system/notice'),
