@@ -35,10 +35,10 @@ export default {
       columns: [
         { text: "手机号码", name: "phoneNumber" },
         { text: "操作", name: "transactionLog" },
-        { text: "票劵总价", name: "ticketPaymoney" },
         { text: "发生金额", name: "qty" },
         { text: "发生时间", name: "createDatetime" },
         { text: "类型（0:支出，1存入）", name: "transactionType" },
+        { text: "状态（0:成功，1失败）", name: "status" },
       ]
     };
   },
