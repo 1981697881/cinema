@@ -64,6 +64,17 @@ export function getUsersList(data) {
     },
     method: 'POST'
   })
+}// 用户交易日志-获取列表
+export function transactionLogList(data) {
+  const url = '/transactionLog/transactionLogList/' + data.pageNum + '/' + data.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
 }
 // 用户权限管理-新增
 export function addUsers(params) {

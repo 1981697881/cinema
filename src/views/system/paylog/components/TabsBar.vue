@@ -2,6 +2,11 @@
   <div class="list-header">
     <el-form v-model="search" :size="'mini'" :label-width="'80px'">
       <el-row :gutter="10">
+        <el-col :span="4">
+          <el-form-item :label="'关键字'">
+            <el-input v-model="search.loPrName" placeholder="手机号码"/>
+          </el-form-item>
+        </el-col>
         <el-col :span="6" style="display: inline-block">
           <el-form-item :label="'日期'">
             <el-date-picker
@@ -19,16 +24,12 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item :label="'订单号'">
-            <el-input v-model="search.memberCdkeyId" placeholder="名称"/>
-          </el-form-item>
-        </el-col>
         <el-col :span="2">
           <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
         </el-col>
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="returnTicket">退票</el-button>
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
@@ -40,7 +41,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { refundOrder } from '@/api/studios/index'
+import { refundOrder,refundRecharge } from '@/api/studios/index'
 export default {
   components: {},
   computed: {
@@ -78,7 +79,7 @@ export default {
       value: '',
       btnList: [],
       search: {
-        memberCdkeyId: null
+        phoneNumber: null
       }
     };
   },
@@ -96,9 +97,10 @@ export default {
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.memberCdkeyId != null && this.search.memberCdkeyId != '' ? obj.memberCdkeyId = this.search.memberCdkeyId : null
-      this.value != null && this.value != undefined ? obj.endDateTime = this.value[1] : null
-      this.value != null && this.value != undefined ? obj.createDateTime = this.value[0] : null
+      this.search.phoneNumber != null && this.search.phoneNumber != '' ? obj.phoneNumber = this.search.phoneNumber : null
+      this.value != null && this.value != undefined ? obj.selectEndtime = this.value[1] : null
+      this.value != null && this.value != undefined ? obj.createDatetime = this.value[0] : null
+      obj.status = 1
       return obj
     },
     // 关键字查询
@@ -117,8 +119,26 @@ export default {
             orderId: this.clickData.orderId
           }).then(res => {
             if(res.flag){
-              this.$store.dispatch("list/setClickData", '');
-              this.$emit('uploadList')
+              console.log(res.data['memberTicket'].payType=="余额支付")
+              if(res.data['memberTicket'].payType=="余额支付"){
+                refundRecharge({
+                  custId: res.data.custId,
+                  qty: res.data['memberTicket'].ticketPaymoney,
+                  phoneNumber: res.data['memberTicket'].mobile,
+                }).then(reso => {
+                  if(reso.flag){
+                    that.$store.dispatch("list/setClickData", '');
+                    that.$emit('uploadList')
+                  }
+                });
+              }else{
+                that.$alert('退票成功，请确认', '信息', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+
+                  }
+                });
+              }
             }
           });
         }).catch(() => {
@@ -138,7 +158,7 @@ export default {
       this.$emit('showDialog')
     },
     upload() {
-      this.search.memberCdkeyId = ''
+      this.search.phoneNumber = ''
       this.value = ''
       this.$emit('uploadList')
     },
