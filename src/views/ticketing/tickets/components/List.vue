@@ -33,11 +33,14 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "票劵号", name: "orderId" },
+        { text: "小程序票劵号", name: "ticketId" },
+        { text: "订单号", name: "bookingId" },
         { text: "手机号码", name: "mobile" },
+        { text: "取票号", name: "confirmationId" },
         { text: "实际支付金额", name: "ticketPaymoney" },
         { text: "票劵总价", name: "ticketPaymoney" },
-        { text: "购买时间", name: "createDatetime" },
+        { text: "购买时间", name: "createDatetime",sort: true },
+        { text: "支付方式", name: "payType",sort: true },
       ]
     };
   },

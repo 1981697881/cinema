@@ -36,6 +36,8 @@ export default {
         { text: "生成批次", name: "" },
         { text: "团体票类型", name: "" },
         { text: "生成时间", name: "" },
+        { text: "生效时间", name: "" },
+        { text: "失效时间", name: "" },
       ]
     };
   },

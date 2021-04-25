@@ -15,6 +15,26 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'使用时间'">
+            <el-date-picker
+              v-model="value"
+              type="datetimerange"
+              align="right"
+              style="width: auto"
+              class="input-class"
+              unlink-panels
+              range-separator="至"
+              value-format="yyyy-MM-dd"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -34,6 +54,7 @@
     },
     data() {
       return {
+        value: '',
         form: {
           loPrId: null,
           loPrName: null, // 名称
