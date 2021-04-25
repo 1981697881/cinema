@@ -15,6 +15,8 @@
            <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
+         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerCreate">生成二维码</el-button>
+         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerInfo">生成记录</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -82,6 +84,12 @@ export default {
     },
     handlerAdd() {
       this.$emit('showDialog')
+    },
+    handlerCreate() {
+      this.$emit('showCreate')
+    },
+    handlerInfo() {
+      this.$emit('showInfo')
     },
     upload() {
       this.$emit('uploadList')
