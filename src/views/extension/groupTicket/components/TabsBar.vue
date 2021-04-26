@@ -17,7 +17,8 @@
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerCreate">生成二维码</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerInfo">生成记录</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-printer" @click="confirmPrint" >打印</el-button>
         </el-button-group>
       </el-row>
     </el-form>
@@ -25,6 +26,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { PrintSchedule } from '@/tools/doPrint'
 import { getByUserAndPrId } from '@/api/system/index'
 export default {
   components: {},
@@ -47,6 +49,18 @@ export default {
     });*/
   },
   methods: {
+    // 提交打印
+    confirmPrint() {
+      if (this.selections.length > 0) {
+        PrintSchedule(this.selections)
+        LODOP.PREVIEW()
+      } else {
+        this.$message({
+          message: '无选中行',
+          type: 'warning'
+        });
+      }
+    },
     onFun(method){
       this[method]()
     },

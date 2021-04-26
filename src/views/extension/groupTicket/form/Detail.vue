@@ -33,7 +33,18 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'是否批量'">
+            <el-checkbox v-model="form.checked"></el-checkbox>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'包含张数'">
+            <el-input-number v-model="form.contact"></el-input-number>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
@@ -94,7 +105,7 @@
         },
         pidS: [],
         pArray: [],
-        levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
+        levelFormat: [['普通票', '普通票'], ['通用票', '通用票']],
         rules: {
           loPrName: [
             {required: true, message: '请输入名稱', trigger: 'blur'},
