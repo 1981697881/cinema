@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -57,10 +56,10 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      deletePoster(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
+          this.uploadPr();
         }
       });
     },

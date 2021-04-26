@@ -15,8 +15,6 @@
            <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" >禁用</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" >启用</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -68,7 +66,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', {posterId: this.clickData.posterId})
+          this.$emit('delList', [{'posterId':this.clickData.posterId}])
         }).catch(() => {
           this.$message({
             type: 'info',
