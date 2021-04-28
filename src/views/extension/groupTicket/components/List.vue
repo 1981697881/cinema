@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getCouponList, deleteCoupon} from "@/api/extension/index";
+import { getBatchList, deleteCoupon} from "@/api/extension/index";
 import List from "@/components/List";
 
 export default {
@@ -33,9 +33,10 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "生成批次", name: "" },
-        { text: "团体票类型", name: "" },
-        { text: "生成时间", name: "" },
+        { text: "团体票名称", name: "cdkeyName" },
+        { text: "生成时间", name: "createDatetime" },
+        { text: "总数量", name: "allCount" },
+        { text: "未生成数量", name: "falseCount" },
         { text: "生效时间", name: "" },
         { text: "失效时间", name: "" },
       ]
@@ -63,12 +64,6 @@ export default {
         }
       });
     },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
@@ -84,7 +79,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getCouponList(data, val).then(res => {
+      getBatchList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

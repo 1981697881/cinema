@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form ref="form" label-width="100px" :size="'mini'">
-      <el-row :gutter="20">
+      <!--<el-row :gutter="20">
         <el-col :span="10">
           <el-form-item label-width="0" >
             <el-input v-model="starName" ></el-input>
@@ -10,10 +10,14 @@
         <el-col :span="2">
           <el-button  :size="'mini'" type="success" @click="query" icon="el-icon-search">查询</el-button>
         </el-col>
-      </el-row>
+      </el-row>-->
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true" >
+          <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true" @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
             <el-table-column
               v-for="(t,i) in columns1"
               :key="i"
@@ -28,13 +32,15 @@
       </el-row>
     </el-form>
     <div slot="footer" style="text-align:center;margin-top: 15px">
-      <el-button type="primary" @click="saveData('form')">保存</el-button>
+      <el-button type="primary" icon="el-icon-printer" @click="downPdf" >打印</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {addMovier,getStarList} from "@/api/basic/index";
+  import {addMovier,getShareList} from "@/api/extension/index";
+  import html2canvas from 'html2canvas';
+  import jspdf from 'jspdf';
   import {
     getToken
   } from '@/utils/auth'
@@ -53,53 +59,78 @@
         },
         keyWords: [],
         list: [],
+        multipleSelection: [],
         columns1: [
-          {text: "二维码号", name: "starName"},
-          {text: "生成时间", name: "roleType"},
-          {text: "包含兑换码数量", name: "roleName"},
-          {text: "状态", name: "roleName"},
+          {text: "二维码号", name: "memberCdkeyShare"},
+          {text: "生成时间", name: "createDatetime"},
+          {text: "包含兑换码数量", name: "allCount"},
+          {text: "状态", name: "statusMessage"},
         ],
       };
     },
     mounted() {
       if (this.listInfo) {
-
+        this.createDatetime = this.listInfo.createDatetime
+        this.query()
       }
     },
     methods: {
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      downPdf() {
+        window.scrollTo(0, 0) //注意这里必须设置为顶部不然会出现图片不全
+        let that = this;
+        html2canvas(document.querySelector('#all1'), {//对应的dom元素id
+          allowTaint: true
+        }).then(function (canvas) {
+          var contentWidth = canvas.width;
+          var contentHeight = canvas.height;
+          //一页pdf显示html页面生成的canvas高度;
+          var pageHeight = contentWidth / 595.28 * 841.89;
+          //未生成pdf的html页面高度
+          var leftHeight = contentHeight;
+          //pdf页面偏移
+          var position = 0;
+          //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+          var imgWidth = 555.28;
+          var imgHeight = 555.28 / contentWidth * contentHeight;
+
+          var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+          var pdf = new jspdf('', 'pt', 'a4');
+          //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+          //当内容未超过pdf一页显示的范围，无需分页
+          if (leftHeight < pageHeight) {
+            pdf.addImage(pageData, 'JPEG', 20, 0, imgWidth, imgHeight);
+          } else {
+            while (leftHeight > 0) {
+              pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
+              leftHeight -= pageHeight;
+              position -= 841.89;
+              //避免添加空白页
+              if (leftHeight > 0) {
+                pdf.addPage();
+              }
+            }
+          }
+          pdf.save(that.printName + '.pdf');
+        })
+      },
       // 查询条件过滤
       qFilter() {
         let obj = {}
-        this.starName != null && this.starName != '' ? obj.starName = this.starName : null
+        this.createDatetime != null && this.createDatetime != '' ? obj.createDatetime = this.createDatetime : null
         return obj
       },
       //查询
       query(){
-        getStarList(this.qFilter()).then(res => {
+        getShareList(this.qFilter()).then(res => {
           if (res.flag) {
-            this.list2 = res.data
+            this.list = res.data
           }
         })
       },
-
-      saveData(form) {
-        this.$refs[form].validate((valid) => {
-          //判断必填项
-          if (valid) {
-            //修改
-            let param = this.form
-            param.filmRoleVOS = this.list
-            addMovie(param).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          } else {
-            return false;
-          }
-        })
-
-      },
-
     }
   };
 </script>

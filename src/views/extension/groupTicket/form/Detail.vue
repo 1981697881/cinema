@@ -3,15 +3,15 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'团体票类型'">
-            <el-select v-model="form.orgAttr" class="width-full" placeholder="请选择">
+          <el-form-item :label="'团体票类型'" prop="cdkeyNumber">
+            <el-select v-model="form.cdkeyNumber" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'团体票数量'">
-            <el-input-number v-model="form.contact"></el-input-number>
+          <el-form-item :label="'数量'" prop="shareCount">
+            <el-input-number v-model="form.shareCount"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -29,6 +29,7 @@
               value-format="yyyy-MM-dd"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
+              @change="changeDate"
               :picker-options="pickerOptions">
             </el-date-picker>
           </el-form-item>
@@ -37,12 +38,12 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'是否批量'">
-            <el-checkbox v-model="form.checked"></el-checkbox>
+            <el-checkbox v-model="form.batch"></el-checkbox>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'包含张数'">
-            <el-input-number v-model="form.contact"></el-input-number>
+            <el-input-number v-model="form.ratio"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -54,7 +55,7 @@
 </template>
 
 <script>
-  import { addCoupon} from "@/api/basic/index";
+  import { addShareCdKey} from "@/api/extension/index";
 
   export default {
     props: {
@@ -67,15 +68,13 @@
       return {
         value: '',
         form: {
-          loPrId: null,
-          loPrName: null, // 名称
-          loPrCode: null,
-          contact: null,
-          addr: null,
-          tel: null,
-          description: null,
+          shareCount: null,
+          cdkeyNumber: null,
+          ratio: null,
+          batch: false,
+          startDate: null,
+          endDate: null,
         },
-        value: '',
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
@@ -105,13 +104,12 @@
         },
         pidS: [],
         pArray: [],
-        levelFormat: [['普通票', '普通票'], ['通用票', '通用票']],
+        levelFormat: [[1,'普通票'], [2,'通用票']],
         rules: {
-          loPrName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
-          ],
-          loPrCode: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          shareCount: [
+            {required: true, type: 'number' ,min: 1,message: '请输入', trigger: 'blur'},
+          ], cdkeyNumber: [
+            {required: true, message: '请选择', trigger: 'change'},
           ],
         },
       };
@@ -123,11 +121,15 @@
       }
     },
     methods: {
+      changeDate(val){
+        this.startDate = val[0]
+        this.endDate = val[1]
+      },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
-            addCoupon(this.form).then(res => {
+            addShareCdKey(this.form).then(res => {
                  this.$emit('hideDialog', false)
                  this.$emit('uploadList')
                });

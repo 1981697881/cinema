@@ -80,4 +80,63 @@ export function deleteCoupon(params) {
     data: params,
     method: 'post'
   })
+}// 团体票管理-新增
+export function addShareCdKey(params) {
+  return request({
+    url: '/memberCdkeyDetail/shareCdKey',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }
+// 团体票管理-获取列表
+export function getBatchList(params, data) {
+  const url = '/memberCdkeyDetail/batchList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 团体票管理-兑换码列表
+export function qrShareList(params) {
+  return request({
+    url: '/memberCdkeyDetail/qrShareList',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 团体票管理-生成二维码
+export function handShareCdKey(params) {
+  return request({
+    url: '/memberCdkeyDetail/handShareCdKey',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 团体票管理-二维码列表
+export function getShareList(params) {
+  return request({
+    url: '/memberCdkeyDetail/shareList',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+

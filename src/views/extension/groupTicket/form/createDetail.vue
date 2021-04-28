@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="10">
           <el-form-item label="状态">
-          <el-select v-model="value"  placeholder="请选择">
+          <el-select v-model="value"  @change="selectChange" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -17,7 +17,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-            <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true"  @selection-change="handleSelectionChange">
+            <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true"  @selection-change="handleSelectionChange">
               <el-table-column
                 type="selection"
                 width="55">
@@ -36,13 +36,13 @@
       </el-row>
     </el-form>
     <div slot="footer" style="text-align:center;margin-top: 15px">
-      <el-button type="primary" @click="saveData('form')">保存</el-button>
+      <el-button :disabled="isClick" type="primary" @click="saveData('form')">保存</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {addMovier,getStarList} from "@/api/basic/index";
+  import {handShareCdKey,qrShareList} from "@/api/extension/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -59,6 +59,7 @@
         headers: {
           'authorization': getToken('cinerx'),
         },
+        isClick: false,
         options: [{
           value: '可用',
           label: '可用'
@@ -71,22 +72,32 @@
         keyWords: [],
         list: [],
         columns1: [
-          {text: "兑换码", name: "starName"},
-          {text: "对应二维码号", name: "starName"},
-          {text: "状态", name: "starName"},
+          {text: "兑换码", name: "cdkeyCode"},
+          {text: "状态", name: "statusMessage"},
         ],
       };
     },
     mounted() {
       if (this.listInfo) {
-
+          this.createDatetime = this.listInfo.createDatetime
+          this.query()
       }
     },
     methods: {
+      selectChange(val){
+        if(val =='已生成'){
+          this.isClick = true
+        }else{
+          this.isClick = false
+        }
+        console.log(val)
+        this.query()
+      },
       // 查询条件过滤
       qFilter() {
         let obj = {}
-        this.starName != null && this.starName != '' ? obj.starName = this.starName : null
+        this.value != null && this.value != '' ? obj.memberCdkeyShare = this.value : null
+        this.createDatetime != null && this.createDatetime != '' ? obj.createDatetime = this.createDatetime : null
         return obj
       },
       handleSelectionChange(val) {
@@ -94,29 +105,29 @@
       },
       //查询
       query(){
-        getStarList(this.qFilter()).then(res => {
+        qrShareList(this.qFilter()).then(res => {
           if (res.flag) {
-            this.list2 = res.data
+            this.list = res.data
           }
         })
       },
 
-      saveData(form) {
-        this.$refs[form].validate((valid) => {
+      saveData() {
           //判断必填项
-          if (valid) {
+          if (this.multipleSelection.length>0) {
             //修改
             let param = this.form
-            param.filmRoleVOS = this.list
-            addMovie(param).then(res => {
+            let sArray =[]
+            this.multipleSelection.forEach((item,index)=>{
+              sArray.push(item.cdkeyCode)
+            })
+            handShareCdKey({cdkeyCodes:sArray}).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
           } else {
             return false;
           }
-        })
-
       },
 
     }
