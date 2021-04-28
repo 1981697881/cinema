@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
+
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'团体票类型'" prop="cdkeyNumber">
@@ -75,6 +76,7 @@
           startDate: null,
           endDate: null,
         },
+
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
