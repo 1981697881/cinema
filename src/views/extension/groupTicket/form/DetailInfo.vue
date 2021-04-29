@@ -90,6 +90,8 @@
     },
     methods: {
       creatQrCode(element,val) {
+        var deleteNode =document.getElementById(element).innerText ='';
+
         var qrcode = new QRCode(element, {
           text: val, // 需要转换为二维码的内容
           width: 100,
@@ -103,8 +105,6 @@
         let that = this
         this.multipleSelection = val;
         this.$nextTick(() => {
-
-
         this.multipleSelection.forEach((item,index)=>{
           that.creatQrCode('qrCode'+index,item.memberCdkeyShare)
         })
