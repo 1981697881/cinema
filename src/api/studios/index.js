@@ -29,6 +29,18 @@ export function addHall(params) {
     method: 'post',
     data: params
   })
+}// 影厅管理-维护价格
+export function hallImbalance(params) {
+  const url = '/locationHall/hallImbalance'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
 }
 // 影厅管理-下拉
 export function hallFormat(params) {
@@ -205,6 +217,19 @@ export function refundOrder(params) {
   })
 }// 票务管理-退余额
 export function refundRecharge(params) {
+  console.log(params)
+  const url = 'V8/Recharge'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}// 场次管理-停播
+export function rfundRecharge(params) {
   console.log(params)
   const url = 'V8/Recharge'
   return request({

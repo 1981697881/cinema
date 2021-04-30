@@ -37,7 +37,7 @@ export default {
       /*  { text: "开场时间", name: "" },
         { text: "结束时间", name: "" },*/
         { text: "座位数", name: "hallNumber" },
-        { text: "状态", name: "status" },
+        { text: "需补差额", name: "hallImbalance" },
       ]
     };
   },

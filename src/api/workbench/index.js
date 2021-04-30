@@ -5,7 +5,7 @@ import {
 
 // 票务管理-获取列表
 export function getTicketList(params, data) {
-  const url = '/memberTicket/ticketForm/' + params.pageNum + '/' + params.pageSize
+  const url = '/memberTicket/ticketsForm/' + params.pageNum + '/' + params.pageSize
   return request({
     url: url,
     headers: {
@@ -27,7 +27,8 @@ export function detailById(params) {
     data: params,
     method: 'post'
   })
-}//票劵售卖-生成订单
+}
+//票劵售卖-生成订单
 export function lockSeats(params) {
   return request({
     url: '/engross/lockSeats',

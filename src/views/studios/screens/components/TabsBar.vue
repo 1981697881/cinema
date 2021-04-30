@@ -14,8 +14,9 @@
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
            <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步座位</el-button>
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
+
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
+          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">维护差价</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"  @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
