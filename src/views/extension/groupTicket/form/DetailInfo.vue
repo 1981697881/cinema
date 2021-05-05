@@ -4,7 +4,8 @@
       <div class="rowClass">
         <div class="pdfClass" v-for="(item,index) in multipleSelection" :key="index">
           <img
-            style="width: 14.5cm; height: 6.62cm"
+            class="pdfImg"
+            style="width: 14.5cm; height: 6.62cm;"
             src="@/assets/img/_20210428205913.jpg"
             fit="fit"/>
           <div class="scanImg" :id="'qrCode'+index"></div>
@@ -144,7 +145,7 @@
               }
             }
           }
-          pdf.save('1111.pdf');
+          pdf.save('团体票.pdf');
         })
       },
       // 查询条件过滤
@@ -168,6 +169,13 @@
 <style>
   .el-tag + .el-tag {
     margin-left: 10px;
+  }
+  .pdfImg{
+    image-rendering: -moz-crisp-edges;         /* Firefox */
+    image-rendering:   -o-crisp-edges;         /* Opera */
+    image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
   }
   .printClass{
     position: fixed;

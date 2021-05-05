@@ -17,7 +17,7 @@
               class="input-class"
               unlink-panels
               range-separator="至"
-              value-format="HH:mm:ss"
+              value-format="yyyy-MM-dd"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :picker-options="pickerOptions">
@@ -29,10 +29,10 @@
         </el-col>
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="returnTicket">退票</el-button>
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
+          <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -108,69 +108,14 @@ export default {
     query() {
       this.$emit('queryBtn', this.qFilter())
     },
-    returnTicket() {
-      if (this.clickData.orderId) {
-        this.$confirm('退票确认', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          refundOrder({
-            orderId: this.clickData.orderId
-          }).then(res => {
-            if(res.flag){
-              console.log(res.data['memberTicket'].payType=="余额支付")
-              if(res.data['memberTicket'].payType=="余额支付"){
-                refundRecharge({
-                  custId: res.data.custId,
-                  qty: res.data['memberTicket'].ticketPaymoney,
-                  phoneNumber: res.data['memberTicket'].mobile,
-                }).then(reso => {
-                  if(reso.flag){
-                    that.$store.dispatch("list/setClickData", '');
-                    that.$emit('uploadList')
-                  }
-                });
-              }else{
-                that.$alert('退票成功，请确认', '信息', {
-                  confirmButtonText: '确定',
-                  callback: action => {
-
-                  }
-                });
-              }
-            }
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        })
-      }
-    },
-    handlerAdd() {
-      this.$emit('showDialog')
+    // 导出
+    exportData() {
+      this.$emit('exportData')
     },
     upload() {
       this.search.phoneNumber = ''
       this.value = ''
       this.$emit('uploadList')
-    },
-    handlerAlter() {
-      if (this.clickData.loPrId) {
-        this.$emit('showDialog', this.clickData)
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        });
-      }
     },
   }
 };
