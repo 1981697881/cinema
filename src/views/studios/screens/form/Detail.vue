@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       form: {
-        hall_id: null,
+        hallId: null,
         hallImbalance: 0,
       },
       rules: {
@@ -43,7 +43,7 @@ export default {
   },
   mounted() {
     if (this.listInfo) {
-      this.form.hall_id = this.listInfo.hallId
+      this.form.hallId = this.listInfo.hallId
     }
   },
   methods: {

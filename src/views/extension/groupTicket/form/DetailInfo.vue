@@ -193,8 +193,8 @@
   }
   .scanImg{
     position: absolute;
-    right:0.4cm;
-    bottom: 0.3cm;
+    right: 2.6cm;
+    bottom: 0.2cm;
     z-index: 101;
     display: inline-block;
 
