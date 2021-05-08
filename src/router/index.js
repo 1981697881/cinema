@@ -318,6 +318,13 @@ export const StaticRouterMap = [{
         title: '交易日志'
       },
     },{
+      path: 'wechatLog',
+      component: () => import('@/views/system/wechatLog/index'),
+      name: 'WechatLog',
+      meta: {
+        title: '微信支付日志'
+      },
+    },{
       path: 'about',
       component: () => import('@/views/system/about/index'),
       name: 'About',

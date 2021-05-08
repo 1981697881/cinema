@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getTicketList} from "@/api/workbench/index";
+import { getWeChatLogList} from "@/api/system/index";
 import List from "@/components/List";
 
 export default {
@@ -33,14 +33,10 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "小程序票劵号", name: "ticketId" },
-        { text: "订单号", name: "bookingId" },
-        { text: "手机号码", name: "mobile" },
-        { text: "取票号", name: "confirmationId" },
-        { text: "实际支付金额", name: "ticketPaymoney" },
-        { text: "票劵总价", name: "remark" },
-        { text: "购买时间", name: "createDatetime",sort: true },
-        { text: "支付方式", name: "payType",sort: true },
+        { text: "手机号码", name: "phoneNumber" },
+        { text: "用户", name: "username" },
+        { text: "支付金额", name: "totalFee" },
+        { text: "发生时间", name: "timeEnd" },
       ]
     };
   },
@@ -57,12 +53,9 @@ export default {
           filterVal.push(item.name)
         })
         const list = this.list.records
-        console.log(list)
-        console.log(filterVal)
         const data = this.formatJson(filterVal, list);
-        console.log(data)
         // 这里还是使用export_json_to_excel方法比较好，方便操作数据
-        excel.export_json_to_excel([tHeader],data,'票劵信息')
+        excel.export_json_to_excel([tHeader],data,'日志信息')
       })
     },
     formatJson(filter, jsonDate){
@@ -85,14 +78,7 @@ export default {
     dblclick(obj) {
       this.$emit('showDialog', obj.row)
     },
-    Delivery(val) {
-      delSupplier(val).then(res => {
-        if(res.flag){
-          this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
-        }
-      });
-    },
+
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
@@ -108,7 +94,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-        getTicketList(data, val).then(res => {
+      getWeChatLogList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

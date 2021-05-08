@@ -41,6 +41,7 @@ const map = {
 
   'users': () => import('@/views/system/users'),
   'paylog': () => import('@/views/system/paylog'),
+  'wechatLog': () => import('@/views/system/wechatLog'),
   'about': () => import('@/views/system/about'),
   'journal': () => import('@/views/system/journal'),
   'notice': () => import('@/views/system/notice'),

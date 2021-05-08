@@ -76,6 +76,18 @@ export function transactionLogList(data,params) {
     data:params,
     method: 'POST'
   })
+}// 微信支付日志-获取列表
+export function getWeChatLogList(data,params) {
+  const url = '/wechatPayLog/weChatLog/' + data.pageNum + '/' + data.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data:params,
+    method: 'POST'
+  })
 }
 // 用户权限管理-新增
 export function addUsers(params) {
