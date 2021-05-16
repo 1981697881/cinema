@@ -3,11 +3,16 @@
     <el-row :gutter="20" id="all1" class="printClass">
       <div class="rowClass">
         <div class="pdfClass" v-for="(item,index) in multipleSelection" :key="index">
-          <img
+          <el-image
+            class="pdfImg"
+            style="width: 29cm; height: 13.42cm;"
+            :src="require(`@/assets/img/20210516193059.jpg`)"
+            fit="fill"></el-image>
+         <!-- <img
             class="pdfImg"
             style="width: 14.5cm; height: 6.62cm;"
-            src="@/assets/img/_20210428205913.jpg"
-            fit="fit"/>
+            src="@/assets/img/_20210516131734.jpg"
+            fit="fit"/>-->
           <div class="scanImg" :id="'qrCode'+index"></div>
         </div>
       </div>
@@ -183,8 +188,8 @@
     top: -99999999999999px;
     margin-right: 0 !important;
     margin-left: 0 !important;
-    heihgt: 21cm;
-    width: 29.7cm;
+    heihgt: 36cm;
+    width: 58.7cm;
     /*position: fixed;
     z-index: 99;
     left: 10%;*/
@@ -193,14 +198,14 @@
   }
   .scanImg{
     position: absolute;
-    right: 2.6cm;
-    bottom: 0.2cm;
+    right: 7cm;
+    bottom: 0.8cm;
     z-index: 101;
     display: inline-block;
 
   }
   .scanImg img{
-    width: 2.5cm; height: 2.5cm;
+    width: 4.4cm; height: 4.4cm;
     background-color: #fff;
     padding: 6px;
     box-sizing: border-box;
@@ -232,6 +237,7 @@
     margin-left: 10px;
     vertical-align: bottom;
   }
+
 </style>
 <style lang="scss">
   .hide .el-upload--picture-card {
