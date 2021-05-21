@@ -35,6 +35,7 @@ export default {
       columns: [
         { text: "小程序票劵号", name: "ticketId" },
         { text: "订单号", name: "bookingId" },
+        { text: "影片名称", name: "filmName" },
         { text: "手机号码", name: "mobile" },
         { text: "取票号", name: "confirmationId" },
         { text: "实际支付金额", name: "ticketPaymoney" },

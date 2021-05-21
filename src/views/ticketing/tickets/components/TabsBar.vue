@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.loPrName" placeholder="名称"/>
+            <el-input v-model="search.keyWords" placeholder="名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -35,7 +35,7 @@ export default {
     return {
       btnList: [],
       search: {
-        loPrName: null
+        keyWords: null
       }
     };
   },
@@ -57,7 +57,7 @@ export default {
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      this.search.keyWords != null && this.search.keyWords != '' ? obj.keyWords = this.search.keyWords : null
       return obj
     },
     // 关键字查询

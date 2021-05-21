@@ -32,6 +32,7 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true" @selection-change="handleSelectionChange">
+            <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
             <el-table-column
               type="selection"
               width="55">
