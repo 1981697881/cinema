@@ -37,7 +37,7 @@ export default {
         { text: "图片", name: "posterPhoto", default: 'img'},
         { text: "开始时间", name: "posterStartdatetime" },
         { text: "结束时间", name: "posterEnddatetime" },
-        { text: "状态", name: "status" },
+        /*{ text: "状态", name: "status" },*/
       ]
     };
   },

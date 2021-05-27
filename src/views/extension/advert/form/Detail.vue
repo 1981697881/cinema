@@ -3,8 +3,8 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'广告位置'" prop="posterLocation">
-            <el-select v-model="form.posterLocation" class="width-full" placeholder="请选择">
+          <el-form-item :label="'广告位置'" prop="type">
+            <el-select v-model="form.type" class="width-full" placeholder="请选择">
               <el-option :label="t[1]" :value="t[0]" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
           </el-form-item>
@@ -103,7 +103,7 @@ export default {
       form: {
         posterStartdatetime: null,
         posterEnddatetime: null,
-        posterLocation: null,
+        type: null,
         posterName: null,
         posterType: null,
         posterUrl: null,
@@ -148,9 +148,11 @@ export default {
       },
       pidS:[],
       pArray:[],
-      levelFormat: [['主页', '主页']],
+      levelFormat: [['1', '主页轮播'],['2', '主页推荐']],
       rules: {
-        loPrName: [
+        type: [
+          {required: true, message: '请选择', trigger: 'change'},
+        ], loPrName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
         loPrCode: [
