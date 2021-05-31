@@ -63,7 +63,7 @@ export default {
         }
       });
     },
-    uploadPr(val) {
+    uploadPr(val={}) {
       this.fetchData(val, {
         pageNum: 1,
         pageSize: this.list.size || 50
