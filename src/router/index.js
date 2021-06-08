@@ -116,6 +116,13 @@ export const StaticRouterMap = [{
         meta: {
           title: '职员管理'
         },
+      },{
+        path: 'machine',
+        component: () => import('@/views/basic/machine/index'),
+        name: 'Machine',
+        meta: {
+          title: '机台管理'
+        },
       },
     ]
   },

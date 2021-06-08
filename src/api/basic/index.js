@@ -204,3 +204,43 @@ export function getStarList(params) {
     method: 'post'
   })
 }
+// 机台管理-获取列表
+export function getPlayList(params, data) {
+  const url = '/play/playList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+
+// 机台管理-新增
+export function addPlay(params) {
+  const url = '/play/addPlay'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+
+// 机台管理-删除
+export function deletePlay(params) {
+  return request({
+    url: '/play/deletePlay',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}

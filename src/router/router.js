@@ -9,6 +9,7 @@ const map = {
   'studios': () => import('@/views/basic/studios'),
   'shadow': () => import('@/views/basic/shadow'),
   'clerk': () => import('@/views/basic/clerk'),
+  'machine': () => import('@/views/basic/machine'),
 
   'sessions': () => import('@/views/studios/sessions'),
  /* 'schedule': () => import('@/views/studios/schedule'),*/
