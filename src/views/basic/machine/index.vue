@@ -8,7 +8,7 @@
     </div>
     <el-dialog
       :visible.sync="visible"
-      title="电影信息"
+      title="机台信息"
       v-if="visible"
       v-dialogDrag
       :width="'70%'"

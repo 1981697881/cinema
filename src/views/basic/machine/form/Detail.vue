@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'机台名称'" prop="playName">
-            <el-input v-model="form.playName" disabled></el-input>
+            <el-input v-model="form.playName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -26,6 +26,32 @@
               :file-list="pictureList"
               :before-upload="beforeUploadImage"
               :on-remove="handleRemove">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24" style="text-align: center">
+          <el-form-item :label="'机台海报'">
+            <el-upload
+              :action="fileUrl"
+              list-type="picture-card"
+              accept="image/jpeg,image/jpg,image/png,image/gif"
+              :headers="headers"
+              :limit="1"
+              name="imgS"
+              :on-success="uploadStillSuccess"
+              :on-error="uploadError"
+              :class="{hide:hideStillUpload}"
+              :on-preview="handlePictureCardPreview"
+              :on-change="handleStillChange"
+              :file-list="stillList"
+              :before-upload="beforeUploadImage"
+              :on-remove="handleRemovet">
               <i class="el-icon-plus"></i>
             </el-upload>
             <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
@@ -80,11 +106,11 @@
       </el-row>-->
       <el-row :gutter="20">
         <el-col :span="24">
-          <tinymce style="width: 99%" language='zh_CN' v-model="content" :height="500" />
+          <quill-editor v-model="form.playTxt"  :options="quillOption" style="height: 200px"></quill-editor>
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
+    <div slot="footer" style="text-align:center;padding-top: 100px">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
     </div>
   </div>
@@ -92,13 +118,17 @@
 
 <script>
   import {addPlay} from "@/api/basic/index";
-  import Tinymce from "@/components/Tinymce";
+  import { quillEditor } from 'vue-quill-editor'
+  import quillConfig from '@/quill-config.js'
+  import 'quill/dist/quill.core.css'
+  import 'quill/dist/quill.snow.css'
+  import 'quill/dist/quill.bubble.css'
   import {
     getToken
   } from '@/utils/auth'
 
   export default {
-    components: { Tinymce },
+    components: { quillEditor },
     props: {
       listInfo: {
         type: Object,
@@ -110,7 +140,7 @@
         headers: {
           'authorization': getToken('cinerx'),
         },
-        content: null,
+        quillOption: quillConfig,
         fileUrl: '',
         images: [],
         imagesPoster: [],
@@ -125,12 +155,9 @@
         nowImg: [],
         form: {
           playName: null,
-          filmIntro: null,
-          filmPhoto: null,
-          photoArrays: [],
-          herald: null,
-          filmSortid: null,
-          keyWords: [],
+          playPhoto: null,
+          playPosterphotoList: [],
+          playTxt: null,
         },
         videoFlag: false,
         videoUploadPercent: 0,
@@ -139,38 +166,34 @@
           filmName: [
             {required: true, message: '请输入', trigger: 'blur'}
           ],
-          filmIntro: [
-            {required: true, message: '请输入', trigger: 'blur'}
-          ],
         },
       };
     },
     mounted() {
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
-        this.listInfo.photoArrays = this.listInfo.photoArrays.filter(function(n) { return n; });
         this.form = this.listInfo
         this.pictureList = []
-        this.stillList = []
-        if(this.form.filmPhoto != null && this.form.filmPhoto.length>0){
+        if(this.form.playPhoto != null && this.form.playPhoto.length>0){
           this.pictureList.push({
-            url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.filmPhoto
+            url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.playPhoto
           })
           this.hidePicture = true
         }else{
           this.hidePicture = false
         }
-        if (this.form.photoArrays.length > 0) {
+        this.listInfo.playPosterphotoList = this.listInfo.playPosterphotoList.filter(function(n) { return n; });
+        if (this.form.playPosterphotoList.length > 0) {
           //到图片数量大于3或等于3时添加按钮隐藏
-          if (this.form.photoArrays.length >= 3) {
+          if (this.form.playPosterphotoList.length >= 3) {
             this.hideStillUpload = true;
           } else {
             this.hideStillUpload = false;
           }
           this.stillList = []
-          for (let i in this.form.photoArrays) {
+          for (let i in this.form.playPosterphotoList) {
             this.stillList.push({
-              url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.photoArrays[i]
+              url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.playPosterphotoList[i]
             })
           }
         } else {
@@ -179,6 +202,7 @@
       }
     },
     methods: {
+
       beforeUploadVideo(file) {
        /* if(this.form.filmId == null || this.form.filmId == ''){
           this.$message({
@@ -220,22 +244,23 @@
         });
         this.$emit('uploadList')
       },
-      //海报上传成功
+      //封面上传成功
       uploadPosterSuccess(res, file, fileList) {
         file.name = res.data;
         this.$message({
           message: res.msg,
           type: "success"
         });
-        this.form.filmPhoto=res.data
-      }, //剧照上传成功
+        this.form.playPhoto=res.data
+      },
+      //海报上传成功
       uploadStillSuccess(res, file, fileList) {
         file.name = res.data;
         this.$message({
           message: res.msg,
           type: "success"
         });
-        this.form.photoArrays.push(res.data)
+        this.form.playPosterphotoList.push(res.data)
       },
       //删除图片
       handleRemove(file, fileList) {
@@ -247,7 +272,7 @@
               }
             })
             this.$emit('uploadList')
-        this.form.filmPhoto= null
+        this.form.playPhoto= null
         this.hidePicture = false
       },
       handleRemovet(file, fileList) {
@@ -258,27 +283,20 @@
             array.splice(index, 1);
           }
         })
-        this.form.photoArrays.forEach((item,index)=>{
+        this.form.playPosterphotoList.forEach((item,index)=>{
           if(item == img){
-            this.form.photoArrays.splice(index, 1);
+            this.form.playPosterphotoList.splice(index, 1);
           }
         })
         this.$emit('uploadList')
         this.hideStillUpload = false
       },
-
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
       beforeUploadImage(){
-       /* if(this.form.filmId == null || this.form.filmId == ''){
-          this.$message({
-            message: '请先保存影讯信息，再上传图片',
-            type: "warning"
-          });
-          return false
-        }*/
+
       },
       handlePictureChange(file, fileList) {
         this.hidePicture = fileList.length >= this.limitPicture;
@@ -286,18 +304,24 @@
       handleStillChange(file, fileList) {
         this.hideStillUpload = fileList.length >= this.limitStill;
       },
-
       saveData(form) {
         this.$refs[form].validate((valid) => {
           //判断必填项
           if (valid) {
-            //修改
-            let param = this.form
-            param.filmRoleVOS = this.list
-            addPlay(param).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
+            console.log(this.form)
+            if(this.form.playPhoto){
+              //修改
+              let param = this.form
+              addPlay(param).then(res => {
+                this.$emit('hideDialog', false)
+                this.$emit('uploadList')
+              });
+            }else{
+              this.$message({
+                message: '请上传图片',
+                type: "warning"
+              });
+            }
           } else {
             return false;
           }
