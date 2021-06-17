@@ -2,7 +2,7 @@
   <div class="list-header">
     <el-form v-model="search" :size="'mini'" :label-width="'80px'">
       <el-row :gutter="10">
-        <!--<el-col :span="4">
+       <!-- <el-col :span="4">
           <el-form-item :label="'关键字'">
             <el-input v-model="search.loPrName" placeholder="名称"/>
           </el-form-item>
@@ -12,11 +12,9 @@
         </el-col>-->
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
+           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncInfo">同步场次</el-button>
-          <!--<el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="syncSoldInfo">同步场次狀態</el-button>-->
+         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -25,7 +23,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { downloadSchedules,downloadSchedulesSoldSeats } from '@/api/studios/index'
+import { getByUserAndPrId } from '@/api/system/index'
 export default {
   components: {},
   computed: {
@@ -47,50 +45,6 @@ export default {
     });*/
   },
   methods: {
-    syncInfo(){
-      this.$prompt('请输入同步天数', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^\+?[1-9][0-9]*$/,
-        inputErrorMessage: '输入不正确'
-      }).then(({ value }) => {
-        const loading = this.$loading({
-          lock: true,
-          text: '加载中......',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        downloadSchedules(value).then(res => {
-          if(res.flag){
-            this.$emit('uploadList')
-            loading.close();
-          }else{
-            loading.close();
-          }
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消'
-        });
-      });
-
-    },syncSoldInfo(){
-      const loading = this.$loading({
-        lock: true,
-        text: '加载中......',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      });
-      downloadSchedulesSoldSeats().then(res => {
-          if(res.flag){
-            this.$emit('uploadList')
-            loading.close();
-          }else{
-            loading.close();
-          }
-      });
-    },
     onFun(method){
       this[method]()
     },
@@ -106,13 +60,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.goodsId) {
+        this.$confirm('是否删除(' + this.clickData.goodsName + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          this.$emit('delList', {goodsId: this.clickData.goodsId})
         }).catch(() => {
           this.$message({
             type: 'info',

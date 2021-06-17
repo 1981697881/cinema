@@ -118,8 +118,8 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     upload() {
-      this.$emit('uploadList')
       this.search.name = ''
+      this.$emit('uploadList')
     },
     // 查询条件过滤
     qFilter() {

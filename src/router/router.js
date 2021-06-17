@@ -20,6 +20,7 @@ const map = {
   'saleOfGoods': () => import('@/views/workbench/saleOfGoods'),*/
 
   'maintain': () => import('@/views/commodity/maintain'),
+  'gameCurrency': () => import('@/views/commodity/gameCurrency'),
   'mold': () => import('@/views/commodity/mold'),
   'recycleBin': () => import('@/views/commodity/recycleBin'),
   'specs': () => import('@/views/commodity/specs'),

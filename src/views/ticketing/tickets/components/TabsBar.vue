@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.keyWords" placeholder="名称"/>
+            <el-input v-model="search.keyWords" placeholder="手机号码"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -136,6 +136,7 @@ export default {
       this.$emit('showDialog')
     },
     upload() {
+      this.search.keyWords = null
       this.$emit('uploadList')
     },
     handlerAlter() {

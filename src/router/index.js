@@ -160,15 +160,23 @@ export const StaticRouterMap = [{
         },
       }]
   },
-  /*{
+  {
     path: '/commodity',
     component: Layout,
     name: 'Commodity',
     meta: {
-      title: '商城配置',
+      title: '商品管理',
       icon: 'component'
     },
     children: [{
+      path: 'gameCurrency',
+      component: () => import('@/views/commodity/gameCurrency/index'),
+      name: 'GameCurrency',
+      meta: {
+        title: '套餐管理'
+      },
+    }
+    /*,{
       path: 'maintain',
       component: () => import('@/views/commodity/maintain/index'),
       name: 'Maintain',
@@ -203,9 +211,9 @@ export const StaticRouterMap = [{
       meta: {
         title: '商品回收站'
       },
-    }
+    }*/
     ]
-  },*/
+  },
  {
     path: '/ticketing',
     component: Layout,
