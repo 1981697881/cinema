@@ -10,11 +10,11 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <tinymce style="width: 99%" language='zh_CN' v-model="form.aboutMessage" :height="500" />
+          <quill-editor v-model="form.aboutMessage"  :options="quillOption" style="height: 200px"></quill-editor>
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
+    <div slot="footer" style="text-align:center;padding-top: 100px">
         <el-button type="primary" @click="saveData('form')">保存</el-button>
       </div>
   </div>
@@ -22,12 +22,16 @@
 
 <script>
 import { addAbout } from "@/api/system/index";
-import Tinymce from "@/components/Tinymce";
+import { quillEditor } from 'vue-quill-editor'
+import quillConfig from '@/quill-config.js'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 import {
   getToken
 } from '@/utils/auth'
 export default {
-  components: { Tinymce },
+  components: { quillEditor },
   props: {
     listInfo: {
       type: Object,
@@ -39,6 +43,7 @@ export default {
       headers: {
         'authorization': getToken('cinerx'),
       },
+      quillOption: quillConfig,
       form: {
         aboutName: null, // 名称
         aboutMessage: null,

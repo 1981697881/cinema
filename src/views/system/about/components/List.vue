@@ -29,7 +29,6 @@ export default {
       list: {},
       columns: [
         { text: "标题", name: "aboutName" },
-        { text: "内容", name: "aboutMessage" },
       ]
     };
   },

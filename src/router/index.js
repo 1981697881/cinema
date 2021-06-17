@@ -344,7 +344,7 @@ export const StaticRouterMap = [{
       component: () => import('@/views/system/about/index'),
       name: 'About',
       meta: {
-        title: '关于我们'
+        title: '用户协议'
       },
     }]
   },
