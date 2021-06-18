@@ -85,7 +85,7 @@ export const StaticRouterMap = [{
         },
       }
     ]
-  },*/
+  },
   {
     path: '/basic',
     component: Layout,
@@ -143,14 +143,14 @@ export const StaticRouterMap = [{
           title: '影厅管理'
         },
       },
-    /*  {
+     {
         path: 'schedule',
         component: () => import('@/views/studios/schedule/index'),
         name: 'Schedule',
         meta: {
           title: '影片排期'
         },
-      }, */
+      },
       {
         path: 'sessions',
         component: () => import('@/views/studios/sessions/index'),
@@ -176,7 +176,7 @@ export const StaticRouterMap = [{
         title: '套餐管理'
       },
     }
-    /*,{
+,{
       path: 'maintain',
       component: () => import('@/views/commodity/maintain/index'),
       name: 'Maintain',
@@ -211,7 +211,7 @@ export const StaticRouterMap = [{
       meta: {
         title: '商品回收站'
       },
-    }*/
+    }
     ]
   },
  {
@@ -280,7 +280,7 @@ export const StaticRouterMap = [{
         meta: {
           title: '会员信息'
         },
-      }, /*{
+      }, {
         path: 'integralRule',
         component: () => import('@/views/member/integralRule/index'),
         name: 'IntegralRule',
@@ -308,7 +308,7 @@ export const StaticRouterMap = [{
         meta: {
           title: '积分记录'
         },
-      }*/]
+      }]
   },
   {
     path: '/system',

@@ -17,7 +17,7 @@ NProgress.configure({
 }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
-var hasMenu = true //是否有路由 *
+var hasMenu = false //是否有路由 *
 router.beforeEach(async (to, from, next) => {
   // start progress bar 加载进度条
   NProgress.start()

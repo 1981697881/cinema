@@ -34,7 +34,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
+      <!--<el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'超级管理员'" >
             <el-switch
@@ -43,7 +43,7 @@
             </el-switch>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row>-->
       <el-tabs  v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="所属用户组" name="first">
           <el-row>
@@ -148,7 +148,7 @@
         mounted() {
           this.factchGroup()
           this.fetchFormat()
-         /* this.fetchMenu()*/
+          this.fetchMenu()
         },
         methods: {
           changeCheck(val) {
