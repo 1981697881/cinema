@@ -13,8 +13,8 @@
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
            <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
-         <!-- <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>-->
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
+       <!--  <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerCreate">生成二维码</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerInfo">生成记录</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
@@ -68,6 +68,7 @@ export default {
     qFilter() {
       let obj = {}
       this.search.couponTitle != null && this.search.couponTitle != '' ? obj.couponTitle = this.search.couponTitle : null
+      obj.cdkeyType  = 0
       return obj
     },
     // 关键字查询

@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getCouponList, deleteCoupon} from "@/api/extension/index";
+import { getBatchList, deleteCoupon} from "@/api/extension/index";
 import List from "@/components/List";
 
 export default {
@@ -92,7 +92,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getCouponList(data, val).then(res => {
+      getBatchList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

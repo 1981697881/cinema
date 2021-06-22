@@ -48,6 +48,13 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'备注'" prop="remark">
+            <el-input type="textarea" v-model="form.remark"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -73,6 +80,7 @@
           cdkeyNumber: null,
           ratio: null,
           batch: false,
+          remark: null,
           startDate: null,
           endDate: null,
         },

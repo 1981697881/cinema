@@ -35,22 +35,23 @@ export default {
       columns: [
         { text: "团体票名称", name: "cdkeyName" },
         { text: "生成时间", name: "createDatetime" },
-        { text: "总数量", name: "allCount" },
+        { text: "总数量", name: "shareCount" },
         { text: "未生成数量", name: "falseCount" },
         { text: "生效时间", name: "" },
         { text: "失效时间", name: "" },
+        { text: "备注", name: "remark" },
       ]
     };
   },
   methods: {
       //监听每页显示几条
       handleSize(val) {
-          this.list.size = val
+        this.list.size = val
         this.$emit('uploadList')
       },
       //监听当前页
       handleCurrent(val) {
-          this.list.current = val
+        this.list.current = val
         this.$emit('uploadList')
       },
     dblclick(obj) {

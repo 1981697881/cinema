@@ -26,7 +26,7 @@ const map = {
   'specs': () => import('@/views/commodity/specs'),
   'settings': () => import('@/views/commodity/settings'),
 
-  'ticketing': () => import('@/views/ticketing/tickets'),
+  'tickets': () => import('@/views/ticketing/tickets'),
 
   'advert': () => import('@/views/extension/advert'),
   'coupon': () => import('@/views/extension/coupon'),
