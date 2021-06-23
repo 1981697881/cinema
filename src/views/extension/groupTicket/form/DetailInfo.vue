@@ -84,7 +84,7 @@
         columns1: [
           {text: "二维码号", name: "memberCdkeyShare"},
           {text: "生成时间", name: "createDatetime"},
-          {text: "包含兑换码数量", name: "allCount"},
+          {text: "包含兑换码数量", name: "shareCount"},
           {text: "状态", name: "statusMessage"},
         ],
       };

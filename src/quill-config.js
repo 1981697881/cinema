@@ -63,7 +63,7 @@ const handlers = {
             var res = JSON.parse(xhr.responseText);
             let length = self.quill.getSelection(true).index;
             //这里很重要，你图片上传成功后，img的src需要在这里添加，res.path就是你服务器返回的图片链接。
-            self.quill.insertEmbed(length, 'image', 'https://cfzx.gzfzdev.com/movie/uploadFiles/image/'+res.data);
+            self.quill.insertEmbed(length, 'image', 'https://cfzx.resetToken.com/movie/uploadFiles/image/'+res.data);
             self.quill.setSelection(length + 1)
           }
           fileInput.value = ''

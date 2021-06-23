@@ -37,8 +37,8 @@ export default {
         { text: "生成时间", name: "createDatetime" },
         { text: "总数量", name: "shareCount" },
         { text: "未生成数量", name: "falseCount" },
-        { text: "生效时间", name: "" },
-        { text: "失效时间", name: "" },
+        { text: "生效时间", name: "startDate" },
+        { text: "失效时间", name: "endDate" },
         { text: "备注", name: "remark" },
       ]
     };
