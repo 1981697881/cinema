@@ -3,7 +3,7 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showSentDialog="handlerSentDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </div>
       <list ref="list"  @uploadList="uploadPage"  @showDialog="handlerDialog"/>
     </div>
@@ -13,10 +13,21 @@
       title="基本信息"
       v-if="visible"
       v-dialogDrag
-      :width="'50%'"
+      :width="'30%'"
       destroy-on-close
     >
       <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
+
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible2"
+      title="发送"
+      v-if="visible2"
+      v-dialogDrag
+      :width="'30%'"
+      destroy-on-close
+    >
+      <sent @hideDialog="hideSentWindow" @uploadList="upload" :listInfo="listInfo"></sent>
 
     </el-dialog>
   </div>
@@ -24,17 +35,19 @@
 
 <script>
 import { TabsBar, List } from "./components";
-import { Info } from "./form";
+import { Info,Sent } from "./form";
 
 export default {
   components: {
     TabsBar,
     List,
+    Sent,
     Info
   },
   data() {
     return {
       visible: null,
+      visible2: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -53,6 +66,9 @@ export default {
     hideWindow(val) {
       this.visible = val
     },
+    hideSentWindow(val) {
+      this.visible2 = val
+    },
     handlerDialog(obj) {
       this.listInfo = null
       if(obj) {
@@ -60,6 +76,14 @@ export default {
         this.listInfo = info
       }
       this.visible = true
+    },
+    handlerSentDialog(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible2 = true
     },
     // 更新列表
     upload() {

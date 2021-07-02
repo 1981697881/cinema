@@ -3,17 +3,6 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="优惠券类型">
-            <el-radio-group v-model="form.type" @change="couponsType">
-              <el-radio :label=0>通用券</el-radio>
-              <el-radio :label=1>商品券</el-radio>
-              <el-radio :label=2>电影券</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
           <el-form-item :label="'优惠券名称'" prop="orgAttr">
             <el-input v-model="form.contact"></el-input>
           </el-form-item>
@@ -21,8 +10,22 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'优惠券面值'">
-            <el-input-number v-model="form.contact"></el-input-number>
+          <el-form-item :label="'开启时间'">
+            <el-date-picker
+              v-model="value1"
+              type="datetime"
+              placeholder="选择日期时间">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row><el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'结束时间'">
+            <el-date-picker
+              v-model="value1"
+              type="datetime"
+              placeholder="选择日期时间">
+            </el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -35,17 +38,17 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'有效期'">
+          <el-form-item :label="'发布数量'">
             <el-input-number v-model="form.contact"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="状态">
+          <el-form-item label="是否限量">
             <el-radio-group v-model="form.type" >
-              <el-radio :label=0>开启</el-radio>
-              <el-radio :label=1>关闭</el-radio>
+              <el-radio :label=0>限量</el-radio>
+              <el-radio :label=1>不限量</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -150,9 +153,9 @@
           // 判断必填项
           if (valid) {
             addCoupon(this.form).then(res => {
-                 this.$emit('hideDialog', false)
-                 this.$emit('uploadList')
-               });
+              this.$emit('hideDialog', false)
+              this.$emit('uploadList')
+            });
           } else {
             return false;
           }

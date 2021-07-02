@@ -157,6 +157,7 @@
       qFilter() {
         let obj = {}
         this.createDatetime != null && this.createDatetime != '' ? obj.createDatetime = this.createDatetime : null
+        obj.cdkeyType = 0
         return obj
       },
       //查询
@@ -170,7 +171,6 @@
     }
   };
 </script>
-
 <style>
   .el-tag + .el-tag {
     margin-left: 10px;

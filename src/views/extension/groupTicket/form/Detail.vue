@@ -139,6 +139,7 @@
       if (this.listInfo) {
         this.disPl = true
         this.form = this.listInfo
+        this.form.value = [this.listInfo.startDate,this.form.endDate]
       } else {
         this.disPl = false
       }
