@@ -3,64 +3,20 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'优惠券名称'" prop="orgAttr">
-            <el-input v-model="form.contact"></el-input>
+          <el-form-item :label="'优惠券名称'" >
+            <el-input v-model="form.cname" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'开启时间'">
+          <el-form-item :label="'开启时间'" prop="value">
             <el-date-picker
-              v-model="value1"
-              type="datetime"
-              placeholder="选择日期时间">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row><el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'结束时间'">
-            <el-date-picker
-              v-model="value1"
-              type="datetime"
-              placeholder="选择日期时间">
-            </el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'最低消费'">
-            <el-input-number v-model="form.contact"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'发布数量'">
-            <el-input-number v-model="form.contact"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="是否限量">
-            <el-radio-group v-model="form.type" >
-              <el-radio :label=0>限量</el-radio>
-              <el-radio :label=1>不限量</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item :label="'使用时间'">
-            <el-date-picker
-              v-model="value"
+              v-model="form.value"
               type="datetimerange"
               align="right"
               style="width: auto"
+              @change="dateChange"
               class="input-class"
               unlink-panels
               range-separator="至"
@@ -72,6 +28,23 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'发布数量'">
+            <el-input-number v-model="form.totalCount" :min="1"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="是否限量">
+            <el-radio-group v-model="form.isPermanent" >
+              <el-radio :label=0>限量</el-radio>
+              <el-radio :label=1>不限量</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -80,7 +53,7 @@
 </template>
 
 <script>
-  import { addCoupon} from "@/api/basic/index";
+  import { addCouponIssue} from "@/api/extension/index";
 
   export default {
     props: {
@@ -92,16 +65,15 @@
     data() {
       return {
         form: {
-          loPrId: null,
-          loPrName: null, // 名称
-          loPrCode: null,
-          contact: null,
-          addr: null,
-          tel: null,
-          description: null,
+          title: null, // 名称
+          isPermanent: 0,
+          value: [],
+          totalCount: null,
         },
-        value: '',
         pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() < Date.now() - 3600 * 1000 * 24;
+          },
           shortcuts: [{
             text: '最近一周',
             onClick(picker) {
@@ -128,15 +100,9 @@
             }
           }]
         },
-        pidS: [],
-        pArray: [],
-        levelFormat: [['剧情', '剧情'], ['科幻', '科幻'], ['恐怖', '恐怖'], ['动作', '动作']],
         rules: {
-          loPrName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
-          ],
-          loPrCode: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          value: [
+            {type:'array',required: true, message: '请输入日期', trigger: 'change'},
           ],
         },
       };
@@ -144,15 +110,21 @@
     mounted() {
       this.fetchFormat();
       if (this.listInfo) {
-        this.form = this.listInfo
+        this.form.cname = this.listInfo.title
+        this.form.ctype = this.listInfo.type
+        this.form.cid = this.listInfo.id
       }
     },
     methods: {
+      dateChange(val){
+        this.form.startTime = val[0]
+        this.form.endTime = val[1]
+      },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
-            addCoupon(this.form).then(res => {
+            addCouponIssue(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });

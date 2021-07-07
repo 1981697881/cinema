@@ -38,7 +38,8 @@ export default {
         { text: "优惠券面额", name: "couponPrice" },
         { text: "最低使用金额", name: "useMinPrice" },
         { text: "有效期", name: "couponTime" },
-        { text: "创建时间", name: "createTime" },
+        { text: "领取日期", name: "createTime" },
+        { text: "发送数量", name: "createTime" },
         { text: "状态", name: "status", formatt:'checkStatus'},
       ]
     };

@@ -68,6 +68,18 @@ export function addCoupon(params) {
     method: 'post',
     data: params
   })
+}// 优惠券管理-发布
+export function addCouponIssue(params) {
+  const url = '/couponIssue/addCouponIssue'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
 }
 // 优惠券管理-删除
 export function deleteCoupon(params) {

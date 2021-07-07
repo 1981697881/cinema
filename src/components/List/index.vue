@@ -26,7 +26,7 @@
           :key="i"
           :fixed="t.fixed"
           :sortable="t.sort"
-          :formatter="t.formatt!=undefined? (t.formatt == 'checkWarning'? checkWarning : taskWarning) : null"
+          :formatter="t.formatt!=undefined?(t.formatt == 'checkType'? checkType: checkStatus) : null"
           v-if="t.default!=undefined ?(t.default =='img'?false:t.default):true"
           :label="t.text"
           :width="t.width?t.width:(selfAdaption?'':'120px')"
@@ -144,43 +144,23 @@ export default {
     sortChange(row) {
       return this.$emit('sortChange', { row });
     },
-    taskWarning(row, column) {
+    checkType(row, column) {
       let stau = ''
-      if(row.isClash){
-        if(row.alertStatus == 1) {
-          stau = '延误,冲突'
-        }else if(row.alertStatus == 2) {
-          stau = '冲突,冲突'
-        }else if(row.alertStatus == 3) {
-          stau = '加急,冲突'
-        }else if(row.alertStatus == 4) {
-          stau = '暂停,冲突'
-        }else{
-          stau = '正常,冲突'
-        }
-      } else {
-        if(row.alertStatus == 1) {
-          stau = '延误'
-        }else if(row.alertStatus == 2) {
-          stau = '冲突'
-        }else if(row.alertStatus == 3) {
-          stau = '加急'
-        }else if(row.alertStatus == 4) {
-          stau = '暂停'
-        }else{
-          stau = '正常'
-        }
+      if(row.type == 0) {
+        stau = '通用'
+      }else if(row.type ==1) {
+        stau = '影片'
+      }else if(row.type == 2) {
+        stau = '商品'
       }
       return  stau
     },
-    checkWarning(row, column) {
+    checkStatus(row, column) {
       let stau = ''
-      if(row.nature == 1) {
-        stau = '办公室'
-      }else if(row.nature == 2) {
-        stau = '一线'
-      }else if(row.nature == 3) {
-        stau = '其他'
+      if(row.status == 0) {
+        stau = '关闭'
+      }else if(row.status ==1) {
+        stau = '开启'
       }
       return  stau
     },

@@ -31,6 +31,7 @@ const map = {
   'advert': () => import('@/views/extension/advert'),
   'coupon': () => import('@/views/extension/coupon'),
   'groupTicket': () => import('@/views/extension/groupTicket'),
+  'onCoupon': () => import('@/views/extension/onCoupon'),
 
   'integralRule': () => import('@/views/member/integralRule'),
   'memberInformation': () => import('@/views/member/memberInformation'),
