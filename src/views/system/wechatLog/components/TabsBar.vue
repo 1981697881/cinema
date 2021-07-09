@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.loPrName" placeholder="手机号码"/>
+            <el-input v-model="search.phoneNumber" placeholder="手机号码"/>
           </el-form-item>
         </el-col>
         <el-col :span="6" style="display: inline-block">
