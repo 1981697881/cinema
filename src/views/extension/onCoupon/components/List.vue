@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getCouponList, deleteCoupon} from "@/api/extension/index";
+import { getCouponIssueLists, deleteCoupon} from "@/api/extension/index";
 import List from "@/components/List";
 
 export default {
@@ -33,13 +33,12 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "优惠券名称", name: "title" },
-        { text: "适用场景", name: "type",formatt:'checkType'},
-        { text: "优惠券面额", name: "couponPrice" },
-        { text: "最低使用金额", name: "useMinPrice" },
+        { text: "优惠券名称", name: "cname" },
+        { text: "适用场景", name: "ctype",formatt:'checkType'},
         { text: "有效期", name: "couponTime" },
-        { text: "领取日期", name: "createTime" },
-        { text: "发送数量", name: "createTime" },
+        { text: "领取开始日期", name: "startTime" },
+        { text: "领取极速日期", name: "endTime" },
+        { text: "发送数量", name: "totalCount" },
         { text: "状态", name: "status", formatt:'checkStatus'},
       ]
     };
@@ -76,18 +75,12 @@ export default {
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
     },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getCouponList(data, val).then(res => {
+      getCouponIssueLists(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

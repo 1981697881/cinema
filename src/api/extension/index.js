@@ -55,6 +55,32 @@ export function getCouponList(params, data) {
     data: data
   })
 }
+// 优惠券管理-已发布获取列表
+export function getCouponIssueLists(params, data) {
+  const url = '/couponIssue/couponIssueLists/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 已发布获取列表-修改
+export function bandCouponIssue(params) {
+  const url = '/couponIssue/bandCouponIssue'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
 
 // 优惠券管理-新增
 export function addCoupon(params) {

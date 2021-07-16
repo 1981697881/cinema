@@ -84,6 +84,7 @@ export default {
     };
   },
   mounted() {
+
     let path = this.$route.meta.id
  /*   getByUserAndPrId(path).then(res => {
       this.btnList = res.data

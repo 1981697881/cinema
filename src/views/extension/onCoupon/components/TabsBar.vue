@@ -12,10 +12,7 @@
         </el-col>-->
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
-         <el-button :size="'mini'" type="primary" icon="el-icon-upload" @click="handlerSent">下发</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"   @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -53,7 +50,6 @@ export default {
     qFilter() {
       let obj = {}
       this.search.couponTitle != null && this.search.couponTitle != '' ? obj.couponTitle = this.search.couponTitle : null
-      obj.cdkeyType = 1
       return obj
     },
     // 关键字查询
@@ -91,15 +87,6 @@ export default {
     handlerAlter() {
       if (this.clickData.id) {
         this.$emit('showDialog', this.clickData)
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        });
-      }
-    },handlerSent() {
-      if (this.clickData.id) {
-        this.$emit('showSentDialog', this.clickData)
       } else {
         this.$message({
           message: "无选中行",

@@ -40,8 +40,6 @@ const map = {
 
   'recharge': () => import('@/views/member/recharge'),
 
-
-
   'users': () => import('@/views/system/users'),
   'paylog': () => import('@/views/system/paylog'),
   'wechatLog': () => import('@/views/system/wechatLog'),

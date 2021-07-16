@@ -153,6 +153,13 @@ export default {
       }else if(row.type == 2) {
         stau = '商品'
       }
+      if(row.ctype == 0) {
+        stau = '通用'
+      }else if(row.ctype ==1) {
+        stau = '影片'
+      }else if(row.ctype == 2) {
+        stau = '商品'
+      }
       return  stau
     },
     checkStatus(row, column) {

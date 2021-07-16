@@ -3,7 +3,7 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showSentDialog="handlerSentDialog" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog"  @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </div>
       <list ref="list"  @uploadList="uploadPage"  @showDialog="handlerDialog"/>
     </div>
