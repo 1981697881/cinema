@@ -35,9 +35,8 @@ export default {
       columns: [
         { text: "优惠券名称", name: "cname" },
         { text: "适用场景", name: "ctype",formatt:'checkType'},
-        { text: "有效期", name: "couponTime" },
         { text: "领取开始日期", name: "startTime" },
-        { text: "领取极速日期", name: "endTime" },
+        { text: "领取结束日期", name: "endTime" },
         { text: "发送数量", name: "totalCount" },
         { text: "状态", name: "status", formatt:'checkStatus'},
       ]
