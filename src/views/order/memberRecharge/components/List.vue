@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {  getGoodsList} from "@/api/workbench/index";
+import {getRechargeList} from "@/api/workbench/index";
 import List from "@/components/List";
 
 export default {
@@ -32,13 +32,11 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "订单号", name: "rechargeId"  },
+        { text: "订单号", name: "rechargeId" },
         { text: "用户名称", name: "username" },
         { text: "手机号码", name: "phoneNumber" },
-        { text: "商品名称", name: "" },
-        { text: "消费金额", name: "rechargeMoney" },
-        { text: "购买时间", name: "createDatetime",sort: true },
-        { text: "支付方式", name: "goodsAllname"},
+        { text: "充值金额", name: "rechargeMoney" },
+        { text: "购买时间", name: "createDateTime",sort: true },
       ]
     };
   },
@@ -57,7 +55,7 @@ export default {
         const list = this.list.records
         const data = this.formatJson(filterVal, list);
         // 这里还是使用export_json_to_excel方法比较好，方便操作数据
-        excel.export_json_to_excel([tHeader],data,'商品订单')
+        excel.export_json_to_excel([tHeader],data,'充值订单')
       })
     },
     formatJson(filter, jsonDate){
@@ -103,7 +101,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getGoodsList(data, val).then(res => {
+      getRechargeList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

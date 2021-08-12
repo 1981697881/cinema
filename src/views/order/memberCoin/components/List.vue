@@ -9,7 +9,6 @@
       type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
-      @dblclick="dblclick"
        @row-click="rowClick"
     />
 
@@ -18,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import {getRechargeList} from "@/api/workbench/index";
+import {getCoinList} from "@/api/workbench/index";
 import List from "@/components/List";
 
 export default {
@@ -33,15 +32,12 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "小程序票劵号", name: "ticketId" },
-        { text: "订单号", name: "bookingId" },
-        { text: "影片名称", name: "filmName" },
-        { text: "手机号码", name: "mobile" },
-        { text: "取票号", name: "confirmationId" },
-        { text: "实际支付金额", name: "ticketPaymoney" },
-        { text: "票劵总价", name: "remark" },
+        { text: "订单号", name: "coinNo" },
+        { text: "用户名称", name: "username" },
+        { text: "手机号码", name: "phoneNumber" },
+        { text: "充值币数", name: "coinPaymoney" },
         { text: "购买时间", name: "createDatetime",sort: true },
-        { text: "支付方式", name: "payType",sort: true },
+        { text: "支付方式", name: "type"},
       ]
     };
   },
@@ -60,7 +56,7 @@ export default {
         const list = this.list.records
         const data = this.formatJson(filterVal, list);
         // 这里还是使用export_json_to_excel方法比较好，方便操作数据
-        excel.export_json_to_excel([tHeader],data,'票劵信息')
+        excel.export_json_to_excel([tHeader],data,'游戏币订单')
       })
     },
     formatJson(filter, jsonDate){
@@ -106,7 +102,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getRechargeList(data, val).then(res => {
+      getCoinList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

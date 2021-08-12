@@ -7,18 +7,6 @@
             <el-input v-model="search.phone" placeholder="手机号码"/>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
-          <el-form-item :label="'类别'">
-            <el-select v-model="search.type" clearable  style="width: 100%" @change="changeType">
-              <el-option
-                v-for="(t,i) in option"
-                :key="i"
-                :label="t.label"
-                :value="t.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
         <el-col :span="6" style="display: inline-block">
           <el-form-item :label="'日期'">
             <el-date-picker
@@ -89,14 +77,9 @@
           }]
         },
         value: '',
-        option: [
-          {value: '微信支付', label:'微信支付'},
-          {value: '余额支付', label:'余额支付'}
-        ],
         btnList: [],
         search: {
           phone: null,
-          type: null,
         }
       };
     },
@@ -120,7 +103,6 @@
       qFilter() {
         let obj = {}
         this.search.phone != null && this.search.phone != '' ? obj.phone = this.search.phone : null
-        this.search.type != null && this.search.type != '' ? obj.type = this.search.type : null
         this.value != null && this.value != undefined ? obj.endDateTime = this.value[1] : null
         this.value != null && this.value != undefined ? obj.startDateTime = this.value[0] : null
         return obj

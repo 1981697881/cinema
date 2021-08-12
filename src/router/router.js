@@ -27,6 +27,9 @@ const map = {
   'settings': () => import('@/views/commodity/settings'),
 
   'tickets': () => import('@/views/ticketing/tickets'),
+  'memberCoin': () => import('@/views/order/memberCoin'),
+  'memberGoods': () => import('@/views/order/memberGoods'),
+  'memberRecharge': () => import('@/views/order/memberRecharge'),
 
   'advert': () => import('@/views/extension/advert'),
   'coupon': () => import('@/views/extension/coupon'),

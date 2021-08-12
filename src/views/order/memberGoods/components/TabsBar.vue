@@ -4,18 +4,46 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'关键字'">
-            <el-input v-model="search.keyWords" placeholder="手机号码"/>
+            <el-input v-model="search.phone" placeholder="手机号码"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item :label="'类别'">
+            <el-select v-model="search.type" clearable  style="width: 100%" @change="changeType">
+              <el-option
+                v-for="(t,i) in option"
+                :key="i"
+                :label="t.label"
+                :value="t.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6" style="display: inline-block">
+          <el-form-item :label="'日期'">
+            <el-date-picker
+              v-model="value"
+              type="datetimerange"
+              style="width: auto"
+              align="right"
+              class="input-class"
+              unlink-panels
+              range-separator="至"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="2">
           <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
         </el-col>
         <el-button-group style="float:right">
-         <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="returnTicket">退票</el-button>
+          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>-->
-         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">清空</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
+         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
           <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
@@ -24,133 +52,95 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { refundOrder,refundRecharge } from '@/api/studios/index'
-export default {
-  components: {},
-  computed: {
-    ...mapGetters(["node","clickData","selections"])
-  },
-  data() {
-    return {
-      btnList: [],
-      search: {
-        keyWords: null
-      }
-    };
-  },
-  mounted() {
-    let path = this.$route.meta.id
- /*   getByUserAndPrId(path).then(res => {
-      this.btnList = res.data
-      this.$forceUpdate();
-    });*/
-  },
-  methods: {
-    // 导出
-    exportData() {
-      this.$emit('exportData')
+  import { mapGetters } from "vuex";
+  import { refundOrder,refundRecharge } from '@/api/studios/index'
+  export default {
+    components: {},
+    computed: {
+      ...mapGetters(["node","clickData","selections"])
     },
-    onFun(method){
-      this[method]()
-    },
-    // 查询条件过滤
-    qFilter() {
-      let obj = {}
-      this.search.keyWords != null && this.search.keyWords != '' ? obj.keyWords = this.search.keyWords : null
-      return obj
-    },
-    // 关键字查询
-    // 关键字查询
-    query() {
-      this.$emit('queryBtn', this.qFilter())
-    },
-    returnTicket() {
-      if (this.clickData.orderId) {
-        this.$confirm('退票确认', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          refundOrder({
-            orderId: this.clickData.orderId
-          }).then(res => {
-            if(res.flag){
-              console.log(res.data['memberTicket'].payType=="余额支付")
-              if(res.data['memberTicket'].payType=="余额支付"){
-                refundRecharge({
-                  custId: res.data.custId,
-                  qty: res.data['memberTicket'].ticketPaymoney,
-                  phoneNumber: res.data['memberTicket'].mobile,
-                }).then(reso => {
-                  if(reso.flag){
-                    that.$store.dispatch("list/setClickData", '');
-                    that.$emit('uploadList')
-                  }
-                });
-              }else{
-                that.$alert('退票成功，请确认', '信息', {
-                  confirmButtonText: '确定',
-                  callback: action => {
-
-                  }
-                });
-              }
+    data() {
+      return {
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
             }
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        })
-      }
-    },
-    Delivery() {
-        this.$confirm('是否清空场次', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          refundOrder({
-            orderId: this.clickData.orderId
-          }).then(res => {
-            if(res.flag){
-
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
             }
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          });
-        });
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        value: '',
+        option: [
+          {value: '微信支付', label:'微信支付'},
+          {value: '余额支付', label:'余额支付'}
+        ],
+        btnList: [],
+        search: {
+          phone: null,
+          type: null,
+        }
+      };
+    },
+    mounted() {
 
+      let path = this.$route.meta.id
+      /*   getByUserAndPrId(path).then(res => {
+           this.btnList = res.data
+           this.$forceUpdate();
+         });*/
     },
-    handlerAdd() {
-      this.$emit('showDialog')
-    },
-    upload() {
-      this.search.keyWords = null
-      this.$emit('uploadList')
-    },
-    handlerAlter() {
-      if (this.clickData.loPrId) {
-        this.$emit('showDialog', this.clickData)
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        });
-      }
-    },
-  }
-};
+    methods: {
+      changeType(val){
+        this.search.type = val
+        this.$emit('queryBtn', this.qFilter())
+      },
+      onFun(method){
+        this[method]()
+      },
+      // 查询条件过滤
+      qFilter() {
+        let obj = {}
+        this.search.phone != null && this.search.phone != '' ? obj.phone = this.search.phone : null
+        this.search.type != null && this.search.type != '' ? obj.type = this.search.type : null
+        this.value != null && this.value != undefined ? obj.endDateTime = this.value[1] : null
+        this.value != null && this.value != undefined ? obj.startDateTime = this.value[0] : null
+        return obj
+      },
+      // 关键字查询
+      // 关键字查询
+      query() {
+        this.$emit('queryBtn', this.qFilter())
+      },
+      // 导出
+      exportData() {
+        this.$emit('exportData')
+      },
+      upload() {
+        this.search.phone = ''
+        this.value = ''
+        this.$emit('uploadList')
+      },
+    }
+  };
 </script>
 
 <style>

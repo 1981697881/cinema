@@ -27,9 +27,21 @@ export function getGoodsList(params, data) {
     method: 'POST',
     data: data
   })
-}// 游戏币订单管理-获取列表
+}// 充值订单管理-获取列表
 export function getRechargeList(params, data) {
   const url = '/memberRecharge/rechargeList/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}// 游戏币订单管理-获取列表
+export function getCoinList(params, data) {
+  const url = '/memberCoin/coinList/' + params.pageNum + '/' + params.pageSize
   return request({
     url: url,
     headers: {
