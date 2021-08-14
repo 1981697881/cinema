@@ -7,7 +7,7 @@
             <el-radio-group v-model="form.type">
               <el-radio :label=0>通用券</el-radio>
               <el-radio :label=1>电影券</el-radio>
-              <!--<el-radio :label=2>商品券</el-radio>-->
+              <el-radio :label=2>商品券</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
