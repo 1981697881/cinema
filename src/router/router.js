@@ -10,6 +10,7 @@ const map = {
   'shadow': () => import('@/views/basic/shadow'),
   'clerk': () => import('@/views/basic/clerk'),
   'machine': () => import('@/views/basic/machine'),
+  'store': () => import('@/views/basic/store'),
 
   'sessions': () => import('@/views/studios/sessions'),
  /* 'schedule': () => import('@/views/studios/schedule'),*/
