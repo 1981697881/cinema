@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getClerkList,delClerk} from "@/api/basic/index";
+import { getStoresList,deleteStore} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -33,13 +33,10 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "职员工号", name: "jobNum" },
-        { text: "职员名称", name: "name" },
-        { text: "所属影城", name: "cinemaName" },
-        { text: "联系地址", name: "address" },
-        { text: "联系电话", name: "tel" },
-        { text: "描述", name: "remark" },
-        { text: "状态", name: "disableDesc" },
+        { text: "门店名称", name: "storeName" },
+        { text: "门店地址", name: "storeAddress" },
+        { text: "客服电话", name: "customerServicePhone" },
+        { text: "是否启用", name: "status" },
       ]
     };
   },
@@ -80,7 +77,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-        getClerkList(data, val).then(res => {
+      getStoresList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

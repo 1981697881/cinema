@@ -244,3 +244,43 @@ export function deletePlay(params) {
     method: 'post'
   })
 }
+// 门店管理-获取列表
+export function getStoresList(params, data) {
+  const url = '/store/storesFormByPage/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+
+// 门店管理-新增
+export function addStore(params) {
+  const url = '/store/addStore'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+
+// 门店管理-删除
+export function deleteStore(params) {
+  return request({
+    url: '/store/deleteStore',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}

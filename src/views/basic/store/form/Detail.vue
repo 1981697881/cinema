@@ -2,134 +2,248 @@
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'工号'" prop="jobNum">
-            <el-input v-model="form.jobNum"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'名称'" prop="name">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-form-item :label="'名称'" prop="storeName">
+          <el-input v-model="form.storeName"></el-input>
+        </el-form-item>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'所属影城'" prop="deptIds">
-            <el-select v-model="form.cinemaId" class="width-full"  placeholder="请选择影城">
-              <el-option :label="t.cinemaName" :value="t.cinemaId" v-for="(t,i) in pArray" :key="i"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'联系地址'" >
-            <el-input v-model="form.address"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-form-item :label="'影院内码'" prop="cinemaLinkId">
+          <el-input v-model="form.cinemaLinkId"></el-input>
+        </el-form-item>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'联系电话'" >
-            <el-input v-model="form.tel"></el-input>
+        <el-form-item :label="'影院key'" prop="key">
+          <el-input v-model="form.key"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'接口地址'" prop="url">
+          <el-input v-model="form.url"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'渠道码'" prop="channelCode">
+          <el-input v-model="form.channelCode"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'门店地址'" prop="storeAddress">
+          <el-input v-model="form.storeAddress"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'经度'" prop="longitude">
+          <el-input-number v-model="form.longitude"></el-input-number>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'纬度'" prop="latitude">
+          <el-input-number v-model="form.latitude"></el-input-number>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'V8接口'" prop="v8Url">
+          <el-input v-model="form.v8Url"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'V8场地id'" prop="v8PlaceId">
+          <el-input v-model="form.v8PlaceId"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+        <el-form-item :label="'V8key'" prop="v8Key">
+          <el-input v-model="form.v8Key"></el-input>
+        </el-form-item>
+      </el-row>
+      <el-row :gutter="20">
+          <el-form-item :label="'是否启用'" >
+            <el-switch
+              v-model="form.status"
+            >
+            </el-switch>
           </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'描述'" >
-            <el-input v-model="form.remark"></el-input>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'客服电话'" prop="orgAttr">
+            <div style="margin-top: 20px;margin-bottom: 10px">
+              <el-button @click="setRow">添加</el-button>
+              <el-button @click="delRow">删除</el-button>
+            </div>
+            <el-table class="list-main" :data="form.customerServicePhoneList" border size="mini" :highlight-current-row="true"  @row-click="yzClick">
+              <el-table-column
+                v-for="(t,i) in columns"
+                :key="i"
+                align="center"
+                :prop="t.name"
+                :label="t.text"
+                v-if="t.default!=undefined?t.default:true"
+                :width="t.width?t.width:''"
+              ></el-table-column>
+            </el-table>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
-        <el-button type="primary" @click="saveData('form')">保存</el-button>
+    <el-dialog
+      :visible.sync="visible"
+      title="客服信息"
+      v-if="visible"
+      :width="'50%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form :model="userform" :rules="rules1" ref="userform" label-width="80px" :size="'mini'">
+        <el-row :span="24">
+          <el-col :span="12">
+            <el-form-item :label="'客服电话'" prop="phone">
+              <el-input v-model="userform.phone"></el-input>
+            </el-form-item>
+          </el-col>
+          </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center;padding-top: 15px">
+        <el-button type="primary" @click="saveStart('userform')">保存</el-button>
       </div>
+    </el-dialog>
+    <div slot="footer" style="text-align:center">
+      <el-button type="primary" @click="saveData('form')">保存</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { addClerk, alterClerk, locationFormat, clerkInfo,getFrameList } from "@/api/basic/index";
-export default {
-  props: {
+  import {addStore} from "@/api/basic/index";
+
+  export default {
+    props: {
       listInfo: {
-      type: Object,
-      default: null
-    }
-  },
-  data() {
-    return {
-      form: {
-        eid: null,
-        jobNum: null,
-        address: null,
-        tel: null,
-        cinemaId: null,
-        remark: null,
-        name: null,// 名称
-      },
-      disPl: true,
-      pidS: [],
-      pArray: [],
-      rArray: [],
-      aArray: [],
-      rules: {
-        jobNum: [
-          {required: true, message: '请输入工号', trigger: 'blur'},
-        ],
-        name: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
-        ],
-        deptId: [
-          {type: 'array', required: true, message: '请选择影城', trigger: 'change'},
-        ],
-      },
-    };
-  },
-  mounted() {
-    this.fetchFormat()
-    if (this.listInfo) {
-      this.form = this.listInfo
-    }
-  },
-  methods: {
-    saveData(form) {
-      this.$refs[form].validate((valid) => {
-        // 判断必填项
-        if (valid) {
-          if (typeof (this.form.eid) != undefined && this.form.eid != null) {
-            alterClerk(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          }else{
-            addClerk(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
+        type: Object,
+        default: null
+      }
+    },
+    data() {
+      return {
+        form: {
+          storeName: null,
+          cinemaLinkId: null,
+          key: null,
+          url: null,
+          channelCode: null,
+          storeAddress: null,
+          longitude: 0,
+          latitude: 0,
+          v8Url: null,
+          v8PlaceId: null,
+          v8Key: null,
+          status: null,
+        },
+        userform: {
+          phone: null,
+        },
+        disPl: true,
+        visible: false,
+        pidS: [],
+        checkData: {},
+        columns: [],
+        rules: {
+          storeName: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ],
+          cinemaLinkId: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], key: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], url: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], channelCode: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], storeAddress: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], v8Url: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], v8PlaceId: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], v8Key: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ],
+        },rules1: {
+          phone: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ],
+        },
+      };
+    },
+    mounted() {
+      if (this.listInfo) {
+        this.form = this.listInfo
+      }
+    },
+    methods: {
+      saveStart(form) {
+        this.$refs[form].validate((valid) => {
+          //判断必填项
+          if (valid) {
+            this.form.customerServicePhoneList.push(this.userform.phone)
+            this.visible = false
+          } else {
+            return false;
           }
-        } else {
-          return false;
-        }
-      })
-    },
-    // 切换类别
-    selectChange(val) {
-      this.disPl = false
-      this.form.plId = null
-      this.rArray = []
-      this.fetchLine(val)
-    },
-    fetchFormat() {
-      locationFormat().then(res => {
-        this.pArray = res.data
-      });
+        })
+
       },
-    fetchData(val) {
-      clerkInfo(val).then(res => {
-        this.form = res.data;
-      });
+      yzClick(obj){
+        this.checkData = obj
+      },
+      setRow() {
+        this.postform ={
+          roleName: null, // 名称
+          roleType: null,
+        }
+        this.visible = true
+      },
+      delRow(){
+        if (this.checkYzData.starId) {
+          this.$confirm('是否删除(' + this.checkYzData.starName + ')，删除后将无法恢复?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.list.some((item,index)=>{
+              if(this.checkYzData.starId == item.starId && this.checkYzData.roleType === item.roleType){
+                this.list.splice(index, 1)
+                return true
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        } else {
+          this.$message({
+            message: '无选中行',
+            type: 'warning'
+          })
+        }
+      },
+      saveData(form) {
+        this.$refs[form].validate((valid) => {
+          // 判断必填项
+          if (valid) {
+            addStore(this.form).then(res => {
+              this.$emit('hideDialog', false)
+              this.$emit('uploadList')
+            });
+          } else {
+            return false;
+          }
+        })
+      },
     }
-  }
-};
+  };
 </script>
 
 <style>
