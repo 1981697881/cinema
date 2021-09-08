@@ -12,13 +12,13 @@
         </el-form-item>
       </el-row>
       <el-row :gutter="20">
-        <el-form-item :label="'影院key'" prop="key">
-          <el-input v-model="form.key"></el-input>
+        <el-form-item :label="'影院key'" prop="fhKey">
+          <el-input v-model="form.fhKey"></el-input>
         </el-form-item>
       </el-row>
       <el-row :gutter="20">
-        <el-form-item :label="'接口地址'" prop="url">
-          <el-input v-model="form.url"></el-input>
+        <el-form-item :label="'接口地址'" prop="fhUrl">
+          <el-input v-model="form.fhUrl"></el-input>
         </el-form-item>
       </el-row>
       <el-row :gutter="20">
@@ -52,7 +52,7 @@
         </el-form-item>
       </el-row>
       <el-row :gutter="20">
-        <el-form-item :label="'V8key'" prop="v8Key">
+        <el-form-item :label="'V8key'" >
           <el-input v-model="form.v8Key"></el-input>
         </el-form-item>
       </el-row>
@@ -60,6 +60,8 @@
           <el-form-item :label="'是否启用'" >
             <el-switch
               v-model="form.status"
+              active-value=1
+              inactive-value=0
             >
             </el-switch>
           </el-form-item>
@@ -71,7 +73,7 @@
               <el-button @click="setRow">添加</el-button>
               <el-button @click="delRow">删除</el-button>
             </div>
-            <el-table class="list-main" :data="form.customerServicePhoneList" border size="mini" :highlight-current-row="true"  @row-click="yzClick">
+            <el-table class="list-main" :data="list" border size="mini" :highlight-current-row="true" >
               <el-table-column
                 v-for="(t,i) in columns"
                 :key="i"
@@ -81,6 +83,14 @@
                 v-if="t.default!=undefined?t.default:true"
                 :width="t.width?t.width:''"
               ></el-table-column>
+              <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                  <el-button
+                    size="mini"
+                    type="danger"
+                    @click="delRow(scope.$index, scope.row)">删除</el-button>
+                </template>
+              </el-table-column>
             </el-table>
           </el-form-item>
         </el-col>
@@ -128,8 +138,8 @@
         form: {
           storeName: null,
           cinemaLinkId: null,
-          key: null,
-          url: null,
+          fhKey: null,
+          fhUrl: null,
           channelCode: null,
           storeAddress: null,
           longitude: 0,
@@ -137,7 +147,7 @@
           v8Url: null,
           v8PlaceId: null,
           v8Key: null,
-          status: null,
+          status: 0,
         },
         userform: {
           phone: null,
@@ -146,16 +156,17 @@
         visible: false,
         pidS: [],
         checkData: {},
-        columns: [],
+        list: [],
+        columns: [{ text: "客服电话", name: "phone" },],
         rules: {
           storeName: [
             {required: true, message: '请输入', trigger: 'blur'},
           ],
           cinemaLinkId: [
             {required: true, message: '请输入', trigger: 'blur'},
-          ], key: [
+          ], fhKey: [
             {required: true, message: '请输入', trigger: 'blur'},
-          ], url: [
+          ], fhUrl: [
             {required: true, message: '请输入', trigger: 'blur'},
           ], channelCode: [
             {required: true, message: '请输入', trigger: 'blur'},
@@ -164,8 +175,6 @@
           ], v8Url: [
             {required: true, message: '请输入', trigger: 'blur'},
           ], v8PlaceId: [
-            {required: true, message: '请输入', trigger: 'blur'},
-          ], v8Key: [
             {required: true, message: '请输入', trigger: 'blur'},
           ],
         },rules1: {
@@ -178,6 +187,14 @@
     mounted() {
       if (this.listInfo) {
         this.form = this.listInfo
+        if(this.form.customerServicePhoneList!=null){
+          this.form.customerServicePhoneList.forEach((item)=>{
+            let obj = {
+              phone: item
+            }
+            this.list.push(obj)
+          })
+        }
       }
     },
     methods: {
@@ -185,7 +202,10 @@
         this.$refs[form].validate((valid) => {
           //判断必填项
           if (valid) {
-            this.form.customerServicePhoneList.push(this.userform.phone)
+            let obj = {
+              phone: this.userform.phone
+            }
+            this.list.push(obj)
             this.visible = false
           } else {
             return false;
@@ -193,8 +213,11 @@
         })
 
       },
-      yzClick(obj){
-        this.checkData = obj
+      yzClick(row, column, event){
+        console.log(row)
+        console.log(column)
+        this.checkData = row
+        this.checkIndex = column
       },
       setRow() {
         this.postform ={
@@ -203,19 +226,14 @@
         }
         this.visible = true
       },
-      delRow(){
-        if (this.checkYzData.starId) {
-          this.$confirm('是否删除(' + this.checkYzData.starName + ')，删除后将无法恢复?', '提示', {
+      delRow(index, row){
+        if (row.phone) {
+          this.$confirm('是否删除(' + row.phone + ')，删除后将无法恢复?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.list.some((item,index)=>{
-              if(this.checkYzData.starId == item.starId && this.checkYzData.roleType === item.roleType){
-                this.list.splice(index, 1)
-                return true
-              }
-            })
+            this.list.splice(index, 1)
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -233,6 +251,11 @@
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
+            let array = []
+            this.list.forEach((item)=>{
+              array.push(item.phone)
+            })
+            this.form.customerServicePhoneList = array
             addStore(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
