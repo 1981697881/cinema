@@ -28,6 +28,17 @@ export function locationFormat() {
     method: 'POST',
   })
 }
+// 门店-下拉
+export function storesForm() {
+  const url = '/store/storesForm'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+    },
+    method: 'GET',
+  })
+}
 
 // 影城-新增
 export function addLocation(params) {

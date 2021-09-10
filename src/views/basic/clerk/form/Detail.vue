@@ -15,9 +15,9 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'所属影城'" prop="deptIds">
-            <el-select v-model="form.cinemaId" class="width-full"  placeholder="请选择影城">
-              <el-option :label="t.cinemaName" :value="t.cinemaId" v-for="(t,i) in pArray" :key="i"></el-option>
+          <el-form-item :label="'所属影城'" prop="storeId">
+            <el-select v-model="form.storeId" class="width-full"  placeholder="请选择影城">
+              <el-option :label="t.storeName" :value="t.id" v-for="(t,i) in pArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { addClerk, alterClerk, locationFormat, clerkInfo,getFrameList } from "@/api/basic/index";
+import { addClerk, alterClerk, storesForm, clerkInfo,getFrameList } from "@/api/basic/index";
 export default {
   props: {
       listInfo: {
@@ -62,7 +62,7 @@ export default {
         jobNum: null,
         address: null,
         tel: null,
-        cinemaId: null,
+        storeId: null,
         remark: null,
         name: null,// 名称
       },
@@ -78,8 +78,8 @@ export default {
         name: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
-        deptId: [
-          {type: 'array', required: true, message: '请选择影城', trigger: 'change'},
+        storeId: [
+          {required: true, message: '请选择', trigger: 'change'},
         ],
       },
     };
@@ -119,7 +119,7 @@ export default {
       this.fetchLine(val)
     },
     fetchFormat() {
-      locationFormat().then(res => {
+      storesForm().then(res => {
         this.pArray = res.data
       });
       },

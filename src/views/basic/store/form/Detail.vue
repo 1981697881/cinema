@@ -60,8 +60,8 @@
           <el-form-item :label="'是否启用'" >
             <el-switch
               v-model="form.status"
-              active-value=1
-              inactive-value=0
+              active-value="0"
+              inactive-value="1"
             >
             </el-switch>
           </el-form-item>
@@ -147,7 +147,7 @@
           v8Url: null,
           v8PlaceId: null,
           v8Key: null,
-          status: 0,
+          status: "0",
         },
         userform: {
           phone: null,
