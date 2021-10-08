@@ -41,6 +41,18 @@ export function hallImbalance(params) {
     method: 'post',
     data: params
   })
+}// 影厅管理-维护信息
+export function updateHall(params) {
+  const url = '/locationHall/updateHall'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
 }
 // 影厅管理-下拉
 export function hallFormat(params) {

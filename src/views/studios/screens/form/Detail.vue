@@ -37,7 +37,6 @@ export default {
         cinemaId: [
           {required: true, message: '请选择', trigger: 'change'},
         ],
-
       },
     };
   },
@@ -47,22 +46,19 @@ export default {
     }
   },
   methods: {
-
     saveData(form) {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          console.log(this.form)
           hallImbalance(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
+              this.$emit('hideDialog', false);
+              this.$emit('uploadList');
             });
         }else {
           return false;
         }
       })
-    },
-
+    }
   }
 };
 </script>
