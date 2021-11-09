@@ -15,6 +15,33 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :span="20">
+        <el-col :span="12">
+          <el-form-item label="3D提醒">
+            <el-switch
+              v-model="form.tipSwitch"
+              active-value="0"
+              inactive-value="1">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="4D提醒">
+            <el-switch
+              v-model="form.tipSwitch4d"
+              active-value="0"
+              inactive-value="1">
+            </el-switch>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :span="20">
+        <el-col :span="24">
+          <el-form-item :label="'提示内容'" >
+            <el-input type="textarea" v-model="form.tipMessage"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'电影简介'" prop="filmIntro">
@@ -315,6 +342,9 @@
           filmName: null,
           filmIntro: null,
           filmPhoto: null,
+          tipMessage: null,
+          tipSwitch: '1',
+          tipSwitch4d: '1',
           photoArrays: [],
           herald: null,
           filmSortid: null,

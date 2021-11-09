@@ -48,7 +48,6 @@
           cinemaId: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
-
         },
       };
     },
