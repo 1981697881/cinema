@@ -32,7 +32,7 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "订单号", name: "rechargeId"  },
+        { text: "订单号", name: "goodsNo"  },
         { text: "用户名称", name: "username" },
         { text: "手机号码", name: "phoneNumber" },
         { text: "商品名称", name: "" },

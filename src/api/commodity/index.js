@@ -41,3 +41,41 @@ export function deleteCommodity(params) {
     data: params
   })
 }
+// 充值管理-获取列表
+export function getAmountMoneyList(params, data) {
+  const url = '/amountMoney/list/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 充值管理-新增
+export function addAmountMoney(params) {
+  const url = '/amountMoney/add'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}// 充值管理-刪除
+export function deleteAmountMoney(params) {
+  const url = '/amountMoney/delete'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}

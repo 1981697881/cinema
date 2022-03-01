@@ -26,7 +26,7 @@
           :key="i"
           :fixed="t.fixed"
           :sortable="t.sort"
-          :formatter="t.formatt!=undefined?(t.formatt == 'checkType'? checkType: checkStatus) : null"
+          :formatter="t.formatt!=undefined?(row, column) => methods[t.formatt](row,column) : null"
           v-if="t.default!=undefined ?(t.default =='img'?false:t.default):true"
           :label="t.text"
           :width="t.width?t.width:(selfAdaption?'':'120px')"
@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      methods: this.$options.methods,
       fileUrl: this.$store.state.user.url+'/movie/uploadFiles/image/',
     };
   },
@@ -168,6 +169,14 @@ export default {
         stau = '关闭'
       }else if(row.status ==1) {
         stau = '开启'
+      }
+      return  stau
+    },checkLimit(row, column) {
+      let stau = ''
+      if(row.limit == 0) {
+        stau = '否'
+      }else if(row.limit ==1) {
+        stau = '是'
       }
       return  stau
     },

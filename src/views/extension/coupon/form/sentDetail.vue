@@ -45,16 +45,23 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20" style="hidden:true;">
+        <el-col :span="24">
+          <div class="scanImg" id="qrCode"></div>
+        </el-col>
+      </el-row>
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
+      <el-button v-if="form.isPermanent.limit==1" type="success" @click="downLoad('form')">下载二维码</el-button>
     </div>
   </div>
 </template>
 
 <script>
   import { addCouponIssue} from "@/api/extension/index";
-
+  import html2canvas from 'html2canvas';
+  import QRCode from 'qrcodejs2'
   export default {
     props: {
       listInfo: {
@@ -113,9 +120,35 @@
         this.form.cname = this.listInfo.title
         this.form.ctype = this.listInfo.type
         this.form.cid = this.listInfo.id
+        if(this.listInfo.limit==1){
+          this.creatQrCode('qrCode','https://cfzx.gzfzdev.com/groupTicket?exchangeTCode=')
+        }
       }
     },
     methods: {
+      downLoad() {
+        let myCanvas = document.getElementById('qrCode').getElementsByTagName('canvas');
+        let a = document.createElement('a')
+        a.href = myCanvas[0].toDataURL('image/png');
+        a.download = '二维码';
+        a.click()
+        this.$message({
+          message: "正在进行下载保存",
+          type: 'success'
+        })
+
+      },
+      creatQrCode(element,val) {
+        var deleteNode =document.getElementById(element).innerText ='';
+        var qrcode = new QRCode(element, {
+          text: val, // 需要转换为二维码的内容
+          width: 100,
+          height: 100,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        })
+      },
       dateChange(val){
         this.form.startTime = val[0]
         this.form.endTime = val[1]

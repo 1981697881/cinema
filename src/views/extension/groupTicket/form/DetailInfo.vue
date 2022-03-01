@@ -193,8 +193,6 @@
     /*position: fixed;
     z-index: 99;
     left: 10%;*/
-
-
   }
   .scanImg{
     position: absolute;

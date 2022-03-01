@@ -26,6 +26,7 @@ const map = {
   'recycleBin': () => import('@/views/commodity/recycleBin'),
   'specs': () => import('@/views/commodity/specs'),
   'settings': () => import('@/views/commodity/settings'),
+  'rechargeMeal': () => import('@/views/commodity/rechargeMeal'),
 
   'tickets': () => import('@/views/ticketing/tickets'),
   'memberCoin': () => import('@/views/order/memberCoin'),

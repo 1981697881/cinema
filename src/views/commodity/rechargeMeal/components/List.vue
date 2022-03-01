@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getCouponList, deleteCoupon} from "@/api/extension/index";
+import { getAmountMoneyList, deleteAmountMoney} from "@/api/commodity/index";
 import List from "@/components/List";
 
 export default {
@@ -33,14 +33,8 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "优惠券名称", name: "title" },
-        { text: "适用场景", name: "type",formatt:'checkType'},
-        { text: "优惠券面额", name: "couponPrice" },
-        { text: "最低使用金额", name: "useMinPrice" },
-        { text: "有效期", name: "couponTime" },
-        { text: "创建时间", name: "createTime" },
-        { text: "是否限定", name: "limit", formatt:'checkLimit'},
-        { text: "状态", name: "status", formatt:'checkStatus'},
+        { text: "名称", name: "amount" },
+        { text: "描述", name: "remark" },
       ]
     };
   },
@@ -59,7 +53,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      deleteCoupon(val).then(res => {
+      deleteAmountMoney(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.$emit('uploadList')
@@ -76,18 +70,12 @@ export default {
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
     },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     fetchData(val, data = {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-      getCouponList(data, val).then(res => {
+        getAmountMoneyList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });
