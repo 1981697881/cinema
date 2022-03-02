@@ -173,9 +173,9 @@ export default {
       return  stau
     },checkLimit(row, column) {
       let stau = ''
-      if(row.limit == 0) {
+      if(row.couponLimit == 0) {
         stau = '否'
-      }else if(row.limit ==1) {
+      }else if(row.couponLimit ==1) {
         stau = '是'
       }
       return  stau

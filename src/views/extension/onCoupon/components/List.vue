@@ -6,7 +6,7 @@
       :loading="loading"
       :list="list"
       index
-      type
+
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -38,6 +38,7 @@ export default {
         { text: "领取开始日期", name: "startTime" },
         { text: "领取结束日期", name: "endTime" },
         { text: "发送数量", name: "totalCount" },
+        { text: "是否限定", name: "couponLimit", formatt:'checkLimit'},
         { text: "状态", name: "status", formatt:'checkStatus'},
       ]
     };

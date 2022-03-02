@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -39,7 +38,7 @@ export default {
         { text: "最低使用金额", name: "useMinPrice" },
         { text: "有效期", name: "couponTime" },
         { text: "创建时间", name: "createTime" },
-        { text: "是否限定", name: "limit", formatt:'checkLimit'},
+        /*{ text: "是否限定", name: "limit", formatt:'checkLimit'},*/
         { text: "状态", name: "status", formatt:'checkStatus'},
       ]
     };

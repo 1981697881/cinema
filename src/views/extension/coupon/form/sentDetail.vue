@@ -45,6 +45,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item label="是否限定" prop="couponLimit">
+            <el-radio-group v-model="form.couponLimit" >
+              <el-radio :label=0>否</el-radio>
+              <el-radio :label=1>是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="20" style="hidden:true;">
         <el-col :span="24">
           <div class="scanImg" id="qrCode"></div>
@@ -53,7 +63,7 @@
     </el-form>
     <div slot="footer" style="text-align:center">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
-      <el-button v-if="form.isPermanent.limit==1" type="success" @click="downLoad('form')">下载二维码</el-button>
+     <!-- <el-button v-if="form.isPermanent.couponLimit==1" type="success" @click="downLoad('form')">下载二维码</el-button>-->
     </div>
   </div>
 </template>
@@ -74,6 +84,7 @@
         form: {
           title: null, // 名称
           isPermanent: 0,
+          couponLimit: 0,
           value: [],
           totalCount: null,
         },
@@ -117,12 +128,13 @@
     mounted() {
       this.fetchFormat();
       if (this.listInfo) {
+        this.form = this.listInfo
         this.form.cname = this.listInfo.title
         this.form.ctype = this.listInfo.type
         this.form.cid = this.listInfo.id
-        if(this.listInfo.limit==1){
+       /* if(this.listInfo.couponLimit==1){
           this.creatQrCode('qrCode','https://cfzx.gzfzdev.com/groupTicket?exchangeTCode=')
-        }
+        }*/
       }
     },
     methods: {
@@ -136,7 +148,6 @@
           message: "正在进行下载保存",
           type: 'success'
         })
-
       },
       creatQrCode(element,val) {
         var deleteNode =document.getElementById(element).innerText ='';

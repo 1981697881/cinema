@@ -40,16 +40,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <el-form-item label="是否限定" prop="limit">
-            <el-radio-group v-model="form.limit" >
-              <el-radio :label=0>否</el-radio>
-              <el-radio :label=1>是</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
+
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="状态" prop="status">
@@ -86,7 +77,6 @@
           type: 0,
           couponTime: null,
           status: 0,
-          limit: 0,
         },
         rules: {
           title: [
