@@ -31,7 +31,7 @@
 
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true" @selection-change="handleSelectionChange">
+          <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true" @row-dblclick="dblclick" @selection-change="handleSelectionChange">
             <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
             <el-table-column
               type="selection"
@@ -50,6 +50,35 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-dialog
+      :visible.sync="visible"
+      title="团体票修改"
+      v-if="visible"
+      :width="'30%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form :model="userform" :rules="rules" ref="userform" label-width="80px" :size="'mini'">
+        <el-row :span="24">
+          <el-col :span="12">
+            <el-form-item :label="'名称'" prop="starName">
+              <el-input v-model="userform.starName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :span="24">
+          <el-col :span="24">
+            <el-form-item :label="'个人简介'" prop="starProfile">
+              <el-input type="textarea" v-model="userform.starProfile"></el-input>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center;padding-top: 15px">
+        <el-button type="primary" @click="saveStart('userform')">保存</el-button>
+      </div>
+    </el-dialog>
     <div slot="footer" style="text-align:center;margin-top: 15px">
       <el-button type="primary" icon="el-icon-printer" @click="downPdf" >打印</el-button>
     </div>
@@ -77,6 +106,11 @@
         headers: {
           'authorization': getToken('cinerx'),
         },
+        userform: {
+          starName: null,
+          starProfile: null,
+        },
+        visible: null,
         imageUrl: this.$store.state.user.url + '/movie/uploadFiles/image/',
         keyWords: [],
         list: [],
@@ -96,6 +130,14 @@
       }
     },
     methods: {
+      /*dblclick(obj){
+        console.log(obj)
+        if(obj.status == "0" || obj.status == "2"){
+          this.visible = true
+        }else{
+          this.$message.error('只允许修改未使用或已过期的票据');
+        }
+      },*/
       creatQrCode(element,val) {
         var deleteNode =document.getElementById(element).innerText ='';
         var qrcode = new QRCode(element, {

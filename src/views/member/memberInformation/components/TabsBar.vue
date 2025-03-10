@@ -17,6 +17,7 @@
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>-->
+          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="alter('-1')">票券明细</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -74,9 +75,11 @@ export default {
         })
       }
     },
-    alter() {
-      if (this.clickData.eid) {
-        this.$emit('showDialog', this.clickData)
+    alter(val) {
+      if (this.clickData.id) {
+        var data = {...this.clickData}
+        data.type = val
+        this.$emit('showDialog', data)
       } else {
         this.$message({
           message: '无选中行',

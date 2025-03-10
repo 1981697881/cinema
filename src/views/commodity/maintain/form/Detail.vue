@@ -74,7 +74,6 @@
                 <el-upload
                   :action="fileUrl"
                   list-type="picture-card"
-                  accept="image/jpeg,image/jpg,image/png,image/gif"
                   :headers="headers"
                   :data="imgData"
                   :limit="3"
@@ -262,7 +261,6 @@
           if (file.name == array[i]) {
             array.splice(i, 1);
           }
-
         }
       },
       handlePictureCardPreview(file) {

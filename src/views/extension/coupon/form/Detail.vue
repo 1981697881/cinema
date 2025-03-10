@@ -5,9 +5,9 @@
         <el-col :span="24">
           <el-form-item label="优惠券类型">
             <el-radio-group v-model="form.type">
-              <el-radio :label=0>通用券</el-radio>
-              <el-radio :label=1>电影券</el-radio>
-              <el-radio :label=2>商品券</el-radio>
+              <el-radio :label=1>通用券</el-radio>
+              <el-radio :label=2>电影券</el-radio>
+              <el-radio :label=3>商品券</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -74,7 +74,7 @@
           title: null,
           couponPrice: null,
           useMinPrice: null,
-          type: 0,
+          type: 1,
           couponTime: null,
           status: 0,
         },

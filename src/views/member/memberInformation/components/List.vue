@@ -56,9 +56,9 @@ export default {
           this.list.current = val
           this.$emit('uploadList')
       },
-    dblclick(obj) {
+    /*dblclick(obj) {
         this.$emit('showDialog', obj.row)
-    },
+    },*/
       Delivery(val) {
           delClerk(val).then(res => {
               if(res.flag){

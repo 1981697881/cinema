@@ -147,18 +147,18 @@ export default {
     },
     checkType(row, column) {
       let stau = ''
-      if(row.type == 0) {
+      if(row.type == 1) {
         stau = '通用'
-      }else if(row.type ==1) {
+      }else if(row.type ==2) {
         stau = '影片'
-      }else if(row.type == 2) {
+      }else if(row.type == 3) {
         stau = '商品'
       }
-      if(row.ctype == 0) {
+      if(row.ctype == 1) {
         stau = '通用'
-      }else if(row.ctype ==1) {
+      }else if(row.ctype ==2) {
         stau = '影片'
-      }else if(row.ctype == 2) {
+      }else if(row.ctype == 3) {
         stau = '商品'
       }
       return  stau

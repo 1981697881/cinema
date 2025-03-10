@@ -128,7 +128,7 @@
     mounted() {
       this.fetchFormat();
       if (this.listInfo) {
-        this.form = this.listInfo
+        /*this.form = this.listInfo*/
         this.form.cname = this.listInfo.title
         this.form.ctype = this.listInfo.type
         this.form.cid = this.listInfo.id

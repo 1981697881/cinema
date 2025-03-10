@@ -154,6 +154,28 @@ export function qrShareList(params) {
     data: params,
     method: 'post'
   })
+}// 团体票管理-修改
+export function updateCouponStatus(params) {
+  return request({
+    url: '/memberCouponDetail/updateCouponStatusBatch',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 团体票管理-领取详情
+export function memberCouponList(params) {
+  return request({
+    url: '/memberCouponDetail/listAll',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }// 团体票管理-生成二维码
 export function handShareCdKey(params) {
   return request({
