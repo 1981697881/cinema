@@ -3,7 +3,7 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <div class="list-containerOther">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog"  @showCreate="handlerDialog2" @showInfo="handlerDialog3" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showCreate="handlerDialog2" @showInfo="handlerDialog3" @showQuery="handlerDialog4" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </div>
       <list ref="list"  @uploadList="uploadPage"  @showDialog="handlerDialog"/>
     </div>
@@ -29,7 +29,8 @@
     >
       <create-detail @hideDialog="hideWindow2" @uploadList="upload" :listInfo="listInfo"></create-detail>
 
-    </el-dialog><el-dialog
+    </el-dialog>
+    <el-dialog
       :visible.sync="visible3"
       title="生成记录"
       v-if="visible3"
@@ -40,12 +41,22 @@
       <detail-info @hideDialog="hideWindow3" @uploadList="upload" :listInfo="listInfo"></detail-info>
 
     </el-dialog>
+    <el-dialog
+      :visible.sync="visible4"
+      title="团体票详情查询"
+      v-if="visible4"
+      v-dialogDrag
+      :width="'60%'"
+      destroy-on-close
+    >
+      <query-detail />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { TabsBar, List } from "./components";
-import { Info,createDetail,DetailInfo } from "./form";
+import { Info, createDetail, DetailInfo, QueryDetail } from "./form";
 
 export default {
   components: {
@@ -53,6 +64,7 @@ export default {
     List,
     createDetail,
     DetailInfo,
+    QueryDetail,
     Info
   },
   data() {
@@ -60,6 +72,7 @@ export default {
       visible: null,
       visible2: null,
       visible3: null,
+      visible4: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -85,7 +98,8 @@ export default {
         this.listInfo = info
       }
       this.visible = true
-    },hideWindow2(val) {
+    },
+    hideWindow2(val) {
       this.visible2 = val
     },
     handlerDialog2(obj) {
@@ -95,7 +109,8 @@ export default {
         this.listInfo = info
       }
       this.visible2 = true
-    },hideWindow3(val) {
+    },
+    hideWindow3(val) {
       this.visible3 = val
     },
     handlerDialog3(obj) {
@@ -105,6 +120,9 @@ export default {
         this.listInfo = info
       }
       this.visible3 = true
+    },
+    handlerDialog4() {
+      this.visible4 = true
     },
     // 更新列表
     upload() {

@@ -12,11 +12,13 @@
         </el-col>-->
         <el-button-group style="float:right">
          <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
+           
            <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
        <!--  <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerCreate">生成二维码</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerInfo">生成记录</el-button>
+         <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="handlerQuery">兑换查询</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-printer" @click="confirmPrint" >打印</el-button>-->
         </el-button-group>
@@ -96,6 +98,9 @@ export default {
           type: "warning"
         })
       }
+    },
+    handlerQuery() {
+      this.$emit('showQuery')
     },
     handlerAdd() {
       this.$emit('showDialog')

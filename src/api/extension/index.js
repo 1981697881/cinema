@@ -168,7 +168,7 @@ export function updateCouponStatus(params) {
 }// 团体票管理-领取详情
 export function memberCouponList(params) {
   return request({
-    url: '/memberCouponDetail/listAll',
+    url: '/memberCouponDetail/findByExchangeCode',
     headers: {
       'authorization': getToken('cinerx'),
       'Content-Type': 'application/json'
