@@ -165,8 +165,20 @@ export function updateCouponStatus(params) {
     data: params,
     method: 'post'
   })
-}// 团体票管理-领取详情
+}
+// 团体票管理-领取详情
 export function memberCouponList(params) {
+  return request({
+    url: '/memberCouponDetail/listAll',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}// 团体票管理-领取详情
+export function findByExchangeCode(params) {
   return request({
     url: '/memberCouponDetail/findByExchangeCode',
     headers: {

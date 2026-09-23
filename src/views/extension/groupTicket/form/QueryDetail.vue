@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { memberCouponList } from "@/api/extension/index";
+import { findByExchangeCode } from "@/api/extension/index";
 
 export default {
   data() {
@@ -89,7 +89,7 @@ export default {
           return;
         }
         this.loading = true;
-        memberCouponList({ exchangeCode: this.form.exchangeCode }).then(res => {
+        findByExchangeCode({ exchangeCode: this.form.exchangeCode }).then(res => {
           this.loading = false;
           if (res.flag) {
             this.list = res.data || [];
