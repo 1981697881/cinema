@@ -188,6 +188,18 @@ export function findByExchangeCode(params) {
     data: params,
     method: 'post'
   })
+}
+// 团体票管理-删除详情
+export function deleteCdKeyDetails(params) {
+  return request({
+    url: '/memberCdkeyDetail/deleteCdKeyDetails',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }// 团体票管理-生成二维码
 export function handShareCdKey(params) {
   return request({

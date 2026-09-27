@@ -40,3 +40,15 @@ export function getRechargeList(params, data) {
     data: data
   })
 }
+// 会员信息-删除详情
+export function deleteCoupons(params) {
+  return request({
+    url: '/memberCouponDetail/deleteCoupons',
+    headers: {
+      'authorization': getToken('cinerx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}

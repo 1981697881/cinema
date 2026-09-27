@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getBatchList, deleteCoupon} from "@/api/extension/index";
+import { getBatchList, deleteCdKeyDetails} from "@/api/extension/index";
 import List from "@/components/List";
 
 export default {
@@ -58,7 +58,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      deleteCoupon(val).then(res => {
+      deleteCdKeyDetails(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.$emit('uploadList')

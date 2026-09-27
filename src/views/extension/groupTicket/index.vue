@@ -83,9 +83,9 @@ export default {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
-    delivery(obj) {
-      if(obj) {
-        this.$refs.list.Delivery(obj)
+    delivery(list) {
+      if (list.length > 0) {
+        this.$refs.list.Delivery(list)
       }
     },
     hideWindow(val) {

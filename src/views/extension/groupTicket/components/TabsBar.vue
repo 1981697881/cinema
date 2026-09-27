@@ -15,7 +15,7 @@
            
            <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-       <!--  <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerCreate">生成二维码</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerInfo">生成记录</el-button>
          <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="handlerQuery">兑换查询</el-button>
@@ -79,13 +79,15 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.couponId) {
-        this.$confirm('是否删除(' + this.clickData.couponTitle + ')，删除后将无法恢复?', '提示', {
+      console.log(this.selections)
+      if (this.selections.length > 0) {
+        this.$confirm('是否删除，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.couponId)
+          const payload = this.selections.map(item => ({ cdkeyCode: item.cdkeyCode }))
+          this.$emit('delList', payload)
         }).catch(() => {
           this.$message({
             type: 'info',

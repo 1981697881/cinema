@@ -34,7 +34,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-table class="list-main" height="250px" :data="list" border size="mini" :highlight-current-row="true"  @selection-change="handleSelectionChange">
+          <el-table class="list-main" height="250px" ref="multipleTable" :data="list" border size="mini" :highlight-current-row="true"  @selection-change="handleSelectionChange">
             <el-table-column prop="date" label="序号" type="index" align="center" sortable></el-table-column>
             <el-table-column
               type="selection"
@@ -110,12 +110,14 @@
     </el-dialog>
     <div slot="footer" style="text-align:center;padding-top: 15px">
       <el-button type="primary" @click="saveDataList">保存</el-button>
+      <el-button type="danger" @click="deleteData">删除</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {memberCouponList, updateCouponStatus} from "@/api/extension/index";
+import { memberCouponList, updateCouponStatus } from "@/api/extension/index";
+  import { deleteCoupons } from "@/api/member/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -226,6 +228,35 @@
 
 
 
+      },
+      deleteData(){
+       
+        if (this.multipleSelection.length > 0) {
+        this.$confirm('是否删除，删除后将无法恢复?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+           const payload = this.multipleSelection.map(item => ({ id: item.id }))
+           deleteCoupons(payload).then(res => {
+        if(res.flag){
+            this.$refs.multipleTable.clearSelection(); // 清除表格勾选
+  this.multipleSelection = []; // 清空绑定数据
+  this.query(); // 重新查询刷新列表
+        }
+      });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      } else {
+        this.$message({
+          message: "无选中行",
+          type: "warning"
+        })
+      }
       },
       //判断勾选
       selectable(row, index) {
