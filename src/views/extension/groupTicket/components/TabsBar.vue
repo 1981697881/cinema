@@ -86,7 +86,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          const payload = this.selections.map(item => ({ cdkeyCode: item.cdkeyCode }))
+          const payload = this.selections.map(item => ({ cdkeyCode: item.cdkeyCode, createDatetime: item.createDatetime }))
           this.$emit('delList', payload)
         }).catch(() => {
           this.$message({

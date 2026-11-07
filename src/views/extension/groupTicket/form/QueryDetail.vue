@@ -62,7 +62,7 @@ export default {
       columns: [
         { text: "兑换码", name: "cdkeyCode", width: 140 },
         { text: "团体票名称", name: "couponName", width: 160 },
-        { text: "绑定用户", name: "openId", width: 180 },
+        { text: "绑定用户", name: "photo", width: 180 },
         { text: "使用状态", name: "status", width: 100 },
         { text: "生效时间", name: "startDate", width: 150 },
         { text: "失效时间", name: "endDate", width: 150 },
